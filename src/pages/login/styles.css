@@ -1,0 +1,39 @@
+@import 'tailwindcss';
+
+.body {
+    background-image: url('../../../public/static/fondo-2.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(4, 5, 55, 0.3);
+}
+
+.body > * {
+    position: relative;
+    z-index: 1;
+}
+
+.header-login {
+    background-image: url('../../../public/static/logoCuidatiaVita.png');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+button {
+    background-color: #007bff;
+}
+
+button:hover {
+    background-color: #2a8af1;
+    cursor: pointer;
+}

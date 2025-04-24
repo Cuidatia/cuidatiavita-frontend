@@ -1,0 +1,26 @@
+/* From Uiverse.io by zanina-yassine */ 
+.card {
+    /* width: 350px; */
+    padding: 25px;
+    position: relative;
+    /* background: linear-gradient(to left,#e5c0fd 30%, #e5c0fdaf 80%), #FFFFFF; */
+    /* border-radius: 23px; */
+    transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  .card-logo {
+    position: absolute;
+    right: -5px;
+    bottom: -8px;
+  }
+
+  .card-logo svg {
+    color: #57534d7c;
+    rotate: 10deg;
+  }
+  
+  .card:hover {
+    transform: scale(1.02);
+  }

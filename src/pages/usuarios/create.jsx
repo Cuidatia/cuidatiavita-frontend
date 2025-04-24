@@ -1,0 +1,120 @@
+import { useEffect, useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import '../dashboard/styles.css';
+import '../../assets/styles.css';
+import Header from "@/components/header/header";
+import { useRouter } from "next/router";
+import { UsuarioContext } from "@/contexts/UsuarioContext";
+import {useSessionStore} from '../../hooks/useSessionStorage';
+
+
+
+export default function CrearUsuario () {
+    const [Usuario, setUsuario] = useSessionStore(UsuarioContext)
+    const [datosUsuario, setDatosUsuario] = useState({
+        "id":0,
+        "nombre":"",
+        "email": "",
+        "organizacionId": 0,
+        "rol": ""
+    })
+
+    const router = useRouter()
+    const pathName = usePathname()
+    const searchParams = useSearchParams()
+
+    const [rol, setRol] = useState()
+    const [email, setEmail] = useState()
+    const [nombre, setNombre] = useState()
+    const [password, setPassword] = useState()
+    const [organizacion, setOrganizacion] = useState()
+
+    const [message, setMessage] = useState()
+    const [error, setError] = useState()
+    
+    useEffect(()=>{
+        const paramMail = searchParams.get("m")
+        const paramRol = searchParams.get("r")
+        const paramOrg = searchParams.get("o")
+        getOrganizacion(paramOrg) 
+
+        setEmail(paramMail)
+        setRol(paramRol)
+        
+    },[searchParams, pathName])
+
+    const getOrganizacion = async (org) => {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getOrganizacion?org=' + org, {
+            method: 'GET',
+            headers: {
+                "Content-Type": 'application/json'
+            }
+        })
+
+        if(response.ok){
+            const data = await response.json()
+            setOrganizacion(data.organizacion)
+        }
+    }
+
+    const enviarForm = async () => {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'crearUsuario',{
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({nombre,email,password,organizacion,rol})
+        })
+
+        if(response.ok){
+            const data = await response.json()
+            setMessage(data.message)
+            setUsuario(data['usuario'])
+            router.push('/dashboard')
+        }else{
+            const data = await response.json()
+            setError(data['error'])
+        }
+    }
+
+
+    return(                
+        <div className="block place-items-center place-content-center h-screen">
+            <div className="flex flex-col bg-white shadow-sm border border-slate-200 rounded-lg my-6 p-4">
+                <div class="relative m-2.5 items-center flex justify-center text-white h-24 w-96 rounded-md bg-gray-50 header-login"></div>
+                <div>
+                    <h2 className='text-2xl font-bold mt-8 text-center'>Unirse</h2>
+                </div>
+                <div className="py-4">
+                    <form className="space-y-4 md:space-y-6" action={enviarForm}>
+                        <div>
+                            <label htmlFor="nombre" className="block mb-2 text-sm font-medium text-gray-900">Nombre</label>
+                            <input type="text" name="nombre" id="nombre" placeholder="Nombre" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full block p-2.5" 
+                                onChange={(e)=>setNombre(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Correo</label>
+                            <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full block p-2.5" disabled value={email}/>
+                        </div>
+                        <div>
+                            <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">Contraseña</label>
+                            <input type="password" name="password" id="password" placeholder="Escribir contraseña" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5" required
+                                onChange={(e)=>setPassword(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="organizacion" className="block mb-2 text-sm font-medium text-gray-900">Organización</label>
+                            <input type="text" name="organizacion" id="organizacion" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full block p-2.5" value={organizacion && organizacion?.nombre} disabled/>
+                        </div>
+                        {
+                            message &&
+                                <span>{message}</span>
+                        }
+                        <button className="cursor-pointer w-full bg-blue-400 text-white border-1 border-zinc-200 hover:bg-blue-600 rounded-lg text-sm px-3 py-2 text-center">Crear Usuario</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    )
+}
