@@ -1,16 +1,30 @@
 import './styles.css'
 import DashboardLayout from './layout';
-import { useSessionStore } from '@/hooks/useSessionStorage';
-import { UsuarioContext } from '@/contexts/UsuarioContext';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import withAuth from '@/components/withAuth';
+import CardPacientes from '@/components/cards/cardsPacientes';
+import { useRouter } from 'next/router';
 
 function Dashboard() {
     const {data: session, status} = useSession()
-    const [ Usuario, setUsuario ] = useSessionStore(UsuarioContext)
-    const [ tipo, setTipo ] = useState()
+    const [ personasReferencia, setPersonasReferencia ] = useState()
     const [organizacion, setOrganizacion] = useState()
+
+    const router = useRouter()
+
+    const getPersonasReferencia = async () => {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPacientesReferencia?user=' + session.user.id, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        if(response.ok){
+            const data = await response.json()
+            setPersonasReferencia(data.pacientes)
+        }
+    }
 
     const getOrganizacion = async () => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getOrganizacion?org=' + session.user.idOrganizacion,{
@@ -27,9 +41,11 @@ function Dashboard() {
 
     useEffect(() => {
         if (status === 'authenticated' && session?.user?.idOrganizacion) {
-            getOrganizacion().then(data => {
-                setUsuario({...session.user, organizacion: data})
-            });
+            getOrganizacion()
+        }
+
+        if (session?.user?.roles === 'familiar' || session?.user?.roles === 'personal de referencia') {
+            getPersonasReferencia()
         }
     }, [session, status]);
 
@@ -37,12 +53,21 @@ function Dashboard() {
         <DashboardLayout>
             <div className='py-4 font-bold'>
                 {
-                    organizacion &&
-                    <p className='text-2xl font-bold'>{organizacion.nombre}</p>
+                    session?.user?.roles === 'familiar' || session?.user?.roles === 'profesional de referencia' ?
+                        personasReferencia &&
+                        personasReferencia.map((persona, index) => (
+                            <div key={index} className="p-4">
+                                <CardPacientes nombre={persona.nombre} img={persona.imgPerfil} funcion={()=>router.replace('/pacientes/'+persona.id)} />
+                            </div>
+                        ))
+                    :
+                        organizacion &&
+                        <p className='text-2xl font-bold'>{organizacion.nombre}</p>
+                        
                 }
             </div>
         </DashboardLayout>
     )
 }
 
-export default withAuth(Dashboard)
+export default withAuth(Dashboard,[])

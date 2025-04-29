@@ -1,16 +1,11 @@
 import LogInLayout from "./layout"
 import './styles.css'
-import {UsuarioContext} from '../../contexts/UsuarioContext';
-import {useSessionStore} from '../../hooks/useSessionStorage';
 import {signIn} from 'next-auth/react'
 import { useRouter } from "next/router"
 import { useState } from "react"
-import { useSession } from 'next-auth/react';
 import Alerts from "@/components/alerts/alerts";
 
 export default function Login(){
-    const {data: session, status} = useSession()
-    const [ Usuario, setUsuario ] = useSessionStore(UsuarioContext)
     const router = useRouter()
     const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')

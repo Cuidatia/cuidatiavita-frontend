@@ -1,7 +1,5 @@
 import Header from "@/components/header/header";
 import Menu from "@/components/menu/menu";
-import { SessionProvider } from "next-auth/react";
-import { useSession } from "next-auth/react";
 
 export default function DashboardLayout({ children }) {
     return (

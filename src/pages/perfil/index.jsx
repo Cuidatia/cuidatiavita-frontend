@@ -4,8 +4,10 @@ import { UsuarioContext } from "@/contexts/UsuarioContext";
 import { useEffect, useState } from "react";
 import withAuth from '@/components/withAuth';
 import Alerts from "@/components/alerts/alerts";
+import { useSession } from "next-auth/react";
 
 function Perfil() {
+    const { data: session, status } = useSession()
     const [Usuario, setUsuario] = useSessionStore(UsuarioContext)
     const [mostrarUsuario, setMostrarUsuario] = useState([])
     const [modificarDatos, setModificarDatos] = useState(false)
@@ -20,8 +22,10 @@ function Perfil() {
     const [error, setError] = useState()
 
     useEffect(()=>{
-        setMostrarUsuario(Usuario)
-    },[])
+        if (status === 'authenticated' && session?.user) {
+            setMostrarUsuario(session.user)
+        }
+    },[session, status])
 
     const modificarDatosUsuario = async () => {
         const response = await fetch(`http://localhost:5000/modificarUsuario`, {
@@ -34,7 +38,7 @@ function Perfil() {
 
         if (response.ok) {
             const data = await response.json()
-            setUsuario(data.usuario)
+            setMostrarUsuario(data.usuario)
             setMessage(data.message)
         }
         else {

@@ -2,12 +2,11 @@ import { useState } from "react";
 import DashboardLayout from "../dashboard/layout";
 import withAuth from '@/components/withAuth';
 import Alerts from "@/components/alerts/alerts";
-import { useSessionStore } from "@/hooks/useSessionStorage";
-import { UsuarioContext } from "@/contexts/UsuarioContext";
 import { useRouter } from 'next/navigation';
+import { useSession } from "next-auth/react";
 
 function CrearPaciente () {
-    const [ Usuario, setUsuario ] = useSessionStore(UsuarioContext)
+    const {data: session, status} = useSession()
     const router = useRouter()
     const [message, setMessage] = useState()
     const [error, setError] = useState()
@@ -26,7 +25,7 @@ function CrearPaciente () {
 
 
     const enviarForm = async () => {
-        let idOrganizacion = Usuario.idOrganizacion
+        let idOrganizacion = session?.user?.idOrganizacion
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'crearPaciente',{
             method:'POST',
             headers: {
@@ -181,4 +180,4 @@ function CrearPaciente () {
     )
 }
 
-export default withAuth(CrearPaciente)
+export default withAuth(CrearPaciente, ['admin', 'medico', 'enfermero', 'trabajador social', 'terapeuta', 'fisioterapeuta', 'psicologo', 'logopeda'])

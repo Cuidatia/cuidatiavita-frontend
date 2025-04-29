@@ -6,6 +6,7 @@ import Header from "@/components/header/header";
 import { useRouter } from "next/router";
 import { UsuarioContext } from "@/contexts/UsuarioContext";
 import {useSessionStore} from '../../hooks/useSessionStorage';
+import { signIn } from "next-auth/react";
 
 
 
@@ -69,8 +70,14 @@ export default function CrearUsuario () {
         if(response.ok){
             const data = await response.json()
             setMessage(data.message)
-            setUsuario(data['usuario'])
-            router.push('/dashboard')
+            const result = signIn('credentials', {
+                email: email,
+                password: password,
+                redirect: false
+            })
+            if(result.ok){
+                router.push('/dashboard')
+            }
         }else{
             const data = await response.json()
             setError(data['error'])

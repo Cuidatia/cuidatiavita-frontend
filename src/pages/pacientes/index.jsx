@@ -1,16 +1,14 @@
 import '../dashboard/styles.css';
 import DashboardLayout from '../dashboard/layout';
-import { useSessionStore } from '@/hooks/useSessionStorage';
-import { UsuarioContext } from '@/contexts/UsuarioContext';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import withAuth from '@/components/withAuth';
 import PopUp from '@/components/popUps/popUp';
 import Alerts from '@/components/alerts/alerts';
+import { useSession } from 'next-auth/react';
 
 function Pacientes() {
-    const [ Usuario, setUsuario ] = useSessionStore(UsuarioContext)
-    //const [ tipo, setTipo ] = useState(Usuario.tipo)
+    const {data: session, status} = useSession()
     const [showAlert, setShowAlert] = useState()
     const [showError, setShowError] = useState()
     const [openPopUp, setOpenPopUp] = useState(false)
@@ -20,8 +18,9 @@ function Pacientes() {
     const [pacientes, setPacientes] = useState([])
     const [seleccionarPaciente, setSeleccionarPaciente] = useState()
 
-    const getPacientes = async () => {
-        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPacientes?idOrganizacion='+ Usuario.idOrganizacion, {
+    const getPacientes = async (organizacion) => {
+        console.log('sesion.user', session.user)
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPacientes?idOrganizacion='+ organizacion, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -34,8 +33,10 @@ function Pacientes() {
     }
 
     useEffect(()=>{
-        getPacientes()
-    },[])
+        if (status === 'authenticated' && session?.user?.idOrganizacion) {
+            getPacientes(session?.user?.idOrganizacion)
+        }
+    },[session, status])
 
     const eliminarPaciente = async (pacienteId) => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'eliminarPaciente', {
@@ -122,6 +123,10 @@ function Pacientes() {
                 showAlert &&
                 <Alerts alertContent={showAlert} alertType={'success'}/>
             }
+            {
+                showError &&
+                <Alerts alertContent={showError} alertType={'error'}/>
+            }
             
             <PopUp
                 open={openPopUp} 
@@ -139,4 +144,4 @@ function Pacientes() {
     )
 }
 
-export default withAuth(Pacientes)
+export default withAuth(Pacientes, ['admin', 'medico', 'enfermero', 'trabajador social', 'terapeuta', 'fisioterapeuta', 'psicologo', 'logopeda'])

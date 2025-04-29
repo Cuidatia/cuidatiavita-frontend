@@ -1,9 +1,8 @@
 import {getSession} from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import DashboardLayout from '@/pages/dashboard/layout';
 
-export default function withAuth(Component) {
+export default function withAuth(Component, allowedRoles = []) {
     return function AuthenticatedComponent(props) {
         const router = useRouter();
         const [isLoading, setIsLoading] = useState(true);
@@ -11,8 +10,14 @@ export default function withAuth(Component) {
         useEffect(() => {
             const checkSession = async () => {
                 const session = await getSession();
+                const userRole = session?.user?.roles
+                
                 if (!session) {
                     router.push('/login');
+                    return;
+                }
+                if (session && (allowedRoles.length > 0 && !allowedRoles.includes(userRole))) {
+                    router.push('/403');
                 }
                 else {
                     setIsLoading(false);

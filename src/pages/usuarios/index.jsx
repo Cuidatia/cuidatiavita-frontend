@@ -1,15 +1,14 @@
 import '../dashboard/styles.css';
-import { useSessionStore } from '@/hooks/useSessionStorage';
-import { UsuarioContext } from '@/contexts/UsuarioContext';
 import DashboardLayout from "../dashboard/layout";
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import withAuth from '@/components/withAuth';
 import PopUp from '@/components/popUps/popUp';
 import Alerts from '@/components/alerts/alerts';
+import { useSession } from 'next-auth/react';
 
 function Usuarios () {
-    const [ Usuario, setUsuario ] = useSessionStore(UsuarioContext)
+    const {data: session, status} = useSession()
     const [usuarios, setUsuarios] = useState([])
     const [buscarUsuario, setBuscarUsuario] = useState('')
 
@@ -21,8 +20,7 @@ function Usuarios () {
 
     const router = useRouter()
 
-    const getUsuarios = async () => {
-        const organizacion = Usuario.idOrganizacion
+    const getUsuarios = async (organizacion) => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getUsuarios?org=' + organizacion,{
             method:'GET',
             headers: {
@@ -37,8 +35,10 @@ function Usuarios () {
     }
 
     useEffect(()=>{
-        getUsuarios();
-    },[Usuario])
+        if (status === 'authenticated' && session?.user?.idOrganizacion) {
+            getUsuarios(session?.user?.idOrganizacion);
+        }
+    },[session, status])
 
     const eliminarUsuario = async (usuarioId) => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'eliminarUsuario', {
@@ -85,7 +85,7 @@ function Usuarios () {
                 {
                         usuarios.length > 0 ?
                         usuarios.filter((usuario)=> usuario.nombre.toLowerCase().includes(buscarUsuario.toLowerCase())).map((usuario, index) => (
-                            usuario.id !== Usuario.id &&
+                            usuario.id !== session.user.id &&
                             <div className='border-b border-gray-100'>
                                 <div className='bg-white hover:bg-gray-200 shadow-sm p-4 flex items-center justify-between rounded-sm my-0.5'>
                                     <div className='text-lg font-bold'>{usuario.nombre}</div>
@@ -156,4 +156,4 @@ function Usuarios () {
     )
 }
 
-export default withAuth(Usuarios)
+export default withAuth(Usuarios, ['admin'])

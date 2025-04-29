@@ -4,6 +4,66 @@ body {
     height: 100vh;
 }
 
+/*--------------------------------------------------------------
+# Card Pacientes
+--------------------------------------------------------------*/
+
+.card_recomendados {
+--blur: 16px;
+--size: clamp(300px, 50vmin, 600px);
+width: 350px;
+aspect-ratio: 4 / 3;
+position: relative;
+border-radius: 1rem;
+overflow: hidden;
+color: #000;
+transform: translateZ(0);
+box-shadow: 0px 5px 15px 0px rgba(110, 123, 131, 0.1);
+margin: 5px 0px;
+cursor:pointer;
+}
+
+.card_img {
+width: 100%;
+height: auto;
+object-fit: cover;
+/* transform: scale(calc(1 + (var(--hover, 0) * 0.01))) rotate(calc(var(--hover, 0) * -0.1deg));
+transition: transform 0.2s; */
+}
+
+.card_pie {
+border-radius: 1rem;
+padding: 15px;
+position: absolute;
+bottom: 0;
+left: 0;
+width: 100%;
+background: red;
+background: hsl(0 0% 100% / 0.5);
+backdrop-filter: blur(30px);
+height: 30%;
+align-content: center;
+transition: height 0.2s ease-in-out;
+}
+
+.card_pie p {
+margin: 0px;
+}
+
+.card_pie > p:nth-child(3) {
+opacity: 0;
+transition: opacity 0.2s ease-in-out;
+transition-delay: 0.1s;
+}
+
+.card_pie p:nth-of-type(1) {
+font-size: 1.2rem;
+}
+
+.card_recomendados:is(:hover, :focus-visible) {
+--hover: 1;
+}
+
 /* .main-container {
     display: grid;
     grid-template-areas: "menu content";

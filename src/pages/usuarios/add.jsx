@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-import { useSessionStore } from "@/hooks/useSessionStorage";
-import { UsuarioContext } from "@/contexts/UsuarioContext";
 import MultipleSelector, { Option } from "@/components/ui/multiselect";
 import '../dashboard/styles.css';
 import DashboardLayout from "../dashboard/layout";
 import withAuth from '@/components/withAuth';
 import Alerts from "@/components/alerts/alerts";
+import { useSession } from "next-auth/react";
 
 function AddUsuario () {
-    const [ Usuario, setUsuario ] = useSessionStore(UsuarioContext)
+    const {data: session, status} = useSession()
     const [handleEmail, setHandleEmail] = useState()
     const [handleRol, setHandleRol] = useState([])
     const [roles, setRoles] = useState()
@@ -42,7 +41,7 @@ function AddUsuario () {
             body: JSON.stringify({
                 email: handleEmail,
                 rol: handleRol,
-                organizacion: Usuario.idOrganizacion
+                organizacion: session?.user?.idOrganizacion
             })
         })
         
@@ -75,7 +74,7 @@ function AddUsuario () {
                         >
                             {
                                 roles && 
-                                roles.map((rol)=> (
+                                roles.filter((rol)=> rol.nombre !== 'superadmin' && rol.nombre !== 'admin').map((rol)=> (
                                     <option key={rol.id} value={rol.id}>{rol.nombre}</option>
                                 ))
                             }
@@ -111,4 +110,4 @@ function AddUsuario () {
     )
 }
 
-export default withAuth(AddUsuario)
+export default withAuth(AddUsuario, ['admin'])

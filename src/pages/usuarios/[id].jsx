@@ -97,4 +97,4 @@ function PerfilPaciente () {
     )
 }
 
-export default withAuth(PerfilPaciente)
+export default withAuth(PerfilPaciente, ['admin'])
