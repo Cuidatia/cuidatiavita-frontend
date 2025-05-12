@@ -68,7 +68,7 @@ export default function Login(){
                 </form>
                 {
                     message &&
-                    <Alerts alertContent={message} />
+                    <Alerts alertContent={message} alertType={'success'} />
                 }
             </div>
         </LogInLayout>

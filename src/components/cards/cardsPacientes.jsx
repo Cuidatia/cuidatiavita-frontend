@@ -1,5 +1,5 @@
 export default function CardPacientes (props) {
-    const {nombre, img, funcion} = props;
+    const {nombre, primerApellido, segundoApellido, img, funcion} = props;
 
     return (
         <div className="card_recomendados mx-auto"
@@ -8,7 +8,7 @@ export default function CardPacientes (props) {
             <img className='card_img' src={img}  />
             <div className="card_pie">
                 <p className='text-color text-about'>
-                    {nombre}
+                    {nombre} {primerApellido} {segundoApellido}
                 </p>
             </div>
         </div>

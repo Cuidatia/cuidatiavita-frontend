@@ -1,0 +1,234 @@
+import PacienteLayout from "../layout";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import withAuth from '@/components/withAuth';
+
+function Childhood () {
+    const [mostrarPaciente, setMostrarPaciente] = useState([])
+    const [modificar, setModificar] = useState(false)
+    const [message, setMessage] = useState('')
+    const [error, setError] = useState('')
+    const router = useRouter()
+    const {id} = router.query
+
+    const [pacienteInfancia, setPacienteInfancia] = useState({
+        childhoodStudy: "",
+        childhoodSchool: "",
+        childhoodMotivations: "",
+        childhoodFamilyCore: "",
+        childhoodFriendsGroup: "",
+        childhoodTravels: "",
+        childhoodFavouritePlace: "",
+        childhoodPositiveExperiences: "",
+        childhoodNegativeExperiences: "",
+        childhoodAddress: "",
+        childhoodLikes: "",
+        childhoodAfraids: "",
+    })
+
+    // const [childhoodStudy, setChildhoodStudy] = useState('')
+    // const [childhoodSchool, setChildhoodSchool] = useState('')
+    // const [childhoodMotivations, setChildhoodMotivations] = useState('')
+    // const [familyCore, setFamilyCore] = useState('')
+    // const [friendsGroup, setFriendsGroup] = useState('')
+    // const [childhoodTravels, setChildhoodTravels] = useState('')
+    // const [favouritePlace, setFavouritePlace] = useState('')
+    // const [childhoodPositiveExperiences, setChildhoodPositiveExperiences] = useState('')
+    // const [childhoodNegativeExperiences, setChildhoodNegativeExperiences] = useState('')
+    // const [childhoodAddress, setChildhoodAddress] = useState('')
+    // const [childhoodLikes, setChildhoodLikes] = useState('')
+    // const [childhoodAfraids, setChildhoodAfraids] = useState('')
+
+
+    const getPaciente = async () => {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPaciente?id='+ id, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+
+        if (response.ok){
+            const data = await response.json()
+            setMostrarPaciente(data.paciente)
+        }
+
+    }
+
+    const getPacienteInfancia = async () => {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteInfancia?id='+ id, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+
+        if (response.ok){
+            const data = await response.json()
+            console.log('data.infancia', data.infancia)
+            setPacienteInfancia(data.infancia)
+        }
+    }
+
+    useEffect(()=>{
+        getPaciente()
+        getPacienteInfancia()
+    },[])
+
+    const enviarDatos = async () => {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteInfancia', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: id,
+                // childhoodStudy: childhoodStudy,
+                // childhoodSchool: childhoodSchool,
+                // childhoodMotivations: childhoodMotivations,
+                // familyCore: familyCore,
+                // friendsGroup: friendsGroup,
+                // childhoodTravels: childhoodTravels,
+                // favouritePlace: favouritePlace,
+                // childhoodPositiveExperiences: childhoodPositiveExperiences,
+                // childhoodNegativeExperiences: childhoodNegativeExperiences,
+                // childhoodAddress: childhoodAddress,
+                // childhoodLikes: childhoodLikes,
+                // childhoodAfraids: childhoodAfraids
+                childhood: pacienteInfancia
+            })
+        })
+
+        if (response.ok){
+            const data = await response.json()
+            alert('data', data)
+        }else {
+            const data = await response.json()
+            alert('data.error', data.error)
+            setError(data.error)
+        }
+    }
+
+    return(
+        <PacienteLayout mostrarPaciente={mostrarPaciente}>
+            <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-220px)]">
+                <div>
+                    <label htmlFor="childhoodStudies" className="block mb-2 text-sm font-medium text-gray-900">Estudios</label>
+                    <input type="text" name="childhoodStudy" id="childhoodStudy" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                         value={pacienteInfancia?.childhoodStudy}
+                         onChange={(e) => setPacienteInfancia({
+                            ...pacienteInfancia,
+                            [e.target.name]: e.target.value
+                          })}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="childhoodSchool" className="block mb-2 text-sm font-medium text-gray-900">Escuela a la que asistió</label>
+                    <input type="text" name="childhoodSchool" id="childhoodSchool" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                         value={pacienteInfancia?.childhoodSchool}
+                         onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="childhoodMotivations" className="block mb-2 text-sm font-medium text-gray-900">Motivaciones en la infancia</label>
+                    <input type="text" name="childhoodMotivations" id="childhoodMotivations" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                         value={pacienteInfancia?.childhoodMotivations}
+                         onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="childhoodFamilyCore" className="block mb-2 text-sm font-medium text-gray-900">Familia</label>
+                    <input type="text" name="childhoodFamilyCore" id="childhoodFamilyCore" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                         value={pacienteInfancia?.childhoodFamilyCore}
+                         onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="childhoodFriendsGroup" className="block mb-2 text-sm font-medium text-gray-900">Amistades</label>
+                    <input type="text" name="childhoodFriendsGroup" id="childhoodFriendsGroup" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                         value={pacienteInfancia?.childhoodFriendsGroup}
+                         onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="childhoodTravels" className="block mb-2 text-sm font-medium text-gray-900">Viajes</label>
+                    <input type="text" name="childhoodTravels" id="childhoodTravels" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                         value={pacienteInfancia?.childhoodTravels}
+                         onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="childhoodFavouritePlace" className="block mb-2 text-sm font-medium text-gray-900">Lugar favorito durante la infancia</label>
+                    <input type="text" name="childhoodFavouritePlace" id="childhoodFavouritePlace" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                        value={pacienteInfancia?.childhoodFavouritePlace}
+                        onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="childhoodPositiveExperiences" className="block mb-2 text-sm font-medium text-gray-900">Experiencias positivas durante la infancia</label>
+                    <input type="text" name="childhoodPositiveExperiences" id="childhoodPositiveExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                        value={pacienteInfancia?.childhoodPositiveExperiences}
+                        onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="childhoodNegativeExperiences" className="block mb-2 text-sm font-medium text-gray-900">Experiencias negativas durante la infancia</label>
+                    <input type="text" name="childhoodNegativeExperiences" id="childhoodNegativeExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                        value={pacienteInfancia?.childhoodNegativeExperiences}
+                        onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="childhoodAddress" className="block mb-2 text-sm font-medium text-gray-900">Direccion</label>
+                    <input type="text" name="childhoodAddress" id="childhoodAddress" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                        value={pacienteInfancia?.childhoodAddress}
+                        onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="childhoodLikes" className="block mb-2 text-sm font-medium text-gray-900">Gustos de la infancia</label>
+                    <input type="text" name="childhoodLikes" id="childhoodLikes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                        value={pacienteInfancia?.childhoodLikes}
+                        onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="childhoodAfraids" className="block mb-2 text-sm font-medium text-gray-900">Temores de la infancia</label>
+                    <input type="text" name="childhoodAfraids" id="childhoodAfraids" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                        value={pacienteInfancia?.childhoodAfraids}
+                        onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
+                    />
+                </div>
+                <div className="border-t-1 border-gray-300">
+                    <button className="cursor-pointer bg-zinc-100 border-1 border-zinc-200 hover:bg-zinc-300 me-1 rounded-lg text-sm px-3 py-2 text-center"
+                        onClick={() => setModificar(!modificar)}
+                    >
+                        {!modificar ? 'Modificar': 'Cancelar'}
+                    </button>
+                {
+                    modificar &&
+                        <button className="cursor-pointer mx-2 bg-zinc-100 hover:text-white border-1 border-zinc-200 hover:bg-blue-500 rounded-lg text-sm px-3 py-2 text-center"
+                            onClick={enviarDatos}
+                        >
+                            Guardar
+                        </button>
+                }
+                </div>
+            </div>
+        </PacienteLayout>
+    )
+}
+
+export default withAuth(Childhood)

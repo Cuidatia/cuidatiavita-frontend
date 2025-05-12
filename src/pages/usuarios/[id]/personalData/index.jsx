@@ -1,4 +1,4 @@
-import DashboardLayout from "@/pages/dashboard/layout";
+import PacienteLayout from "../layout";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import withAuth from '@/components/withAuth';
@@ -30,116 +30,157 @@ function DatosPersonales () {
     },[])
 
     return(
-        <DashboardLayout>
-            <div className='flex items-center justify-between'>
-                <h2 className='text-2xl font-bold'>{mostrarPaciente.nombre} {mostrarPaciente.primerApellido} {mostrarPaciente.segundoApellido}</h2>
-            </div>
-            <div className="relative flex py-2 items-center">
-                <div className="flex-grow border-t mt-2 border-gray-300"></div>
-            </div>
-            <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-220px)]">
+        mostrarPaciente &&
+        <PacienteLayout mostrarPaciente={mostrarPaciente}>
+            <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)] flex flex-col">
                 <div>
                     <label htmlFor="nombre" className="block mb-2 text-sm font-medium text-gray-900">Nombre</label>
                     <input type="text" name="nombre" id="nombre" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                        value={mostrarPaciente.nombre} disabled
+                        value={mostrarPaciente?.name} disabled={!modificar}
                     />
                 </div>
                 <div>
                     <label htmlFor="nombre" className="block mb-2 text-sm font-medium text-gray-900">Primer Apellido</label>
                     <input type="text" name="nombre" id="nombre" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                        value={mostrarPaciente.primerApellido} disabled
+                        value={mostrarPaciente?.firstSurname} disabled={!modificar}
                     />
                 </div>
                 <div>
                     <label htmlFor="segundoApellido" className="block mb-2 text-sm font-medium text-gray-900">Segundo Apellido</label>
                     <input type="text" name="segundoApellido" id="segundoApellido" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                        value={mostrarPaciente.segundoApellido} disabled
+                        value={mostrarPaciente?.secondSurname} disabled={!modificar}
                     />
                 </div>
                 <div>
                     <label htmlFor="alias" className="block mb-2 text-sm font-medium text-gray-900">Alias</label>
                     <input type="text" name="alias" id="alias" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                        value={mostrarPaciente.alias} disabled
+                        value={mostrarPaciente?.alias} disabled={!modificar}
                     />
                 </div>
                 <div>
                     <label htmlFor="fechaNacimiento" className="block mb-2 text-sm font-medium text-gray-900">Fecha de nacimiento</label>
                     <input type="date" name="fechaNacimiento" id="fechaNacimiento" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                        value={mostrarPaciente.fechaNacimiento} disabled
+                        value={mostrarPaciente?.birthDate} disabled={!modificar}
                     />
                 </div>
                 <div>
-                    <label htmlFor="direccion" className="block mb-2 text-sm font-medium text-gray-900">Dirección</label>
-                    <input type="text" name="direccion" id="direccion" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                        value={mostrarPaciente.direccion} disabled
+                    <label htmlFor="age" className="block mb-2 text-sm font-medium text-gray-900">Edad</label>
+                    <input type="number" name="age" id="age" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                        value={mostrarPaciente?.age} disabled={!modificar}
                     />
                 </div>
                 <div>
-                    <label htmlFor="localidad" className="block mb-2 text-sm font-medium text-gray-900">Localidad</label>
-                    <input type="text" name="localidad" id="localidad" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                        value={mostrarPaciente.localidad} disabled
+                    <label htmlFor="birthPlace" className="block mb-2 text-sm font-medium text-gray-900">Lugar de nacimiento</label>
+                    <input type="text" name="birthPlace" id="birthPlace" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                        value={mostrarPaciente?.birthPlace} disabled={!modificar}
                     />
                 </div>
                 <div>
-                    <label htmlFor="nacionalidad" className="block mb-2 text-sm font-medium text-gray-900">Nacionalidad</label>
-                    <input type="text" name="nacionalidad" id="nacionalidad" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                        value={mostrarPaciente.nacionalidad} disabled
+                    <label htmlFor="nacionality" className="block mb-2 text-sm font-medium text-gray-900">Nacionalidad</label>
+                    <input type="text" name="nacionality" id="nacionality" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                        value={mostrarPaciente?.nationality} disabled={!modificar}
                     />
                 </div>
                 <div>
                     <fieldset>
-                        <legend className="block mb-2 text-sm font-medium text-gray-900">Género</legend>
+                        <legend className="block mb-4 text-sm font-medium text-gray-900">Género</legend>
                         <div className="flex items-center mb-4">
                             <input type="radio" name="genero" id="Masculino" className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-                                value='M' checked={mostrarPaciente.genero === 'M'} 
+                                value='M' checked={mostrarPaciente?.gender === 'M'} 
                             />
                             <label htmlFor="Masculino" className="block ms-2  text-sm font-medium text-gray-900">Masculino</label>
                         </div>
                         <div className="flex items-center mb-4">
                             <input type="radio" name="genero" id="Femenino" className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-                                value='F' checked={mostrarPaciente.genero === 'F'} 
+                                value='F' checked={mostrarPaciente?.gender === 'F'} 
                             />
                             <label htmlFor="Femenino" className="block ms-2  text-sm font-medium text-gray-900">Femenino</label>
                         </div>
                     </fieldset>
                 </div>
                 <div>
+                    <label htmlFor="direccion" className="block mb-2 text-sm font-medium text-gray-900">Dirección</label>
+                    <input type="text" name="direccion" id="direccion" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                        value={mostrarPaciente?.address} disabled={!modificar}
+                    />
+                </div>
+                <div>
                     <fieldset>
-                            <legend className="block mb-2 text-sm font-medium text-gray-900">Estado civil</legend>
+                            <legend className="block mb-4 text-sm font-medium text-gray-900">Estado civil</legend>
                             <div className="flex items-center mb-4">
                                 <input type="radio" name="estadoCivil" id="soltero" className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-                                    checked={mostrarPaciente.estadoCivil === 'ST'} value='ST' 
+                                    checked={mostrarPaciente?.maritalStatus === 'ST'} value='ST' 
                                 />
                                 <label htmlFor="soltero" className="block ms-2  text-sm font-medium text-gray-900">Soltero/a</label>
                             </div>
                             <div className="flex items-center mb-4">
                                 <input type="radio" name="estadoCivil" id="casado" className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-                                    checked={mostrarPaciente.estadoCivil === 'C'} value='C'
+                                    checked={mostrarPaciente?.maritalStatus === 'C'} value='C'
                                 />
                                 <label htmlFor="casado" className="block ms-2  text-sm font-medium text-gray-900">Casado/a</label>
                             </div>
                             <div className="flex items-center mb-4">
                                 <input type="radio" name="estadoCivil" id="viudo" className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-                                    checked={mostrarPaciente.estadoCivil === 'V'} value='V' 
+                                    checked={mostrarPaciente?.maritalStatus === 'V'} value='V' 
                                 />
                                 <label htmlFor="viudo" className="block ms-2  text-sm font-medium text-gray-900">Viudo/a</label>
                             </div>
                             <div className="flex items-center mb-4">
                                 <input type="radio" name="estadoCivil" id="separado" className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-                                    checked={mostrarPaciente.estadoCivil === 'S'} value='S'
+                                    checked={mostrarPaciente?.maritalStatus === 'S'} value='S'
                                 />
                                 <label htmlFor="separado" className="block ms-2  text-sm font-medium text-gray-900">Separado/a</label>
                             </div>
                             <div className="flex items-center mb-4">
                                 <input type="radio" name="estadoCivil" id="divorciado" className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-                                    checked={mostrarPaciente.estadoCivil === 'D'} value='D'
+                                    checked={mostrarPaciente?.maritalStatus === 'D'} value='D'
                                 />
                                 <label htmlFor="divorciado" className="block ms-2  text-sm font-medium text-gray-900">Divorciado/a</label>
                             </div>
                     </fieldset>
                 </div>
+                <div>
+                    <label htmlFor="language" className="block mb-2 text-sm font-medium text-gray-900">Idioma</label>
+                    <input type="text" name="language" id="language" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                        value={mostrarPaciente?.language} disabled={!modificar}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="otherLanguages" className="block mb-2 text-sm font-medium text-gray-900">Otros idiomas</label>
+                    <textarea name="otherLanguages" id="otherLanguages" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                        value={mostrarPaciente?.otherLanguages} disabled={!modificar}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="culturalHeritage" className="block mb-2 text-sm font-medium text-gray-900">Origen cultural</label>
+                    <input type="text" name="culturalHeritage" id="culturalHeritage" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                        value={mostrarPaciente?.culturalHeritage} disabled={!modificar}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="faith" className="block mb-2 text-sm font-medium text-gray-900">Creencias</label>
+                    <input type="text" name="faith" id="faith" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                        value={mostrarPaciente?.faith}
+                        disabled={!modificar}
+                    />
+                </div>
             </div>
-        </DashboardLayout>
+            <div className="my-2 border-t-1 border-gray-300">
+                <button className="cursor-pointer bg-zinc-100 border-1 border-zinc-200 hover:bg-zinc-300 me-1 rounded-lg text-sm px-3 py-2 text-center"
+                    onClick={() => setModificar(!modificar)}
+                >
+                    {!modificar ? 'Modificar': 'Cancelar'}
+                </button>
+            {
+                modificar &&
+                    <button className="cursor-pointer mx-2 bg-zinc-100 hover:text-white border-1 border-zinc-200 hover:bg-blue-500 rounded-lg text-sm px-3 py-2 text-center"
+                        
+                    >
+                        Guardar
+                    </button>
+            }
+            </div>
+        </PacienteLayout>
     )
 }
 

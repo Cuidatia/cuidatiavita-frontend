@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import DashboardLayout from "../dashboard/layout";
+import PacienteLayout from "./layout";
 import { use, useEffect, useState } from "react";
 import Card from "@/components/cards/card";
 import withAuth from '@/components/withAuth';
@@ -28,6 +28,7 @@ function PerfilPaciente () {
 
         if (response.ok){
             const data = await response.json()
+            console.log('data.paciente', data.paciente)
             setMostrarPaciente(data.paciente)
         }
 
@@ -96,41 +97,30 @@ function PerfilPaciente () {
     }, [mostrarPaciente])
 
     return(
-        <DashboardLayout>
-            <div className='flex items-center justify-between'>
-                <h2 className='text-2xl font-bold'>{mostrarPaciente.nombre}</h2>
-            </div>
-            <div className="relative flex py-2 items-center">
-                <div className="flex-grow border-t mt-2 border-gray-300"></div>
-            </div>
+        <PacienteLayout mostrarPaciente={mostrarPaciente}>
             <div className="py-4 px-4">
                 <div className="grid grid-cols-2 gap-4">
-                    <div className="grow" onClick={()=>{router.push('/pacientes/'+mostrarPaciente.id+'/datos-personales')}}>
-                        <Card tipo={'general'} title={'Datos Personales'} />
-                    </div>
+                    <Card color={"linear-gradient(to left, #e5c0fdaf 30%, #e5c0fd 80%)"} icon={'personalData'} title={'Datos Personales'} link={'/usuarios/'+mostrarPaciente.id+'/personalData'} />
+                    {
+                        session?.user?.roles === 'admin' &&
+                            <Card color={"linear-gradient(to right, #70dcff 0%, #a4e9ff 100%)"} icon={"personality"} title={'Personalidad'} link={'/usuarios/'+mostrarPaciente.id+'/personality/'} />
+                    }
                     {
                         (session?.user?.roles === 'Auxiliar' || session?.user?.roles === 'admin') &&
-                            <div className="grow">
-                                <Card tipo={'trabajo'} title={'Trabajo'} />
-                            </div>
+                            <Card color={"linear-gradient(to left, #ffd495 0%, #ffbf62 100%)"} icon={"lifeStory"} title={'Historia de vida'} link={'/usuarios/'+mostrarPaciente.id+'/lifeStory'} />
+
                     }
                     {
                         (session?.user?.roles === 'medico' || session?.user?.roles === 'admin') &&
-                            <div className="grow">
-                                <Card tipo={'medico'} title={'Datos Médicos'} />
-                            </div>
+                            <Card color={"linear-gradient(to left, #c6ffb2 30%, #acff8f 80%)"} icon={"medico"} title={'Datos Médicos'} link={'/usuarios/'+mostrarPaciente.id+'/sanitaryData'} />
                     }
                     {
                         session?.user?.roles === 'admin' &&
-                            <div className="grow">
-                                <Card tipo={'otros'} title={'Otros'} />
-                            </div>
+                            <Card color={"linear-gradient(to left, #fff3a4 0%, #fee64f 100%)"} icon={"contactData"} title={'Contacto'} link={'/usuarios/'+mostrarPaciente.id+'/contactData'} />
                     }
                     {
                         (session?.user?.roles === 'Auxiliar' || session?.user?.roles === 'admin') &&
-                            <div className="grow" onClick={()=>{router.push('/pacientes/'+mostrarPaciente.id+'/galeria')}}>
-                                <Card tipo={'fotos'} title={'Fotos'} />
-                            </div>
+                            <Card color={"linear-gradient(to right, #ff8a71 0%, #ffa390 100%)"} icon={"gallery"} title={'Galería'} link={'/usuarios/'+mostrarPaciente.id+'/gallery'} />
                     }
                 </div>
             </div>
@@ -179,7 +169,7 @@ function PerfilPaciente () {
                         alertContent={error}
                     />
             }
-        </DashboardLayout>
+        </PacienteLayout>
     )
 }
 
