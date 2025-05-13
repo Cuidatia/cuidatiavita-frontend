@@ -24,6 +24,7 @@ function Pacientes() {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${session.user.token}`
             }
         })
         if(response.ok){
@@ -43,7 +44,8 @@ function Pacientes() {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'eliminarPaciente', {
             method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${session.user.token}`
             },
             body: JSON.stringify({pacienteId})
         })

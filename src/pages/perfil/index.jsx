@@ -31,7 +31,8 @@ function Perfil() {
         const response = await fetch(`http://localhost:5000/modificarUsuario`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${session.user.token}`
             },
             body: JSON.stringify({mostrarUsuario})
         })
@@ -58,7 +59,8 @@ function Perfil() {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'modificarPassword', {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${session.user.token}`
             },
             body: JSON.stringify({id, newPassword})
         })

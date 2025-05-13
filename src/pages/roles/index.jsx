@@ -10,6 +10,7 @@ function Roles () {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${session.user.token}`
             }
         })
         if(response.ok){

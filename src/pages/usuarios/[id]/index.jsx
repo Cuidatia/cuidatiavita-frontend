@@ -22,7 +22,8 @@ function PerfilPaciente () {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPaciente?id='+ id, {
             method: 'GET',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${session.user.token}`
             }
         })
 
@@ -38,7 +39,8 @@ function PerfilPaciente () {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getUsuarios?org=' + organizacion,{
             method:'GET',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${session.user.token}`
             },
         })
 
@@ -52,7 +54,8 @@ function PerfilPaciente () {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getUsuariosReferencia?id='+ mostrarPaciente?.id, {
             method: 'GET',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${session.user.token}`
             }
         })
 
@@ -66,7 +69,8 @@ function PerfilPaciente () {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'asignarPersonaReferencia', {
             method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${session.user.token}`
             },
             body: JSON.stringify({
                 pacienteId: mostrarPaciente.id,
