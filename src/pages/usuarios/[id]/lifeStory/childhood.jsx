@@ -83,18 +83,6 @@ function Childhood () {
             },
             body: JSON.stringify({
                 id: id,
-                // childhoodStudy: childhoodStudy,
-                // childhoodSchool: childhoodSchool,
-                // childhoodMotivations: childhoodMotivations,
-                // familyCore: familyCore,
-                // friendsGroup: friendsGroup,
-                // childhoodTravels: childhoodTravels,
-                // favouritePlace: favouritePlace,
-                // childhoodPositiveExperiences: childhoodPositiveExperiences,
-                // childhoodNegativeExperiences: childhoodNegativeExperiences,
-                // childhoodAddress: childhoodAddress,
-                // childhoodLikes: childhoodLikes,
-                // childhoodAfraids: childhoodAfraids
                 childhood: pacienteInfancia
             })
         })
@@ -111,7 +99,7 @@ function Childhood () {
 
     return(
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
-            <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-220px)]">
+            <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
                     <label htmlFor="childhoodStudies" className="block mb-2 text-sm font-medium text-gray-900">Estudios</label>
                     <input type="text" name="childhoodStudy" id="childhoodStudy" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
@@ -211,21 +199,21 @@ function Childhood () {
                         onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
                     />
                 </div>
-                <div className="border-t-1 border-gray-300">
-                    <button className="cursor-pointer bg-zinc-100 border-1 border-zinc-200 hover:bg-zinc-300 me-1 rounded-lg text-sm px-3 py-2 text-center"
-                        onClick={() => setModificar(!modificar)}
+            </div>
+            <div className="border-t-1 border-gray-300">
+                <button className="cursor-pointer bg-zinc-100 border-1 border-zinc-200 hover:bg-zinc-300 me-1 rounded-lg text-sm px-3 py-2 text-center"
+                    onClick={() => setModificar(!modificar)}
+                >
+                    {!modificar ? 'Modificar': 'Cancelar'}
+                </button>
+            {
+                modificar &&
+                    <button className="cursor-pointer mx-2 bg-zinc-100 hover:text-white border-1 border-zinc-200 hover:bg-blue-500 rounded-lg text-sm px-3 py-2 text-center"
+                        onClick={enviarDatos}
                     >
-                        {!modificar ? 'Modificar': 'Cancelar'}
+                        Guardar
                     </button>
-                {
-                    modificar &&
-                        <button className="cursor-pointer mx-2 bg-zinc-100 hover:text-white border-1 border-zinc-200 hover:bg-blue-500 rounded-lg text-sm px-3 py-2 text-center"
-                            onClick={enviarDatos}
-                        >
-                            Guardar
-                        </button>
-                }
-                </div>
+            }
             </div>
         </PacienteLayout>
     )

@@ -28,7 +28,6 @@ function PerfilPaciente () {
 
         if (response.ok){
             const data = await response.json()
-            console.log('data.paciente', data.paciente)
             setMostrarPaciente(data.paciente)
         }
 
@@ -128,11 +127,11 @@ function PerfilPaciente () {
                 <label htmlFor="personal" className="block mb-2 text-sm font-medium text-gray-900">Personal de referencia:</label>
                 <div id="personal" className="block p-2.5 w-full text-sm max-h-fit text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">
                     {
-                        personalReferencia && 
+                        personalReferencia ? 
                         personalReferencia.map((persona, index) => (
                             <p>{persona.nombre}</p>
                         ))
-
+                        : <p>No tiene personal de referencia asignado</p>
                     }
                 </div>
             </div>
