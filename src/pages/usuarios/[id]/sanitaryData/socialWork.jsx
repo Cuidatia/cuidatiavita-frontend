@@ -2,8 +2,10 @@ import PacienteLayout from "../layout";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import withAuth from '@/components/withAuth';
+import { useSession } from "next-auth/react";
 
 function SocialWork () {
+    const {data: session, status} = useSession()
     const [mostrarPaciente, setMostrarPaciente] = useState([])
     const router = useRouter()
     const {id} = router.query

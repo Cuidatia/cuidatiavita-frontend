@@ -1,16 +1,18 @@
 import withAuth from "@/components/withAuth";
 import DashboardLayout from "../dashboard/layout";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 function Roles () {
     const [roles, setRoles] = useState();
+    const {data: session, status} = useSession()
 
     const getRoles = async () => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getRoles', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${session.user.token}`
+                'Authorization': `Bearer ${session?.user?.token}`
             }
         })
         if(response.ok){
@@ -20,8 +22,11 @@ function Roles () {
     }
 
     useEffect(()=>{
-        getRoles()
-    }, [])
+        if (status === 'authenticated'){ 
+            getRoles()
+            console.log('session.user.token', session?.user?.token)
+        }
+    }, [session, status])
 
     return (
         <DashboardLayout>

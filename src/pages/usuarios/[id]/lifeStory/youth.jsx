@@ -2,8 +2,10 @@ import PacienteLayout from "../layout";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import withAuth from '@/components/withAuth';
+import { useSession } from "next-auth/react";
 
 function Youth () {
+    const {data: session, status} = useSession()
     const [mostrarPaciente, setMostrarPaciente] = useState([])
     const router = useRouter()
     const {id} = router.query
@@ -37,7 +39,8 @@ function Youth () {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPaciente?id='+ id, {
             method: 'GET',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user?.token}`
             }
         })
 

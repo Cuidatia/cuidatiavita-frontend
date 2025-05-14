@@ -13,24 +13,31 @@ function lifeStory () {
     const router = useRouter()
     const {id} = router.query
 
+    const [error, setError] = useState()
+
     const getPaciente = async () => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPaciente?id='+ id, {
             method: 'GET',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user?.token}`
             }
         })
 
         if (response.ok){
             const data = await response.json()
             setMostrarPaciente(data.paciente)
+        }else {
+            const data = await response.json()
+            console.log('data.error', data.error)
+            setError(data.error)
         }
 
     }
 
 
     useEffect(()=>{
-        if (status === 'authenticated' && session?.user?.idOrganizacion) {  
+        if (status === 'authenticated') {  
             getPaciente()
         }
     },[session, status])
@@ -57,6 +64,10 @@ function lifeStory () {
                     }
                 </div>
             </div>
+            {
+                error &&
+                <Alerts alertContent={error} alertType={'error'}/>
+            }
         </PacienteLayout>
     )
 }

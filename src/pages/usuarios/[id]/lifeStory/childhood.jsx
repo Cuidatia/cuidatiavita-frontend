@@ -2,6 +2,7 @@ import PacienteLayout from "../layout";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import withAuth from '@/components/withAuth';
+import { useSession } from "next-auth/react";
 
 function Childhood () {
     const [mostrarPaciente, setMostrarPaciente] = useState([])
@@ -10,6 +11,7 @@ function Childhood () {
     const [error, setError] = useState('')
     const router = useRouter()
     const {id} = router.query
+    const {data: session, status} = useSession()
 
     const [pacienteInfancia, setPacienteInfancia] = useState({
         childhoodStudy: "",
@@ -26,25 +28,13 @@ function Childhood () {
         childhoodAfraids: "",
     })
 
-    // const [childhoodStudy, setChildhoodStudy] = useState('')
-    // const [childhoodSchool, setChildhoodSchool] = useState('')
-    // const [childhoodMotivations, setChildhoodMotivations] = useState('')
-    // const [familyCore, setFamilyCore] = useState('')
-    // const [friendsGroup, setFriendsGroup] = useState('')
-    // const [childhoodTravels, setChildhoodTravels] = useState('')
-    // const [favouritePlace, setFavouritePlace] = useState('')
-    // const [childhoodPositiveExperiences, setChildhoodPositiveExperiences] = useState('')
-    // const [childhoodNegativeExperiences, setChildhoodNegativeExperiences] = useState('')
-    // const [childhoodAddress, setChildhoodAddress] = useState('')
-    // const [childhoodLikes, setChildhoodLikes] = useState('')
-    // const [childhoodAfraids, setChildhoodAfraids] = useState('')
-
 
     const getPaciente = async () => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPaciente?id='+ id, {
             method: 'GET',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorized": `Bearer ${session?.user?.token}`
             }
         })
 
@@ -59,7 +49,8 @@ function Childhood () {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteInfancia?id='+ id, {
             method: 'GET',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorized": `Bearer ${session?.user?.token}`
             }
         })
 
@@ -71,15 +62,18 @@ function Childhood () {
     }
 
     useEffect(()=>{
-        getPaciente()
-        getPacienteInfancia()
-    },[])
+        if (status === 'authenticated'){    
+            getPaciente()
+            getPacienteInfancia()
+        }
+    },[status,session])
 
     const enviarDatos = async () => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteInfancia', {
             method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user?.token}`
             },
             body: JSON.stringify({
                 id: id,

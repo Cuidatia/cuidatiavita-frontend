@@ -3,8 +3,10 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import withAuth from '@/components/withAuth';
 import PopUp from "@/components/popUps/popUp";
+import { useSession } from "next-auth/react";
 
 function Personality () {
+    const {data: session, status} = useSession()
     const [mostrarPaciente, setMostrarPaciente] = useState([])
     const [modificar, setModificar] = useState(false)
     const [saveData, setSaveData] = useState(false)
