@@ -24,7 +24,8 @@ function Usuarios () {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getUsuarios?org=' + organizacion,{
             method:'GET',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${session.user.token}`
             },
         })
 
@@ -44,7 +45,8 @@ function Usuarios () {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'eliminarUsuario', {
             method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${session.user.token}`
             },
             body: JSON.stringify({usuarioId})
         })

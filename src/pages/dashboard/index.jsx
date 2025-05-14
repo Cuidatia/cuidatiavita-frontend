@@ -18,6 +18,7 @@ function Dashboard() {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${session.user.token}`
             }
         })
         if(response.ok){
@@ -30,7 +31,8 @@ function Dashboard() {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getOrganizacion?org=' + session.user.idOrganizacion,{
             method: 'GET',
             headers: {
-                'Content-Type' : 'application/json'
+                'Content-Type' : 'application/json',
+                'Authorization': `Bearer ${session.user.token}`
             },
         })
         if(response.ok){

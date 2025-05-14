@@ -20,6 +20,7 @@ function AddUsuario () {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${session.user.token}`
             }
         })
         if(response.ok){
@@ -37,6 +38,7 @@ function AddUsuario () {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${session.user.token}`
             },
             body: JSON.stringify({
                 email: handleEmail,

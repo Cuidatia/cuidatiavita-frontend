@@ -35,6 +35,7 @@ function CrearPaciente () {
             method:'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${session.user.token}`
             },
             body: JSON.stringify({nombre,primerApellido,segundoApellido,alias,fechaNacimiento,edad, lugarNacimiento,
                 direccion,nacionalidad,genero,estadoCivil,idioma,otrosIdiomas,origenCultural,creencias,imgPerfil,idOrganizacion})

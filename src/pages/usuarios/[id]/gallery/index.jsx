@@ -15,7 +15,8 @@ function Galeria () {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPaciente?id='+ id, {
             method: 'GET',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${session.user.token}`
             }
         })
 
@@ -30,7 +31,8 @@ function Galeria () {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getImagenesPaciente?id='+ id, {
             method: 'GET',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${session.user.token}`
             }
         })
 
