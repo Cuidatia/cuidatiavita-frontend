@@ -5,15 +5,18 @@ import withAuth from '@/components/withAuth';
 import { useSession } from "next-auth/react";
 
 function Adulthood () {
-    const {data: session, status} = useSession()
     const [mostrarPaciente, setMostrarPaciente] = useState([])
+    const [modificar, setModificar] = useState(false)
+    const [message, setMessage] = useState('')
+    const [error, setError] = useState('')
     const router = useRouter()
     const {id} = router.query
+    const {data: session, status} = useSession()
 
     const [pacienteAdultez, setPacienteAdultez] = useState({
         adulthoodSentimentalCouple: '',
         adulthoodChildren: '',
-        adulthoodStudy: '',
+        adulthoodStudies: '',
         adulthoodWorkPlace: '',
         adulthoodWorkRol: '',
         adulthoodFamilyCore: '',
@@ -25,15 +28,12 @@ function Adulthood () {
         adulthoodPositiveExperiences: '',
         adulthoodNegativeExperiences: '',
         adulthoodAddress: '',
-        adulthoodRelocated: '',
         adulthoodEconomicSituation: '',
         adulthoodProjects: '',
-        adulthoodUncompleteProjects: '',
+        adulthoodUncompletedProjects: '',
         adulthoodIllness: '',
-        adulthoodPersonalCrysis: ''
+        adulthoodPersonalCrisis: ''
     })
-
-    const [modificar, setModificar] = useState(false)
 
     const getPaciente = async () => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPaciente?id='+ id, {
@@ -51,163 +51,244 @@ function Adulthood () {
 
     }
 
+    const getPacienteAdultez = async () => {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteAdultez?id='+ id, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user?.token}`
+            }
+        })
+
+        if (response.ok){
+            const data = await response.json()
+            console.log('data.adultez', data.adultez)
+            setPacienteAdultez(data.adultez)
+        }
+    }
+
     useEffect(()=>{
-        getPaciente()
-    },[])
+        if (status == 'authenticated'){
+            getPaciente()
+            getPacienteAdultez()
+        }
+    },[status, session])
 
     const enviarDatos = async () =>{
-        console.log('pacienteAdultez', pacienteAdultez)
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteAdultez', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user?.token}`
+            },
+            body: JSON.stringify({
+                id: id,
+                adulthood: pacienteAdultez
+            })
+        })
+
+        if (response.ok){
+            const data = await response.json()
+            alert('data', data)
+        }else {
+            const data = await response.json()
+            alert('data.error', data.error)
+            setError(data.error)
+        }
     }
 
     return(
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
-                    <label htmlFor="adulthoodSentimentalCouple" className="block mb-2 text-sm font-medium text-gray-900">Pareja sentimental</label>
+                    <label htmlFor="adulthoodSentimentalCouple" className="block mb-2 text-sm font-medium text-gray-900">¿Quién es su pareja sentimental o persona íntima de convivencia?</label>
                     <input type="text" name="adulthoodSentimentalCouple" id="adulthoodSentimentalCouple" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteAdultez?.adulthoodSentimentalCouple}
-                            onChange={(e) => setPacienteAdultez({...pacienteAdultez, [e.target.name]:e.target.value})}
+                            onChange={(e) => setPacienteAdultez({
+                                ...pacienteAdultez,
+                                [e.target.name]:e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulthoodChildren" className="block mb-2 text-sm font-medium text-gray-900">Hijos</label>
+                    <label htmlFor="adulthoodChildren" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo se llaman sus hijos?</label>
                     <input type="text" name="adulthoodChildren" id="adulthoodChildren" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteAdultez?.adulthoodChildren}
-                            onChange={(e) => setPacienteAdultez({...pacienteAdultez, [e.target.name]:e.target.value})}
+                            onChange={(e) => setPacienteAdultez({
+                                ...pacienteAdultez,
+                                [e.target.name]:e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulthoodStudy" className="block mb-2 text-sm font-medium text-gray-900">Estudios</label>
-                    <input type="text" name="adulthoodStudy" id="adulthoodStudy" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="adulthoodStudies" className="block mb-2 text-sm font-medium text-gray-900">¿Qué estudió?</label>
+                    <input type="text" name="adulthoodStudies" id="adulthoodStudies" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteAdultez?.adulthoodStudies}
-                            onChange={(e) => setPacienteAdultez({...pacienteAdultez, [e.target.name]:e.target.value})}
+                            onChange={(e) => setPacienteAdultez({
+                                ...pacienteAdultez,
+                                [e.target.name]:e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulthoodWorkPlace" className="block mb-2 text-sm font-medium text-gray-900">Lugar de trabajo</label>
+                    <label htmlFor="adulthoodWorkPlace" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde trabajaba?</label>
                     <input type="text" name="adulthoodWorkPlace" id="adulthoodWorkPlace" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodWorkplace}
-                            onChange={(e) => setPacienteAdultez({...pacienteAdultez, [e.target.name]:e.target.value})}
+                            value={pacienteAdultez?.adulthoodWorkPlace}
+                            onChange={(e) => setPacienteAdultez({
+                                ...pacienteAdultez,
+                                [e.target.name]:e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulthoodWorkRol" className="block mb-2 text-sm font-medium text-gray-900">Rol en el trabajo</label>
+                    <label htmlFor="adulthoodWorkRol" className="block mb-2 text-sm font-medium text-gray-900">¿Qué rol desempeñaba?</label>
                     <input type="text" name="adulthoodWorkRol" id="adulthoodWorkRol" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodWorkrol}
-                            onChange={(e) => setPacienteAdultez({...pacienteAdultez, [e.target.name]:e.target.value})}
+                            value={pacienteAdultez?.adulthoodWorkRol}
+                            onChange={(e) => setPacienteAdultez({
+                                ...pacienteAdultez,
+                                [e.target.name]:e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulthoodFamilyCore" className="block mb-2 text-sm font-medium text-gray-900">Familia</label>
+                    <label htmlFor="adulthoodFamilyCore" className="block mb-2 text-sm font-medium text-gray-900">¿Quiénes formaban su núcleo familiar?</label>
                     <input type="text" name="adulthoodFamilyCore" id="adulthoodFamilyCore" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteAdultez?.adulthoodFamilyCore}
-                            onChange={(e) => setPacienteAdultez({...pacienteAdultez, [e.target.name]:e.target.value})}
+                            onChange={(e) => setPacienteAdultez({
+                                ...pacienteAdultez,
+                                [e.target.name]:e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulthoodFriendsGroup" className="block mb-2 text-sm font-medium text-gray-900">Amistades</label>
+                    <label htmlFor="adulthoodFriendsGroup" className="block mb-2 text-sm font-medium text-gray-900">¿Quiénes formaban su grupo de amigos?</label>
                     <input type="text" name="adulthoodFriendsGroup" id="adulthoodFriendsGroup" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteAdultez?.adulthoodFriendsGroup}
-                            onChange={(e) => setPacienteAdultez({...pacienteAdultez, [e.target.name]:e.target.value})}
+                            onChange={(e) => setPacienteAdultez({
+                                ...pacienteAdultez,
+                                [e.target.name]:e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulhoodWorkGroup" className="block mb-2 text-sm font-medium text-gray-900">Grupo de trabajo</label>
-                    <input type="text" name="adulhoodWorkGroup" id="adulhoodWorkGroup" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="adulthoodWorkGroup" className="block mb-2 text-sm font-medium text-gray-900">¿Qué relaciones tenía en el entorno laboral?</label>
+                    <input type="text" name="adulthoodWorkGroup" id="adulthoodWorkGroup" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulhoodWorkGroup}
-                            onChange={(e) => setPacienteAdultez({...pacienteAdultez, [e.target.name]:e.target.value})}
+                            value={pacienteAdultez?.adulthoodWorkGroup}
+                            onChange={(e) => setPacienteAdultez({
+                                ...pacienteAdultez,
+                                [e.target.name]:e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulthoodTravels" className="block mb-2 text-sm font-medium text-gray-900">Viajes</label>
+                    <label htmlFor="adulthoodTravels" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde ha viajado?</label>
                     <input type="text" name="adulthoodTravels" id="adulthoodTravels" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteAdultez?.adulthoodTravels}
-                            onChange={(e) => setPacienteAdultez({...pacienteAdultez, [e.target.name]:e.target.value})}
+                            onChange={(e) => setPacienteAdultez({
+                                ...pacienteAdultez,
+                                [e.target.name]:e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulthoodFavouritePlace" className="block mb-2 text-sm font-medium text-gray-900">Lugar favorito durante la adultez</label>
+                    <label htmlFor="adulthoodFavouritePlace" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál era su lugar favorito?</label>
                     <input type="text" name="adulthoodFavouritePlace" id="adulthoodFavouritePlace" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteAdultez?.adulthoodFavouritePlace}
-                            onChange={(e) => setPacienteAdultez({...pacienteAdultez, [e.target.name]:e.target.value})}
+                            onChange={(e) => setPacienteAdultez({
+                                ...pacienteAdultez,
+                                [e.target.name]:e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulthoodRoutine" className="block mb-2 text-sm font-medium text-gray-900">Rutina</label>
+                    <label htmlFor="adulthoodRoutine" className="block mb-2 text-sm font-medium text-gray-900">¿Qué rutina seguía?</label>
                     <input type="text" name="adulthoodRoutine" id="adulthoodRoutine" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteAdultez?.adulthoodRoutine}
-                            onChange={(e) => setPacienteAdultez({...pacienteAdultez, [e.target.name]:e.target.value})}
+                            onChange={(e) => setPacienteAdultez({
+                                ...pacienteAdultez,
+                                [e.target.name]:e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulthoodPositiveExperiences" className="block mb-2 text-sm font-medium text-gray-900">Experiencias positivas durante la adultez</label>
+                    <label htmlFor="adulthoodPositiveExperiences" className="block mb-2 text-sm font-medium text-gray-900">¿Qué experiencias positivas tuvo?</label>
                     <input type="text" name="adulthoodPositiveExperiences" id="adulthoodPositiveExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteAdultez?.adulthoodPositiveExperiences}
-                            onChange={(e) => setPacienteAdultez({...pacienteAdultez, [e.target.name]:e.target.value})}
+                            onChange={(e) => setPacienteAdultez({
+                                ...pacienteAdultez,
+                                [e.target.name]:e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulthoodNegativeExperiences" className="block mb-2 text-sm font-medium text-gray-900">Experiencias negativas durante la adultez</label>
+                    <label htmlFor="adulthoodNegativeExperiences" className="block mb-2 text-sm font-medium text-gray-900">¿Qué experiencias negativas tuvo?</label>
                     <input type="text" name="adulthoodNegativeExperiences" id="adulthoodNegativeExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteAdultez?.adulthoodNegativeExperiences}
-                            onChange={(e) => setPacienteAdultez({...pacienteAdultez, [e.target.name]:e.target.value})}
+                            onChange={(e) => setPacienteAdultez({
+                                ...pacienteAdultez,
+                                [e.target.name]:e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulthoodAddress" className="block mb-2 text-sm font-medium text-gray-900">Direccion</label>
+                    <label htmlFor="adulthoodAddress" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde viviste?</label>
                     <input type="text" name="adulthoodAddress" id="adulthoodAddress" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteAdultez?.adulthoodAddress}
-                            onChange={(e) => setPacienteAdultez({...pacienteAdultez, [e.target.name]:e.target.value})}
+                            onChange={(e) => setPacienteAdultez({
+                                ...pacienteAdultez,
+                                [e.target.name]:e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulthoodRelocated" className="block mb-2 text-sm font-medium text-gray-900">Traslado a una nueva vivienda</label>
-                    <input type="text" name="adulthoodRelocated" id="adulthoodRelocated" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                            disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodRelocated}
-                            onChange={(e) => setPacienteAdultez({...pacienteAdultez, [e.target.name]:e.target.value})}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="adulthoodEconomicSituation" className="block mb-2 text-sm font-medium text-gray-900">Situación económmica</label>
+                    <label htmlFor="adulthoodEconomicSituation" className="block mb-2 text-sm font-medium text-gray-900">¿Por qué situación económica pasaste?</label>
                     <input type="text" name="adulthoodEconomicSituation" id="adulthoodEconomicSituation" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteAdultez?.adulthoodEconomicSituation}
-                            onChange={(e) => setPacienteAdultez({...pacienteAdultez, [e.target.name]:e.target.value})}
+                            onChange={(e) => setPacienteAdultez({
+                                ...pacienteAdultez,
+                                [e.target.name]:e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulthoodProjects" className="block mb-2 text-sm font-medium text-gray-900">Proyectos en la adultez</label>
+                    <label htmlFor="adulthoodProjects" className="block mb-2 text-sm font-medium text-gray-900">¿Te propusiste iniciar algún proyecto?</label>
                     <input type="text" name="adulthoodProjects" id="adulthoodProjects" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteAdultez?.adulthoodProjects}
-                            onChange={(e) => setPacienteAdultez({...pacienteAdultez, [e.target.name]:e.target.value})}
+                            onChange={(e) => setPacienteAdultez({
+                                ...pacienteAdultez,
+                                [e.target.name]:e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulthoodUncompleteProjects" className="block mb-2 text-sm font-medium text-gray-900">Proyectos por completar en la adultez</label>
-                    <input type="text" name="adulthoodUncompleteProjects" id="adulthoodUncompleteProjects" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="adulthoodUncompletedProjects" className="block mb-2 text-sm font-medium text-gray-900">¿Te quedó alguna tarea por completar?</label>
+                    <input type="text" name="adulthoodUncompletedProjects" id="adulthoodUncompletedProjects" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodUncompleteProjects}
-                            onChange={(e) => setPacienteAdultez({...pacienteAdultez, [e.target.name]:e.target.value})}
+                            value={pacienteAdultez?.adulthoodUncompletedProjects}
+                            onChange={(e) => setPacienteAdultez({
+                                ...pacienteAdultez,
+                                [e.target.name]:e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulthoodIllness" className="block mb-2 text-sm font-medium text-gray-900">Enfermedades en la adultez</label>
+                    <label htmlFor="adulthoodIllness" className="block mb-2 text-sm font-medium text-gray-900">¿Sufrió alguna enfermedad?</label>
                     <input type="text" name="adulthoodIllness" id="adulthoodIllness" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteAdultez?.adulthoodIllness}
@@ -215,11 +296,14 @@ function Adulthood () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulthoodPersonalCrysis" className="block mb-2 text-sm font-medium text-gray-900">Crisis personal</label>
-                    <input type="text" name="adulthoodPersonalCrysis" id="adulthoodPersonalCrysis" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="adulthoodPersonalCrisis" className="block mb-2 text-sm font-medium text-gray-900">¿Sufrió alguna crisis emocional?</label>
+                    <input type="text" name="adulthoodPersonalCrisis" id="adulthoodPersonalCrisis" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodPersonalCrysis}
-                            onChange={(e) => setPacienteAdultez({...pacienteAdultez, [e.target.name]:e.target.value})}
+                            value={pacienteAdultez?.adulthoodPersonalCrisis}
+                            onChange={(e) => setPacienteAdultez({
+                                ...pacienteAdultez,
+                                [e.target.name]:e.target.value
+                            })}
                     />
                 </div>
             </div>

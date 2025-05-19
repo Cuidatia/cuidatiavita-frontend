@@ -5,19 +5,20 @@ import withAuth from '@/components/withAuth';
 import { useSession } from "next-auth/react";
 
 function Youth () {
-    const {data: session, status} = useSession()
+
     const [mostrarPaciente, setMostrarPaciente] = useState([])
+    const [modificar, setModificar] = useState(false)
+    const [message, setMessage] = useState('')
+    const [error, setError] = useState('')
     const router = useRouter()
     const {id} = router.query
-
-    const [modificar, setModificar] = useState(false)
+    const {data: session, status} = useSession()
 
     const [pacienteJuventud, setPacienteJuventud] = useState({
         youthStudies: '',
         youthSchool: '',
         youthWorkPlace: '',
         youthWorkRol: '',
-        youthMotivations: '',
         youthFamilyCore: '',
         youthFriendsGroup: '',
         youthTravels: '',
@@ -30,9 +31,9 @@ function Youth () {
         youthHobbies: '',
         youthAfraids: '',
         youthProjects: '',
-        youthUncompleteProjects: '',
+        youthUncompletedProjects: '',
         youthIllness: '',
-        youthPersonalCrysis: ''
+        youthPersonalCrisis: ''
     })
 
     const getPaciente = async () => {
@@ -55,171 +56,261 @@ function Youth () {
         getPaciente()
     },[])
 
+    const getPacienteJuventud = async () => {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteJuventud?id='+ id, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user?.token}`
+            }
+        })
+
+        if (response.ok){
+            const data = await response.json()
+            console.log('data.juventud', data.juventud)
+            setPacienteJuventud(data.juventud)
+        }
+    }
+
+    useEffect(()=>{
+        if (status === 'authenticated'){    
+            getPaciente()
+            getPacienteJuventud()
+        }
+    },[status,session])
+
     const enviarDatos = async () => {
-        console.log('pacienteJuventud', pacienteJuventud)
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteJuventud', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user?.token}`
+            },
+            body: JSON.stringify({
+                id: id,
+                youth: pacienteJuventud
+            })
+        })
+
+        if (response.ok){
+            const data = await response.json()
+            alert('data', data)
+        }else {
+            const data = await response.json()
+            alert('data.error', data.error)
+            setError(data.error)
+        }
     }
 
     return(
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
-                    <label htmlFor="youthStudies" className="block mb-2 text-sm font-medium text-gray-900">Estudios</label>
+                    <label htmlFor="youthStudies" className="block mb-2 text-sm font-medium text-gray-900">¿Qué estudió?</label>
                     <input type="text" name="youthStudies" id="youthStudies" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthStudies}
-                            onChange={(e)=>{setPacienteJuventud({...pacienteJuventud,[e.target.name]: e.target.value})}}
+                            onChange={(e)=> setPacienteJuventud({
+                                ...pacienteJuventud,[e.target.name]:
+                                e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthSchool" className="block mb-2 text-sm font-medium text-gray-900">Escuela a la que asistió</label>
+                    <label htmlFor="youthSchool" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde estudió?</label>
                     <input type="text" name="youthSchool" id="youthSchool" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthSchool}
-                            onChange={(e)=>{setPacienteJuventud({...pacienteJuventud,[e.target.name]: e.target.value})}}
+                            onChange={(e)=> setPacienteJuventud({
+                                ...pacienteJuventud,
+                                [e.target.name]: e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthWorkPlace" className="block mb-2 text-sm font-medium text-gray-900">Lugar de trabajo</label>
+                    <label htmlFor="youthWorkPlace" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde trabajaba?</label>
                     <input type="text" name="youthWorkPlace" id="youthWorkPlace" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthWorkPlace}
-                            onChange={(e)=>{setPacienteJuventud({...pacienteJuventud,[e.target.name]: e.target.value})}}
+                            onChange={(e)=> setPacienteJuventud({
+                                ...pacienteJuventud,
+                                [e.target.name]: e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthWorkRol" className="block mb-2 text-sm font-medium text-gray-900">Rol en el trabajo</label>
+                    <label htmlFor="youthWorkRol" className="block mb-2 text-sm font-medium text-gray-900">¿Qué rol desempeñaba?</label>
                     <input type="text" name="youthWorkRol" id="youthWorkRol" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthWorkRol}
-                            onChange={(e)=>{setPacienteJuventud({...pacienteJuventud,[e.target.name]: e.target.value})}}
+                            onChange={(e)=> setPacienteJuventud({
+                                ...pacienteJuventud,
+                                [e.target.name]: e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthMotivations" className="block mb-2 text-sm font-medium text-gray-900">Motivaciones en la juventud</label>
-                    <input type="text" name="youthMotivations" id="youthMotivations" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                            disabled={!modificar}
-                            value={pacienteJuventud?.youthMotivations}
-                            onChange={(e)=>{setPacienteJuventud({...pacienteJuventud,[e.target.name]: e.target.value})}}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="youthFamilyCore" className="block mb-2 text-sm font-medium text-gray-900">Familia</label>
+                    <label htmlFor="youthFamilyCore" className="block mb-2 text-sm font-medium text-gray-900">¿Quiénes formaban su núcleo familiar?</label>
                     <input type="text" name="youthFamilyCore" id="youthFamilyCore" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthFamilyCore}
-                            onChange={(e)=>{setPacienteJuventud({...pacienteJuventud,[e.target.name]: e.target.value})}}
+                            onChange={(e)=> setPacienteJuventud({
+                                ...pacienteJuventud,
+                                [e.target.name]: e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthFriendsGroup" className="block mb-2 text-sm font-medium text-gray-900">Amistades</label>
+                    <label htmlFor="youthFriendsGroup" className="block mb-2 text-sm font-medium text-gray-900">¿Quiénes formaban su grupo de amigos?</label>
                     <input type="text" name="youthFriendsGroup" id="youthFriendsGroup" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthFriendsGroup}
-                            onChange={(e)=>{setPacienteJuventud({...pacienteJuventud,[e.target.name]: e.target.value})}}
+                            onChange={(e)=> setPacienteJuventud({
+                                ...pacienteJuventud,
+                                [e.target.name]: e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthTravels" className="block mb-2 text-sm font-medium text-gray-900">Viajes</label>
+                    <label htmlFor="youthTravels" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde ha viajado?</label>
                     <input type="text" name="youthTravels" id="youthTravels" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthTravels}
-                            onChange={(e)=>{setPacienteJuventud({...pacienteJuventud,[e.target.name]: e.target.value})}}
+                            onChange={(e)=> setPacienteJuventud({
+                                ...pacienteJuventud,
+                                [e.target.name]: e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthFavouritePlace" className="block mb-2 text-sm font-medium text-gray-900">Lugar favorito durante la juventud</label>
+                    <label htmlFor="youthFavouritePlace" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál era su lugar favorito?</label>
                     <input type="text" name="youthFavouritePlace" id="youthFavouritePlace" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthFavouritePlace}
-                            onChange={(e)=>{setPacienteJuventud({...pacienteJuventud,[e.target.name]: e.target.value})}}
+                            onChange={(e)=> setPacienteJuventud({
+                                ...pacienteJuventud,[e.target.name]: e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthRoutine" className="block mb-2 text-sm font-medium text-gray-900">Rutina</label>
+                    <label htmlFor="youthRoutine" className="block mb-2 text-sm font-medium text-gray-900">¿Qué rutina seguía?</label>
                     <input type="text" name="youthRoutine" id="youthRoutine" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthRoutine}
-                            onChange={(e)=>{setPacienteJuventud({...pacienteJuventud,[e.target.name]: e.target.value})}}
+                            onChange={(e)=> setPacienteJuventud({
+                                ...pacienteJuventud,
+                                [e.target.name]: e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthPositiveExperiences" className="block mb-2 text-sm font-medium text-gray-900">Experiencias positivas durante la juventud</label>
+                    <label htmlFor="youthPositiveExperiences" className="block mb-2 text-sm font-medium text-gray-900">¿Qué experiencias positivas tuvo?</label>
                     <input type="text" name="youthPositiveExperiences" id="youthPositiveExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthPositiveExperiences}
-                            onChange={(e)=>{setPacienteJuventud({...pacienteJuventud,[e.target.name]: e.target.value})}}
+                            onChange={(e)=> setPacienteJuventud({
+                                ...pacienteJuventud,
+                                [e.target.name]: e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthNegativeExperiences" className="block mb-2 text-sm font-medium text-gray-900">Experiencias negativas durante la juventud</label>
+                    <label htmlFor="youthNegativeExperiences" className="block mb-2 text-sm font-medium text-gray-900">¿Qué experiencias negativas tuvo?</label>
                     <input type="text" name="youthNegativeExperiences" id="youthNegativeExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthNegativeExperiences}
-                            onChange={(e)=>{setPacienteJuventud({...pacienteJuventud,[e.target.name]: e.target.value})}}
+                            onChange={(e)=> setPacienteJuventud({
+                                ...pacienteJuventud,
+                                [e.target.name]: e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthAddress" className="block mb-2 text-sm font-medium text-gray-900">Direccion</label>
+                    <label htmlFor="youthAddress" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde viviste?</label>
                     <input type="text" name="youthAddress" id="youthAddress" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthAddress}
-                            onChange={(e)=>{setPacienteJuventud({...pacienteJuventud,[e.target.name]: e.target.value})}}
+                            onChange={(e)=> setPacienteJuventud({
+                                ...pacienteJuventud,
+                                [e.target.name]: e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthLikes" className="block mb-2 text-sm font-medium text-gray-900">Gustos en la juventud</label>
+                    <label htmlFor="youthLikes" className="block mb-2 text-sm font-medium text-gray-900">¿Qué te gustaba?</label>
                     <input type="text" name="youthLikes" id="youthLikes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthLikes}
-                            onChange={(e)=>{setPacienteJuventud({...pacienteJuventud,[e.target.name]: e.target.value})}}
+                            onChange={(e)=> setPacienteJuventud({
+                                ...pacienteJuventud,
+                                [e.target.name]: e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthHobbies" className="block mb-2 text-sm font-medium text-gray-900">Hobbies en la juventud</label>
+                    <label htmlFor="youthHobbies" className="block mb-2 text-sm font-medium text-gray-900">¿Qué aficiones desarrollaste?</label>
                     <input type="text" name="youthHobbies" id="youthHobbies" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthHobbies}
-                            onChange={(e)=>{setPacienteJuventud({...pacienteJuventud,[e.target.name]: e.target.value})}}
+                            onChange={(e)=> setPacienteJuventud({
+                                ...pacienteJuventud,
+                                [e.target.name]: e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthAfraids" className="block mb-2 text-sm font-medium text-gray-900">Temores en la juventud</label>
+                    <label htmlFor="youthAfraids" className="block mb-2 text-sm font-medium text-gray-900">¿Algo te daba miedo?</label>
                     <input type="text" name="youthAfraids" id="youthAfraids" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthAfraids}
-                            onChange={(e)=>{setPacienteJuventud({...pacienteJuventud,[e.target.name]: e.target.value})}}
+                            onChange={(e)=> setPacienteJuventud({
+                                ...pacienteJuventud,
+                                [e.target.name]: e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthProjects" className="block mb-2 text-sm font-medium text-gray-900">Proyectos en la juventud</label>
+                    <label htmlFor="youthProjects" className="block mb-2 text-sm font-medium text-gray-900">¿Te propusiste iniciar algún proyecto?</label>
                     <input type="text" name="youthProjects" id="youthProjects" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthProjects}
-                            onChange={(e)=>{setPacienteJuventud({...pacienteJuventud,[e.target.name]: e.target.value})}}
+                            onChange={(e)=> setPacienteJuventud({
+                                ...pacienteJuventud,
+                                [e.target.name]: e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthUncompleteProjects" className="block mb-2 text-sm font-medium text-gray-900">Proyectos por completar en la juventud</label>
-                    <input type="text" name="youthUncompleteProjects" id="youthUncompleteProjects" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="youthUncompletedProjects" className="block mb-2 text-sm font-medium text-gray-900">¿Te quedó alguna tarea por completar?</label>
+                    <input type="text" name="youthUncompletedProjects" id="youthUncompletedProjects" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteJuventud?.youthUncompleteProjects}
-                            onChange={(e)=>{setPacienteJuventud({...pacienteJuventud,[e.target.name]: e.target.value})}}
+                            value={pacienteJuventud?.youthUncompletedProjects}
+                            onChange={(e)=> setPacienteJuventud({
+                                ...pacienteJuventud,
+                                [e.target.name]: e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthIllness" className="block mb-2 text-sm font-medium text-gray-900">Enfermedades en la juventud</label>
+                    <label htmlFor="youthIllness" className="block mb-2 text-sm font-medium text-gray-900">¿Sufrió alguna enfermedad?</label>
                     <input type="text" name="youthIllness" id="youthIllness" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthIllness}
-                            onChange={(e)=>{setPacienteJuventud({...pacienteJuventud,[e.target.name]: e.target.value})}}
+                            onChange={(e)=> setPacienteJuventud({
+                                ...pacienteJuventud,
+                                [e.target.name]: e.target.value
+                            })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthPersonalCrysis" className="block mb-2 text-sm font-medium text-gray-900">Crisis personal</label>
-                    <input type="text" name="youthPersonalCrysis" id="youthPersonalCrysis" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="youthPersonalCrisis" className="block mb-2 text-sm font-medium text-gray-900">¿Sufrió alguna crisis emocional?</label>
+                    <input type="text" name="youthPersonalCrisis" id="youthPersonalCrisis" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteJuventud?.youthPersonalCrysis}
-                            onChange={(e)=>{setPacienteJuventud({...pacienteJuventud,[e.target.name]: e.target.value})}}
+                            value={pacienteJuventud?.youthPersonalCrisis}
+                            onChange={(e)=>setPacienteJuventud({
+                                ...pacienteJuventud,
+                                [e.target.name]: e.target.value
+                            })}
                     />
                 </div>
             </div>

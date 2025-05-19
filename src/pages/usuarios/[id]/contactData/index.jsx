@@ -2,13 +2,16 @@ import PacienteLayout from "../layout";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import withAuth from '@/components/withAuth';
+import { useSession } from "next-auth/react";
 
 function ContactData () {
     const [mostrarPaciente, setMostrarPaciente] = useState([])
     const [modificar, setModificar] = useState(false)
-
+    const [message, setMessage] = useState('')
+    const [error, setError] = useState('')
     const router = useRouter()
     const {id} = router.query
+    const {data: session, status} = useSession()
 
     const [pacienteDatosContacto, setPacienteDatosContacto] = useState({
         contactName: '',
@@ -35,63 +38,119 @@ function ContactData () {
 
     }
 
+    const getPacienteDatosContacto = async () => {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteDatosContacto?id='+ id, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user?.token}`
+            }
+        })
+
+        if (response.ok){
+            const data = await response.json()
+            console.log('data.contactdata', data.contactdata)
+            setPacienteDatosContacto(data.contactdata)
+        }
+    }
+
     useEffect(()=>{
-        getPaciente()
-    },[])
+        if (status === 'authenticated'){    
+            getPaciente()
+            getPacienteDatosContacto()
+        }
+    },[status,session])
 
     const enviarDatos = async () => {
-        console.log('pacienteDatosContacto', pacienteDatosContacto)
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteDatosContacto', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user?.token}`
+            },
+            body: JSON.stringify({
+                id: id,
+                contactdata: pacienteDatosContacto
+            })
+        })
+
+        if (response.ok){
+            const data = await response.json()
+            alert('data', data)
+        }else {
+            const data = await response.json()
+            alert('data.error', data.error)
+            setError(data.error)
+        }
     }
 
     return(
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
-                    <label htmlFor="contactName" className="block mb-2 text-sm font-medium text-gray-900">Nombre</label>
+                    <label htmlFor="contactName" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo se llama la persona con la que debemos contactar si ocurre algo?</label>
                     <input type="text" name="contactName" id="contactName" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteDatosContacto.contactName}
-                         onChange={(e)=>{setPacienteDatosContacto({...pacienteDatosContacto,[e.target.name]:e.target.value})}}
+                         onChange={(e)=> setPacienteDatosContacto({
+                            ...pacienteDatosContacto,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="contactFirstSurname" className="block mb-2 text-sm font-medium text-gray-900">Primer Apellido</label>
+                    <label htmlFor="contactFirstSurname" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál es su primer apellido?</label>
                     <input type="text" name="contactFirstSurname" id="contactFirstSurname" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteDatosContacto.contactFirstSurname}
-                         onChange={(e)=>{setPacienteDatosContacto({...pacienteDatosContacto,[e.target.name]:e.target.value})}}
+                         onChange={(e)=> setPacienteDatosContacto({
+                            ...pacienteDatosContacto,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="contactSecondSurname" className="block mb-2 text-sm font-medium text-gray-900">Segundo Apellido</label>
+                    <label htmlFor="contactSecondSurname" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál es su segundo apellido?</label>
                     <input type="text" name="contactSecondSurname" id="contactSecondSurname" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabledisabled={!modificar}
                          value={pacienteDatosContacto.contactSecondSurname}
-                         onChange={(e)=>{setPacienteDatosContacto({...pacienteDatosContacto,[e.target.name]:e.target.value})}}d
+                         onChange={(e)=> setPacienteDatosContacto({
+                            ...pacienteDatosContacto,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="contactAddress" className="block mb-2 text-sm font-medium text-gray-900">Dirección</label>
+                    <label htmlFor="contactAddress" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde reside esa persona?</label>
                     <input type="text" name="contactAddress" id="contactAddress" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteDatosContacto.contactAddress}
-                         onChange={(e)=>{setPacienteDatosContacto({...pacienteDatosContacto,[e.target.name]:e.target.value})}}
+                         onChange={(e)=> setPacienteDatosContacto({
+                            ...pacienteDatosContacto,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="contactEmail" className="block mb-2 text-sm font-medium text-gray-900">Email</label>
+                    <label htmlFor="contactEmail" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál es su correo electrónico?</label>
                     <input type="email" name="contactEmail" id="contactEmail" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteDatosContacto.contactEmail}
-                         onChange={(e)=>{setPacienteDatosContacto({...pacienteDatosContacto,[e.target.name]:e.target.value})}}
+                         onChange={(e)=> setPacienteDatosContacto({
+                            ...pacienteDatosContacto,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="contactTelecom" className="block mb-2 text-sm font-medium text-gray-900">Teléfono</label>
+                    <label htmlFor="contactTelecom" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál es su número de teléfono?</label>
                     <input type="text" name="contactTelecom" id="contactTelecom" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteDatosContacto.contactTelecom}
-                         onChange={(e)=>{setPacienteDatosContacto({...pacienteDatosContacto,[e.target.name]:e.target.value})}}
+                         onChange={(e)=> setPacienteDatosContacto({
+                            ...pacienteDatosContacto,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
             </div>

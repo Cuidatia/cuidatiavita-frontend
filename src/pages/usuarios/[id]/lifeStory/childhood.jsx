@@ -14,7 +14,7 @@ function Childhood () {
     const {data: session, status} = useSession()
 
     const [pacienteInfancia, setPacienteInfancia] = useState({
-        childhoodStudy: "",
+        childhoodStudies: "",
         childhoodSchool: "",
         childhoodMotivations: "",
         childhoodFamilyCore: "",
@@ -34,7 +34,7 @@ function Childhood () {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
-                "Authorized": `Bearer ${session?.user?.token}`
+                "Authorization": `Bearer ${session?.user?.token}`
             }
         })
 
@@ -50,7 +50,7 @@ function Childhood () {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
-                "Authorized": `Bearer ${session?.user?.token}`
+                "Authorization": `Bearer ${session?.user?.token}`
             }
         })
 
@@ -95,10 +95,10 @@ function Childhood () {
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
-                    <label htmlFor="childhoodStudies" className="block mb-2 text-sm font-medium text-gray-900">Estudios</label>
-                    <input type="text" name="childhoodStudy" id="childhoodStudy" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="childhoodStudies" className="block mb-2 text-sm font-medium text-gray-900">¿Qué estudió?</label>
+                    <input type="text" name="childhoodStudies" id="childhoodStudies" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
-                         value={pacienteInfancia?.childhoodStudy}
+                         value={pacienteInfancia?.childhoodStudies}
                          onChange={(e) => setPacienteInfancia({
                             ...pacienteInfancia,
                             [e.target.name]: e.target.value
@@ -106,91 +106,124 @@ function Childhood () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="childhoodSchool" className="block mb-2 text-sm font-medium text-gray-900">Escuela a la que asistió</label>
+                    <label htmlFor="childhoodSchool" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde estudió?</label>
                     <input type="text" name="childhoodSchool" id="childhoodSchool" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia?.childhoodSchool}
-                         onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
+                         onChange={(e) => setPacienteInfancia({
+                            ...pacienteInfancia,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="childhoodMotivations" className="block mb-2 text-sm font-medium text-gray-900">Motivaciones en la infancia</label>
+                    <label htmlFor="childhoodMotivations" className="block mb-2 text-sm font-medium text-gray-900">¿Qué motivaciones tenía?</label>
                     <input type="text" name="childhoodMotivations" id="childhoodMotivations" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia?.childhoodMotivations}
-                         onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
+                         onChange={(e) => setPacienteInfancia({
+                            ...pacienteInfancia,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="childhoodFamilyCore" className="block mb-2 text-sm font-medium text-gray-900">Familia</label>
+                    <label htmlFor="childhoodFamilyCore" className="block mb-2 text-sm font-medium text-gray-900">¿Quiénes formaban su núcleo familiar?</label>
                     <input type="text" name="childhoodFamilyCore" id="childhoodFamilyCore" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia?.childhoodFamilyCore}
-                         onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
+                         onChange={(e) => setPacienteInfancia({
+                            ...pacienteInfancia,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="childhoodFriendsGroup" className="block mb-2 text-sm font-medium text-gray-900">Amistades</label>
+                    <label htmlFor="childhoodFriendsGroup" className="block mb-2 text-sm font-medium text-gray-900">¿Quiénes formaban su grupo de amigos?</label>
                     <input type="text" name="childhoodFriendsGroup" id="childhoodFriendsGroup" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia?.childhoodFriendsGroup}
-                         onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
+                         onChange={(e) => setPacienteInfancia({
+                            ...pacienteInfancia,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="childhoodTravels" className="block mb-2 text-sm font-medium text-gray-900">Viajes</label>
+                    <label htmlFor="childhoodTravels" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde ha viajado?</label>
                     <input type="text" name="childhoodTravels" id="childhoodTravels" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia?.childhoodTravels}
-                         onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
+                         onChange={(e) => setPacienteInfancia({
+                            ...pacienteInfancia,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="childhoodFavouritePlace" className="block mb-2 text-sm font-medium text-gray-900">Lugar favorito durante la infancia</label>
+                    <label htmlFor="childhoodFavouritePlace" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál era su lugar favorito?</label>
                     <input type="text" name="childhoodFavouritePlace" id="childhoodFavouritePlace" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                         value={pacienteInfancia?.childhoodFavouritePlace}
-                        onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
+                        onChange={(e) => setPacienteInfancia({
+                            ...pacienteInfancia,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="childhoodPositiveExperiences" className="block mb-2 text-sm font-medium text-gray-900">Experiencias positivas durante la infancia</label>
+                    <label htmlFor="childhoodPositiveExperiences" className="block mb-2 text-sm font-medium text-gray-900">¿Qué experiencias positivas tuvo?</label>
                     <input type="text" name="childhoodPositiveExperiences" id="childhoodPositiveExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                         value={pacienteInfancia?.childhoodPositiveExperiences}
-                        onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
+                        onChange={(e) => setPacienteInfancia({
+                            ...pacienteInfancia,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="childhoodNegativeExperiences" className="block mb-2 text-sm font-medium text-gray-900">Experiencias negativas durante la infancia</label>
+                    <label htmlFor="childhoodNegativeExperiences" className="block mb-2 text-sm font-medium text-gray-900">¿Qué experiencias negativas tuvo?</label>
                     <input type="text" name="childhoodNegativeExperiences" id="childhoodNegativeExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                         value={pacienteInfancia?.childhoodNegativeExperiences}
-                        onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
+                        onChange={(e) => setPacienteInfancia({
+                            ...pacienteInfancia,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="childhoodAddress" className="block mb-2 text-sm font-medium text-gray-900">Direccion</label>
+                    <label htmlFor="childhoodAddress" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde viviste?</label>
                     <input type="text" name="childhoodAddress" id="childhoodAddress" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                         value={pacienteInfancia?.childhoodAddress}
-                        onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
+                        onChange={(e) => setPacienteInfancia({
+                            ...pacienteInfancia,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="childhoodLikes" className="block mb-2 text-sm font-medium text-gray-900">Gustos de la infancia</label>
+                    <label htmlFor="childhoodLikes" className="block mb-2 text-sm font-medium text-gray-900">¿Qué te gustaba?</label>
                     <input type="text" name="childhoodLikes" id="childhoodLikes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                         value={pacienteInfancia?.childhoodLikes}
-                        onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
+                        onChange={(e) => setPacienteInfancia({
+                            ...pacienteInfancia,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="childhoodAfraids" className="block mb-2 text-sm font-medium text-gray-900">Temores de la infancia</label>
+                    <label htmlFor="childhoodAfraids" className="block mb-2 text-sm font-medium text-gray-900">¿Algo te daba miedo?</label>
                     <input type="text" name="childhoodAfraids" id="childhoodAfraids" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                         value={pacienteInfancia?.childhoodAfraids}
-                        onChange={(e) => setPacienteInfancia({...pacienteInfancia, [e.target.name]:e.target.value})}
+                        onChange={(e) => setPacienteInfancia({
+                            ...pacienteInfancia,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
             </div>

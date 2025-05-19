@@ -2,8 +2,10 @@ import PacienteLayout from "../layout";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import withAuth from '@/components/withAuth';
+import { useSession } from "next-auth/react";
 
 function DatosPersonales () {
+    const {data: session, status} = useSession()
     const [mostrarPaciente, setMostrarPaciente] = useState([])
     const [modificar, setModificar] = useState(false)
     const [roles, setRoles] = useState()
