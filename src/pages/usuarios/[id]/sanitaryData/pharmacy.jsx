@@ -12,7 +12,7 @@ function Pharmacy () {
     const [pacienteFarmacia, setPacienteFarmacia] = useState({
         treatment: '',
         regularPharmacy: '',
-        visitFrecuency: '',
+        visitFrequency: '',
         paymentMethod: ''
     })
 
@@ -35,12 +35,48 @@ function Pharmacy () {
 
     }
 
+    const getPacienteFarmacia = async () => {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteFarmacia?id='+ id, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${session.user.token}`
+            }
+        })
+
+        if (response.ok){
+            const data = await response.json()
+            setPacienteFarmacia(data.pharmacy)
+        }
+    }
+
     useEffect(()=>{
-        getPaciente()
-    },[])
+        if(status === 'authenticated'){
+            getPaciente()
+            getPacienteFarmacia()
+        }
+    },[status,session])
 
     const enviarDatos = async () => {
-        console.log('pacienteFarmacia', pacienteFarmacia)
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteFarmacia', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${session.user.token}`
+            },
+            body: JSON.stringify({
+                id: id,
+                pharmacy: pacienteFarmacia
+            })
+        })
+
+        if (response.ok){
+            const data = await response.json()
+            alert(data.message)
+        }else{
+            const data = await response.json()
+            alert(data.error)
+        }
     }
 
     return(
@@ -64,10 +100,10 @@ function Pharmacy () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="visitFrecuency" className="block mb-2 text-sm font-medium text-gray-900">Frecuencia de visita</label>
-                    <input type="text" name="visitFrecuency" id="visitFrecuency" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="visitFrequency" className="block mb-2 text-sm font-medium text-gray-900">Frecuencia de visita</label>
+                    <input type="text" name="visitFrequency" id="visitFrequency" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
-                         value={pacienteFarmacia?.visitFrecuency}
+                         value={pacienteFarmacia?.visitFrequency}
                          onChange={(e)=>setPacienteFarmacia({...pacienteFarmacia, [e.target.name]:e.target.value})}
                     />
                 </div>

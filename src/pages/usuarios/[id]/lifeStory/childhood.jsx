@@ -56,7 +56,6 @@ function Childhood () {
 
         if (response.ok){
             const data = await response.json()
-            console.log('data.infancia', data.infancia)
             setPacienteInfancia(data.infancia)
         }
     }

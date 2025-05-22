@@ -5,7 +5,7 @@ import withAuth from '@/components/withAuth';
 import { useSession } from "next-auth/react";
 
 function DatosPersonales () {
-    const {data: session, status} = useSession()
+    const {data:session, status} = useSession()
     const [mostrarPaciente, setMostrarPaciente] = useState([])
     const [modificar, setModificar] = useState(false)
     const [roles, setRoles] = useState()
@@ -29,8 +29,10 @@ function DatosPersonales () {
     }
 
     useEffect(()=>{
-        getPaciente()
-    },[])
+        if(status === 'authenticated'){
+            getPaciente()
+        }
+    },[session, status])
 
     return(
         mostrarPaciente &&

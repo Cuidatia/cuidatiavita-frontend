@@ -20,7 +20,21 @@ function KitchenHygiene () {
         carePlan: ''
     })
 
+    const getPacienteCocinaHigiene = async () =>{
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteCocinaHigiene?id='+ id, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${session.user.token}`
+            }
+        })
 
+        if (response.ok){
+            const data = await response.json()
+            setPacienteCocinaHigiene(data.kitchenHygiene)
+        }
+
+    }
 
     const getPaciente = async () => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPaciente?id='+ id, {
@@ -39,11 +53,29 @@ function KitchenHygiene () {
     }
 
     useEffect(()=>{
-        getPaciente()
+        if (status === 'authenticated'){
+            getPaciente()
+            getPacienteCocinaHigiene()
+        }
     },[])
 
     const enviarDatos = async () => {
-        console.log('pacienteCocinaHigiene', pacienteCocinaHigiene)
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteCocinaHigiene', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${session.user.token}`
+            },
+            body: JSON.stringify({
+                id: id,
+                kitchenHygiene: pacienteCocinaHigiene
+            })
+        })
+
+        if (response.ok){
+            const data = await response.json()
+            alert(data.message)
+        }
     }
 
     return(

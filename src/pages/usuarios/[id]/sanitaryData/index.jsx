@@ -37,15 +37,47 @@ function sanitaryData () {
 
     }
 
+    const getMainSanitaryData = async () => {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteMainSanitaryData?id='+ id, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${session.user.token}`
+            }
+        })
+
+        if (response.ok){
+            const data = await response.json()
+            console.log('data.sanitaryData', data.sanitaryData)
+            setMainSanitaryData(data.sanitaryData)
+        }
+    }
+
 
     useEffect(()=>{
         if (status === 'authenticated' && session?.user?.idOrganizacion) {  
             getPaciente()
+            getMainSanitaryData()
         }
     },[session, status])
 
     const enviarDatos = async () =>{
-        console.log('mainSanitaryData', mainSanitaryData)
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteMainSanitaryData', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${session.user.token}`
+            },
+            body: JSON.stringify({
+                id: id,
+                mainSanitaryData: mainSanitaryData
+            })
+        })
+
+        if (response.ok){
+            const data = await response.json()
+            alert(data.message)
+        }
     }
 
     return(
