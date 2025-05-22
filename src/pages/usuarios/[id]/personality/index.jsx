@@ -104,7 +104,7 @@ function Personality () {
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)] flex flex-col">
                 <div>
-                    <label htmlFor="nature" className="block mb-2 text-sm font-medium text-gray-900">Carácter</label>
+                    <label htmlFor="nature" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo describiría su carácter?</label>
                     <input type="text" name="nature" id="nature" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={nature}
@@ -112,7 +112,7 @@ function Personality () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="habits" className="block mb-2 text-sm font-medium text-gray-900">Habitos</label>
+                    <label htmlFor="habits" className="block mb-2 text-sm font-medium text-gray-900">¿Qué hábitos o costumbres tiene o repite con frecuencia?</label>
                     <input type="text" name="habits" id="habits" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={habits}
@@ -120,7 +120,7 @@ function Personality () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="likes" className="block mb-2 text-sm font-medium text-gray-900">Gustos</label>
+                    <label htmlFor="likes" className="block mb-2 text-sm font-medium text-gray-900">¿Cuáles son sus gustos actuales?</label>
                     <input type="text" name="likes" id="likes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={likes}
@@ -128,7 +128,7 @@ function Personality () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="dislikes" className="block mb-2 text-sm font-medium text-gray-900">Desagrados</label>
+                    <label htmlFor="dislikes" className="block mb-2 text-sm font-medium text-gray-900">¿Qué le provoca rechazo o no le gusta actualmente?</label>
                     <input type="text" name="dislikes" id="dislikes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={dislikes}
@@ -152,7 +152,7 @@ function Personality () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="hobbies" className="block mb-2 text-sm font-medium text-gray-900">Hobbies</label>
+                    <label htmlFor="hobbies" className="block mb-2 text-sm font-medium text-gray-900">¿Cuáles son sus hobbies o intereses personales?</label>
                     <input type="text" name="hobbies" id="hobbies" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={hobbies}
@@ -160,7 +160,7 @@ function Personality () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="technologyLevel" className="block mb-2 text-sm font-medium text-gray-900">Relación con la tecnología</label>
+                    <label htmlFor="technologyLevel" className="block mb-2 text-sm font-medium text-gray-900">¿Qué relación tiene con la tecnología?</label>
                     <input type="text" name="technologyLevel" id="technologyLevel" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={technologyLevel}
@@ -168,7 +168,7 @@ function Personality () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="goals" className="block mb-2 text-sm font-medium text-gray-900">Objetivos actuales</label>
+                    <label htmlFor="goals" className="block mb-2 text-sm font-medium text-gray-900">¿Cuáles son sus objetivos personales o metas actuales?</label>
                     <input type="text" name="goals" id="goals" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={goals}

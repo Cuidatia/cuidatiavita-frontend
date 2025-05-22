@@ -5,16 +5,15 @@ import withAuth from '@/components/withAuth';
 import { useSession } from "next-auth/react";
 
 function NursingMedicine () {
-    const {data: session, status} = useSession()
     const [mostrarPaciente, setMostrarPaciente] = useState([])
+    const [modificar, setModificar] = useState(false)
+    const [message, setMessage] = useState('')
+    const [error, setError] = useState('')
     const router = useRouter()
     const {id} = router.query
-
-    const [modificar, setModificar] = useState(false)
+    const {data: session, status} = useSession()
 
     const [pacienteMdicinaEnfermeria, setPacienteMdicinaEnfermeria] = useState({
-        weight: '',
-        height: '',
         nutritionalSituation: '',
         sleepQuality: '',
         fallRisks: '',
@@ -38,12 +37,49 @@ function NursingMedicine () {
 
     }
 
+    const getPacienteMedicinaEnfermeria = async () => {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteMedicinaMedicina?id='+ id, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user?.token}`
+            }
+        })
+
+        if (response.ok){
+            const data = await response.json()
+            setPacienteMedicinaEnfermeria(data.enfermeria)
+        }
+    }
+
     useEffect(()=>{
-        getPaciente()
-    },[])
+        if (status === 'authenticated'){    
+            getPaciente()
+            getPacienteMedicinaEnfermeria()
+        }
+    },[status,session])
 
     const enviarDatos = async () => {
-        console.log(pacienteMdicinaEnfermeria)
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteMedicinaEnfermeria', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user?.token}`
+            },
+            body: JSON.stringify({
+                id: id,
+                nursing: pacienteMedicinaEnfermeria
+            })
+        })
+
+        if (response.ok){
+            const data = await response.json()
+            alert('data', data)
+        }else {
+            const data = await response.json()
+            alert('data.error', data.error)
+            setError(data.error)
+        }
     }
 
     return(
@@ -51,59 +87,43 @@ function NursingMedicine () {
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
-                    <label htmlFor="weight" className="block mb-2 text-sm font-medium text-gray-900">Peso</label>
-                    <input type="text" name="weight" id="weight" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                         disabled={!modificar}
-                         value={pacienteMdicinaEnfermeria?.weight}
-                         onChange={(e)=>setPacienteMdicinaEnfermeria({...pacienteMdicinaEnfermeria, [e.target.name]:e.target.value})}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="height" className="block mb-2 text-sm font-medium text-gray-900">Altura</label>
-                    <input type="text" name="height" id="height" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                         disabled={!modificar}
-                         value={pacienteMdicinaEnfermeria?.height}
-                         onChange={(e)=>setPacienteMdicinaEnfermeria({...pacienteMdicinaEnfermeria, [e.target.name]:e.target.value})}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="nutritionalSituation" className="block mb-2 text-sm font-medium text-gray-900">Situación nutricional</label>
+                    <label htmlFor="nutritionalSituation" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo describiría su situación nutricional?</label>
                     <input type="text" name="nutritionalSituation" id="nutritionalSituation" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          didisabled={!modificar}
-                         value={pacienteMdicinaEnfermeria?.nutritionalSituation}
-                         onChange={(e)=>setPacienteMdicinaEnfermeria({...pacienteMdicinaEnfermeria, [e.target.name]:e.target.value})}sabled
+                         value={pacienteMedicinaEnfermeria?.nutritionalSituation}
+                         onChange={(e)=>setPacienteMedicinaEnfermeria({...pacienteMedicinaEnfermeria, [e.target.name]:e.target.value})}sabled
                     />
                 </div>
                 <div>
-                    <label htmlFor="sleepQuality" className="block mb-2 text-sm font-medium text-gray-900">Calidad de sueño</label>
+                    <label htmlFor="sleepQuality" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo califica su calidad de sueño actual?</label>
                     <input type="text" name="sleepQuality" id="sleepQuality" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
-                         value={pacienteMdicinaEnfermeria?.sleepQuality}
-                         onChange={(e)=>setPacienteMdicinaEnfermeria({...pacienteMdicinaEnfermeria, [e.target.name]:e.target.value})}
+                         value={pacienteMedicinaEnfermeria?.sleepQuality}
+                         onChange={(e)=>setPacienteMedicinaEnfermeria({...pacienteMedicinaEnfermeria, [e.target.name]:e.target.value})}
                     />
                 </div>
                 <div>
-                    <label htmlFor="fallRisks" className="block mb-2 text-sm font-medium text-gray-900">Riesgo de caída</label>
+                    <label htmlFor="fallRisks" className="block mb-2 text-sm font-medium text-gray-900">¿Existe algún riesgo de caída?</label>
                     <input type="text" name="fallRisks" id="fallRisks" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
-                         value={pacienteMdicinaEnfermeria?.fallRisks}
-                         onChange={(e)=>setPacienteMdicinaEnfermeria({...pacienteMdicinaEnfermeria, [e.target.name]:e.target.value})}
+                         value={pacienteMedicinaEnfermeria?.fallRisks}
+                         onChange={(e)=>setPacienteMedicinaEnfermeria({...pacienteMedicinaEnfermeria, [e.target.name]:e.target.value})}
                     />
                 </div>
                 <div>
-                    <label htmlFor="mobilityNeeds" className="block mb-2 text-sm font-medium text-gray-900">Necesidad de movilidad</label>
+                    <label htmlFor="mobilityNeeds" className="block mb-2 text-sm font-medium text-gray-900">¿Tiene necesidades especiales de movilidad?</label>
                     <input type="text" name="mobilityNeeds" id="mobilityNeeds" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
-                         value={pacienteMdicinaEnfermeria?.mobilityNeeds}
-                         onChange={(e)=>setPacienteMdicinaEnfermeria({...pacienteMdicinaEnfermeria, [e.target.name]:e.target.value})}
+                         value={pacienteMedicinaEnfermeria?.mobilityNeeds}
+                         onChange={(e)=>setPacienteMedicinaEnfermeria({...pacienteMedicinaEnfermeria, [e.target.name]:e.target.value})}
                     />
                 </div>
                 <div>
-                    <label htmlFor="healthPreferences" className="block mb-2 text-sm font-medium text-gray-900">Preferencias sanitarias</label>
+                    <label htmlFor="healthPreferences" className="block mb-2 text-sm font-medium text-gray-900">¿Tiene preferencias sanitarias?</label>
                     <input type="text" name="healthPreferences" id="healthPreferences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
-                         value={pacienteMdicinaEnfermeria?.healthPreferences}
-                         onChange={(e)=>setPacienteMdicinaEnfermeria({...pacienteMdicinaEnfermeria, [e.target.name]:e.target.value})}
+                         value={pacienteMedicinaEnfermeria?.healthPreferences}
+                         onChange={(e)=>setPacienteMedicinaEnfermeria({...pacienteMedicinaEnfermeria, [e.target.name]:e.target.value})}
                     />
                 </div>
             </div>

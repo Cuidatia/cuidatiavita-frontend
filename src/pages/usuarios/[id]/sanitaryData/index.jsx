@@ -108,7 +108,7 @@ function sanitaryData () {
                 </div>
                 <div className="py-4 space-y-4 mt-6">
                     <div>
-                        <label htmlFor="mainIllness" className="block mb-2 text-sm font-medium text-gray-900">Diagnóstico principal</label>
+                        <label htmlFor="mainIllness" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál es su diagnóstico principal?</label>
                         <textarea name="mainIllness" id="mainIllness" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5" 
                             disabled={!modificar}
                             value={mainSanitaryData?.mainIllness}
@@ -116,7 +116,7 @@ function sanitaryData () {
                         />
                     </div>
                     <div>
-                        <label htmlFor="allergies" className="block mb-2 text-sm font-medium text-gray-900">Alergias</label>
+                        <label htmlFor="allergies" className="block mb-2 text-sm font-medium text-gray-900">¿Tiene alguna alergia?</label>
                         <textarea name="allergies" id="allergies" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5" 
                             disabled={!modificar}
                             value={mainSanitaryData?.allergies}
@@ -124,7 +124,7 @@ function sanitaryData () {
                         />
                     </div>
                     <div>
-                        <label htmlFor="otherIllness" className="block mb-2 text-sm font-medium text-gray-900">Otros trastornos</label>
+                        <label htmlFor="otherIllness" className="block mb-2 text-sm font-medium text-gray-900">¿Padece otras enfermedades o transtornos?</label>
                         <textarea name="otherIllness" id="otherIllness" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5" 
                             disabled={!modificar}
                             value={mainSanitaryData?.otherIllness}

@@ -39,56 +39,56 @@ function DatosPersonales () {
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)] flex flex-col">
                 <div>
-                    <label htmlFor="nombre" className="block mb-2 text-sm font-medium text-gray-900">Nombre</label>
+                    <label htmlFor="nombre" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál es su nombre?</label>
                     <input type="text" name="nombre" id="nombre" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                         value={mostrarPaciente?.name} disabled={!modificar}
                     />
                 </div>
                 <div>
-                    <label htmlFor="nombre" className="block mb-2 text-sm font-medium text-gray-900">Primer Apellido</label>
+                    <label htmlFor="nombre" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál es su primer apellido?</label>
                     <input type="text" name="nombre" id="nombre" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                         value={mostrarPaciente?.firstSurname} disabled={!modificar}
                     />
                 </div>
                 <div>
-                    <label htmlFor="segundoApellido" className="block mb-2 text-sm font-medium text-gray-900">Segundo Apellido</label>
+                    <label htmlFor="segundoApellido" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál es su segundo apellido?</label>
                     <input type="text" name="segundoApellido" id="segundoApellido" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                         value={mostrarPaciente?.secondSurname} disabled={!modificar}
                     />
                 </div>
                 <div>
-                    <label htmlFor="alias" className="block mb-2 text-sm font-medium text-gray-900">Alias</label>
+                    <label htmlFor="alias" className="block mb-2 text-sm font-medium text-gray-900">¿Se le conoce por algún alias o apodo?</label>
                     <input type="text" name="alias" id="alias" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                         value={mostrarPaciente?.alias} disabled={!modificar}
                     />
                 </div>
                 <div>
-                    <label htmlFor="fechaNacimiento" className="block mb-2 text-sm font-medium text-gray-900">Fecha de nacimiento</label>
+                    <label htmlFor="fechaNacimiento" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál es su fecha de nacimiento?</label>
                     <input type="date" name="fechaNacimiento" id="fechaNacimiento" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                         value={mostrarPaciente?.birthDate} disabled={!modificar}
                     />
                 </div>
                 <div>
-                    <label htmlFor="age" className="block mb-2 text-sm font-medium text-gray-900">Edad</label>
+                    <label htmlFor="age" className="block mb-2 text-sm font-medium text-gray-900">¿Cuántos años tiene?</label>
                     <input type="number" name="age" id="age" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                         value={mostrarPaciente?.age} disabled={!modificar}
                     />
                 </div>
                 <div>
-                    <label htmlFor="birthPlace" className="block mb-2 text-sm font-medium text-gray-900">Lugar de nacimiento</label>
+                    <label htmlFor="birthPlace" className="block mb-2 text-sm font-medium text-gray-900">¿En qué lugar nació?</label>
                     <input type="text" name="birthPlace" id="birthPlace" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                         value={mostrarPaciente?.birthPlace} disabled={!modificar}
                     />
                 </div>
                 <div>
-                    <label htmlFor="nacionality" className="block mb-2 text-sm font-medium text-gray-900">Nacionalidad</label>
+                    <label htmlFor="nacionality" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál es su nacionalidad?</label>
                     <input type="text" name="nacionality" id="nacionality" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                         value={mostrarPaciente?.nationality} disabled={!modificar}
                     />
                 </div>
                 <div>
                     <fieldset>
-                        <legend className="block mb-4 text-sm font-medium text-gray-900">Género</legend>
+                        <legend className="block mb-4 text-sm font-medium text-gray-900">¿Cuál es su género?</legend>
                         <div className="flex items-center mb-4">
                             <input type="radio" name="genero" id="Masculino" className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
                                 value='M' checked={mostrarPaciente?.gender === 'M'} 
@@ -104,14 +104,14 @@ function DatosPersonales () {
                     </fieldset>
                 </div>
                 <div>
-                    <label htmlFor="direccion" className="block mb-2 text-sm font-medium text-gray-900">Dirección</label>
+                    <label htmlFor="direccion" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál es su dirección actual?</label>
                     <input type="text" name="direccion" id="direccion" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                         value={mostrarPaciente?.address} disabled={!modificar}
                     />
                 </div>
                 <div>
                     <fieldset>
-                            <legend className="block mb-4 text-sm font-medium text-gray-900">Estado civil</legend>
+                            <legend className="block mb-4 text-sm font-medium text-gray-900">¿Cuál es su estado civil?</legend>
                             <div className="flex items-center mb-4">
                                 <input type="radio" name="estadoCivil" id="soltero" className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
                                     checked={mostrarPaciente?.maritalStatus === 'ST'} value='ST' 
@@ -145,25 +145,25 @@ function DatosPersonales () {
                     </fieldset>
                 </div>
                 <div>
-                    <label htmlFor="language" className="block mb-2 text-sm font-medium text-gray-900">Idioma</label>
+                    <label htmlFor="language" className="block mb-2 text-sm font-medium text-gray-900">¿Qué idioma usa en su día a día?</label>
                     <input type="text" name="language" id="language" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                         value={mostrarPaciente?.language} disabled={!modificar}
                     />
                 </div>
                 <div>
-                    <label htmlFor="otherLanguages" className="block mb-2 text-sm font-medium text-gray-900">Otros idiomas</label>
+                    <label htmlFor="otherLanguages" className="block mb-2 text-sm font-medium text-gray-900">¿Qué otros idiomas conoce?</label>
                     <textarea name="otherLanguages" id="otherLanguages" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                         value={mostrarPaciente?.otherLanguages} disabled={!modificar}
                     />
                 </div>
                 <div>
-                    <label htmlFor="culturalHeritage" className="block mb-2 text-sm font-medium text-gray-900">Origen cultural</label>
+                    <label htmlFor="culturalHeritage" className="block mb-2 text-sm font-medium text-gray-900">¿Con qué origen cultural se identifica?</label>
                     <input type="text" name="culturalHeritage" id="culturalHeritage" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                         value={mostrarPaciente?.culturalHeritage} disabled={!modificar}
                     />
                 </div>
                 <div>
-                    <label htmlFor="faith" className="block mb-2 text-sm font-medium text-gray-900">Creencias</label>
+                    <label htmlFor="faith" className="block mb-2 text-sm font-medium text-gray-900">¿Tiene alguna creencia espiritual o practica alguna creencia religiosa?</label>
                     <input type="text" name="faith" id="faith" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                         value={mostrarPaciente?.faith}
                         disabled={!modificar}

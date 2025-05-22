@@ -5,19 +5,19 @@ import withAuth from '@/components/withAuth';
 import { useSession } from "next-auth/react";
 
 function SocialWork () {
-    const {data: session, status} = useSession()
     const [mostrarPaciente, setMostrarPaciente] = useState([])
+    const [modificar, setModificar] = useState(false)
+    const [message, setMessage] = useState('')
+    const [error, setError] = useState('')
     const router = useRouter()
     const {id} = router.query
+    const {data: session, status} = useSession()
 
-    const [modificar, setModificar] = useState(false)
+
 
     const [pacienteTrabajoSocial, setPacienteTrabajoSocial] = useState({
         residentAndRelationship: '',
         petNameAndBreedPet: '',
-        collaborationLevel: '',
-        autonomyLevel: '',
-        groupParticipation: '',
         resources: '',
         legalSupport: ''
     })
@@ -39,12 +39,49 @@ function SocialWork () {
 
     }
 
+    const getPacienteTrabajoSocial = async () => {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteTrabajoSocial?id='+ id, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user?.token}`
+            }
+        })
+
+        if (response.ok){
+            const data = await response.json()
+            setPacienteTrabajoSocial(data.trabajosocial)
+        }
+    }
+
     useEffect(()=>{
-        getPaciente()
-    },[])
+        if (status === 'authenticated'){    
+            getPaciente()
+            getPacienteTrabajoSocial()
+        }
+    },[status,session])
 
     const enviarDatos = async () => {
-        console.log('pacienteTrabajoSocial', pacienteTrabajoSocial)
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteTrabajoSocial', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user?.token}`
+            },
+            body: JSON.stringify({
+                id: id,
+                socialwork: pacienteTrabajoSocial
+            })
+        })
+
+        if (response.ok){
+            const data = await response.json()
+            alert('data', data)
+        }else {
+            const data = await response.json()
+            alert('data.error', data.error)
+            setError(data.error)
+        }
     }
 
 
@@ -53,59 +90,47 @@ function SocialWork () {
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
-                    <label htmlFor="residentAndRelationship" className="block mb-2 text-sm font-medium text-gray-900">Residente/Relación</label>
+                    <label htmlFor="residentAndRelationship" className="block mb-2 text-sm font-medium text-gray-900">¿Vive con otras personas?¿Cuál es su relación con ellas?</label>
                     <input type="text" name="residentAndRelationship" id="residentAndRelationship" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteTrabajoSocial?.residentAndRelationship}
-                         onChange={(e)=>setPacienteTrabajoSocial({...pacienteTrabajoSocial, [e.target.name]:e.target.value})}
+                         onChange={(e)=>setPacienteTrabajoSocial({
+                            ...pacienteTrabajoSocial,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="petNameAndBreedPet" className="block mb-2 text-sm font-medium text-gray-900">Tipo y Nombre de mascota</label>
+                    <label htmlFor="petNameAndBreedPet" className="block mb-2 text-sm font-medium text-gray-900">¿Tiene mascota?¿Qué animal es y cómo se llama?</label>
                     <input type="text" name="petNameAndBreedPet" id="petNameAndBreedPet" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteTrabajoSocial?.petNameAndBreedPet}
-                         onChange={(e)=>setPacienteTrabajoSocial({...pacienteTrabajoSocial, [e.target.name]:e.target.value})}
+                         onChange={(e)=>setPacienteTrabajoSocial({
+                            ...pacienteTrabajoSocial,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="collaborationLevel" className="block mb-2 text-sm font-medium text-gray-900">Nivel de colaboración en casa</label>
-                    <input type="text" name="collaborationLevel" id="collaborationLevel" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                         disabled={!modificar}
-                         value={pacienteTrabajoSocial?.collaborationLevel}
-                         onChange={(e)=>setPacienteTrabajoSocial({...pacienteTrabajoSocial, [e.target.name]:e.target.value})}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="autonomyLevel" className="block mb-2 text-sm font-medium text-gray-900">Grado de autonomía</label>
-                    <input type="text" name="autonomyLevel" id="autonomyLevel" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                         disabled={!modificar}
-                         value={pacienteTrabajoSocial?.autonomyLevel}
-                         onChange={(e)=>setPacienteTrabajoSocial({...pacienteTrabajoSocial, [e.target.name]:e.target.value})}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="groupParticipation" className="block mb-2 text-sm font-medium text-gray-900">Participación en grupo</label>
-                    <input type="text" name="groupParticipation" id="groupParticipation" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                         disabled={!modificar}
-                         value={pacienteTrabajoSocial?.groupParticipation}
-                         onChange={(e)=>setPacienteTrabajoSocial({...pacienteTrabajoSocial, [e.target.name]:e.target.value})}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="resources" className="block mb-2 text-sm font-medium text-gray-900">Resursos y prestaciones</label>
+                    <label htmlFor="resources" className="block mb-2 text-sm font-medium text-gray-900">¿Con qué recursos o prestaciones cuenta?</label>
                     <input type="text" name="resources" id="resources" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteTrabajoSocial?.resources}
-                         onChange={(e)=>setPacienteTrabajoSocial({...pacienteTrabajoSocial, [e.target.name]:e.target.value})}
+                         onChange={(e)=>setPacienteTrabajoSocial({
+                            ...pacienteTrabajoSocial,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
                 <div>
-                    <label htmlFor="legalSupport" className="block mb-2 text-sm font-medium text-gray-900">Apoyos legales</label>
+                    <label htmlFor="legalSupport" className="block mb-2 text-sm font-medium text-gray-900">¿Con qué apoyos legales cuenta?</label>
                     <input type="text" name="legalSupport" id="legalSupport" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteTrabajoSocial?.legalSupport}
-                         onChange={(e)=>setPacienteTrabajoSocial({...pacienteTrabajoSocial, [e.target.name]:e.target.value})}
+                         onChange={(e)=>setPacienteTrabajoSocial({
+                            ...pacienteTrabajoSocial,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
             </div>

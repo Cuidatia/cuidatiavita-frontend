@@ -20,6 +20,8 @@ function ContactData () {
         contactAddress: '',
         contactEmail: '',
         contactTelecom: '',
+        curatela: '',
+        deFactoGuardian: '',
     })
 
     const getPaciente = async () => {
@@ -147,6 +149,28 @@ function ContactData () {
                     <input type="text" name="contactTelecom" id="contactTelecom" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteDatosContacto.contactTelecom}
+                         onChange={(e)=> setPacienteDatosContacto({
+                            ...pacienteDatosContacto,
+                            [e.target.name]:e.target.value
+                        })}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="curatela" className="block mb-2 text-sm font-medium text-gray-900">¿Cuenta con curatela actualmente?</label>
+                    <input type="text" name="curatela" id="curatela" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                         value={pacienteDatosContacto.curatela}
+                         onChange={(e)=> setPacienteDatosContacto({
+                            ...pacienteDatosContacto,
+                            [e.target.name]:e.target.value
+                        })}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="deFactoGuardian" className="block mb-2 text-sm font-medium text-gray-900">¿Tiene alguna persona que le apoye habitualmente para tomar decisiones o cuidarla?</label>
+                    <input type="text" name="deFactoGuardian" id="deFactoGuardian" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                         value={pacienteDatosContacto.deFactoGuardian}
                          onChange={(e)=> setPacienteDatosContacto({
                             ...pacienteDatosContacto,
                             [e.target.name]:e.target.value

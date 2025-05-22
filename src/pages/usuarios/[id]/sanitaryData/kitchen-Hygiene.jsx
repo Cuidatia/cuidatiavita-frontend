@@ -83,7 +83,7 @@ function KitchenHygiene () {
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
-                    <label htmlFor="favouriteFood" className="block mb-2 text-sm font-medium text-gray-900">Comida favorita</label>
+                    <label htmlFor="favouriteFood" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál es su comida favorita?</label>
                     <input type="text" name="favouriteFood" id="favouriteFood" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteCocinaHigiene?.favouriteFood}
@@ -91,7 +91,7 @@ function KitchenHygiene () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="dietaryRestrictions" className="block mb-2 text-sm font-medium text-gray-900">Restricciones alimentarias</label>
+                    <label htmlFor="dietaryRestrictions" className="block mb-2 text-sm font-medium text-gray-900">¿Tiene restricciones alimentarias?</label>
                     <input type="text" name="dietaryRestrictions" id="dietaryRestrictions" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteCocinaHigiene?.dietaryRestrictions}
@@ -99,7 +99,7 @@ function KitchenHygiene () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="confortAdvices" className="block mb-2 text-sm font-medium text-gray-900">Confort y seguridad</label>
+                    <label htmlFor="confortAdvices" className="block mb-2 text-sm font-medium text-gray-900">¿Qué cosas le hacen sentir cómodo y seguro en su entorno?</label>
                     <input type="text" name="confortAdvices" id="confortAdvices" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteCocinaHigiene?.confortAdvices}
@@ -107,7 +107,7 @@ function KitchenHygiene () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="routine" className="block mb-2 text-sm font-medium text-gray-900">Rutina diaria</label>
+                    <label htmlFor="routine" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo es su rutina diaria?</label>
                     <input type="text" name="routine" id="routine" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteCocinaHigiene?.routine}
@@ -115,7 +115,7 @@ function KitchenHygiene () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="carePlan" className="block mb-2 text-sm font-medium text-gray-900">Plan de cuidados</label>
+                    <label htmlFor="carePlan" className="block mb-2 text-sm font-medium text-gray-900">¿Sigue algún plan de cuidado específico?</label>
                     <input type="text" name="carePlan" id="carePlan" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteCocinaHigiene?.carePlan}

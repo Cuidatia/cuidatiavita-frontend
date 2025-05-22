@@ -84,7 +84,7 @@ function Pharmacy () {
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
-                    <label htmlFor="treatment" className="block mb-2 text-sm font-medium text-gray-900">Medicación habitual</label>
+                    <label htmlFor="treatment" className="block mb-2 text-sm font-medium text-gray-900">¿Toma alguna medicación de forma habitual?</label>
                     <input type="text" name="treatment" id="treatment" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteFarmacia?.treatment}
@@ -92,7 +92,7 @@ function Pharmacy () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="regularPharmacy" className="block mb-2 text-sm font-medium text-gray-900">Farmacia habitual</label>
+                    <label htmlFor="regularPharmacy" className="block mb-2 text-sm font-medium text-gray-900">¿Qué farmacia suele frecuentar para adquirir sus medicamentos?</label>
                     <input type="text" name="regularPharmacy" id="regularPharmacy" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteFarmacia?.regularPharmacy}
@@ -100,7 +100,7 @@ function Pharmacy () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="visitFrequency" className="block mb-2 text-sm font-medium text-gray-900">Frecuencia de visita</label>
+                    <label htmlFor="visitFrequency" className="block mb-2 text-sm font-medium text-gray-900">¿Con qué frecuencia visita la farmacia?</label>
                     <input type="text" name="visitFrequency" id="visitFrequency" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteFarmacia?.visitFrequency}
@@ -108,7 +108,7 @@ function Pharmacy () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="paymentMethod" className="block mb-2 text-sm font-medium text-gray-900">Método de pago habitual</label>
+                    <label htmlFor="paymentMethod" className="block mb-2 text-sm font-medium text-gray-900">¿Qué método de pago suele utilizar para adquirir sus medicamentos?</label>
                     <input type="text" name="paymentMethod" id="paymentMethod" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteFarmacia?.paymentMethod}

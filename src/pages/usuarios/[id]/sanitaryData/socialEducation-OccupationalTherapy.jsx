@@ -5,18 +5,21 @@ import withAuth from '@/components/withAuth';
 import { useSession } from "next-auth/react";
 
 function SocialEducationOccupationalTherapy () {
-    const {data: session, status} = useSession()
     const [mostrarPaciente, setMostrarPaciente] = useState([])
+    const [modificar, setModificar] = useState(false)
+    const [message, setMessage] = useState('')
+    const [error, setError] = useState('')
     const router = useRouter()
     const {id} = router.query
-
-    const [modificar, setModificar] = useState(false)
+    const {data: session, status} = useSession()
 
     const [pacienteTOES, setPacienteTOES] = useState({
         cognitiveAbility: '',
         affectiveCapacity: '',
-        nutritionalSituation: '',
-        behaviourCapacity: ''
+        behaviourCapacity: '',
+        collaborationLevel: '',
+        autonomyLevel: '',
+        groupParticipation: ''
     })
 
 
@@ -36,12 +39,49 @@ function SocialEducationOccupationalTherapy () {
 
     }
 
+    const getPacienteTOES = async () => {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteTOES?id='+ id, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user?.token}`
+            }
+        })
+
+        if (response.ok){
+            const data = await response.json()
+            setPacienteTOES(data.toes)
+        }
+    }
+
     useEffect(()=>{
-        getPaciente()
-    },[])
+        if (status === 'authenticated'){    
+            getPaciente()
+            getPacienteTOES()
+        }
+    },[status,session])
 
     const enviarDatos = async () => {
-        console.log('pacienteTOES', pacienteTOES)
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteTOES', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user?.token}`
+            },
+            body: JSON.stringify({
+                id: id,
+                socialedu: pacienteTOES
+            })
+        })
+
+        if (response.ok){
+            const data = await response.json()
+            alert('data', data)
+        }else {
+            const data = await response.json()
+            alert('data.error', data.error)
+            setError(data.error)
+        }
     }
 
     return(
@@ -49,7 +89,7 @@ function SocialEducationOccupationalTherapy () {
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
-                    <label htmlFor="cognitiveAbility" className="block mb-2 text-sm font-medium text-gray-900">Capacidad cognitiva</label>
+                    <label htmlFor="cognitiveAbility" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo describiría su capacidad cognitiva?</label>
                     <input type="text" name="cognitiveAbility" id="cognitiveAbility" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteTOES?.cognitiveAbility}
@@ -57,7 +97,7 @@ function SocialEducationOccupationalTherapy () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="affectiveCapacity" className="block mb-2 text-sm font-medium text-gray-900">Capacidad afectiva</label>
+                    <label htmlFor="affectiveCapacity" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo maneja sus emociones y afectos?</label>
                     <input type="text" name="affectiveCapacity" id="affectiveCapacity" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteTOES?.affectiveCapacity}
@@ -65,11 +105,44 @@ function SocialEducationOccupationalTherapy () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="behaviourCapacity" className="block mb-2 text-sm font-medium text-gray-900">Capacidad conductual</label>
+                    <label htmlFor="behaviourCapacity" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo suele comportarse frente a normas o límites?</label>
                     <input type="text" name="behaviourCapacity" id="behaviourCapacity" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteTOES?.behaviourCapacity}
                          onChange={(e)=>setPacienteTOES({...pacienteTOES, [e.target.name]:e.target.value})}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="collaborationLevel" className="block mb-2 text-sm font-medium text-gray-900">¿Suele participar en actividades del hogar?</label>
+                    <input type="text" name="collaborationLevel" id="collaborationLevel" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                         value={pacienteTOES?.collaborationLevel}
+                         onChange={(e)=>setPacienteTOES({
+                            ...pacienteTOES,
+                            [e.target.name]:e.target.value
+                        })}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="autonomyLevel" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál es su grado de autonnomía?</label>
+                    <input type="text" name="autonomyLevel" id="autonomyLevel" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                         value={pacienteTOES?.autonomyLevel}
+                         onChange={(e)=>setPacienteTOES({
+                            ...pacienteTOES,
+                            [e.target.name]:e.target.value
+                        })}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="groupParticipation" className="block mb-2 text-sm font-medium text-gray-900">¿Cuánto participa en actividades de grupo?</label>
+                    <input type="text" name="groupParticipation" id="groupParticipation" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                         value={pacienteTOES?.groupParticipation}
+                         onChange={(e)=>setPacienteTOES({
+                            ...pacienteTOES,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
             </div>
