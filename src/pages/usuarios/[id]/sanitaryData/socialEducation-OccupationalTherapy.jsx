@@ -14,7 +14,7 @@ function SocialEducationOccupationalTherapy () {
     const {data: session, status} = useSession()
 
     const [pacienteTOES, setPacienteTOES] = useState({
-        cognitiveAbility: '',
+        cognitiveAbilities: '',
         affectiveCapacity: '',
         behaviourCapacity: '',
         collaborationLevel: '',
@@ -50,7 +50,8 @@ function SocialEducationOccupationalTherapy () {
 
         if (response.ok){
             const data = await response.json()
-            setPacienteTOES(data.toes)
+            console.log('data.socialedu', data.socialedu)
+            setPacienteTOES(data.socialedu)
         }
     }
 
@@ -92,7 +93,7 @@ function SocialEducationOccupationalTherapy () {
                     <label htmlFor="cognitiveAbility" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo describiría su capacidad cognitiva?</label>
                     <input type="text" name="cognitiveAbility" id="cognitiveAbility" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
-                         value={pacienteTOES?.cognitiveAbility}
+                         value={pacienteTOES?.cognitiveAbilities}
                          onChange={(e)=>setPacienteTOES({...pacienteTOES, [e.target.name]:e.target.value})}
                     />
                 </div>
@@ -165,4 +166,4 @@ function SocialEducationOccupationalTherapy () {
     )
 }
 
-export default withAuth(SocialEducationOccupationalTherapy)
+export default withAuth(SocialEducationOccupationalTherapy, ['administrador', 'educador social/terapeuta ocupacional'])

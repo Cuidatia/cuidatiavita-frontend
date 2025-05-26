@@ -25,13 +25,19 @@ function AddUsuario () {
         })
         if(response.ok){
             const data = await response.json()
+            // const options = data.roles.map((rol) => ({
+            //     label: rol.nombre,
+            //     value: rol.id
+            // }))
             setRoles(data.roles)
         }
     }
 
     useEffect(()=>{
-        getRoles()
-    }, [])
+        if (status === 'authenticated' && session?.user?.idOrganizacion) {
+            getRoles()
+        }
+    }, [session, status])
 
     const enviarInvitacion = async () => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'sendMailInvitacion', {
@@ -59,7 +65,7 @@ function AddUsuario () {
     return(
         <DashboardLayout>
             <div className='flex items-center justify-between'>
-                <h2 className='text-2xl font-bold'>Añadir nuevo usuario</h2>
+                <h2 className='text-2xl font-bold'>Añadir personal</h2>
             </div>
             <div className="py-4">
                 <form className="space-y-4 md:space-y-6" action={enviarInvitacion}>
@@ -81,17 +87,21 @@ function AddUsuario () {
                                 ))
                             }
                         </select>
-                        {/* <MultipleSelector
-                            commandProps={{
-                            label: "Selecciona un rol",
-                            }}
-                            value={rolesSeleccionado}
-                            defaultOptions={roles}
-                            placeholder="Selecciona un rol"
-                            hideClearAllButton
-                            hidePlaceholderWhenSelected
-                            emptyIndicator={<p className="text-center text-sm">No results found</p>}
-                        /> */}
+                        {/* {
+                            roles && roles.length > 0 &&
+                            <MultipleSelector
+                                className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-64 p-2.5"
+                                commandProps={{
+                                label: "Selecciona un rol",
+                                }}
+                                value={handleRol}
+                                defaultOptions={roles}
+                                placeholder="Selecciona un rol"
+                                hideClearAllButton
+                                hidePlaceholderWhenSelected
+                                emptyIndicator={<p className="text-center text-sm">No results found</p>}
+                            />
+                        } */}
                     </div>
                     <button className="cursor-pointer bg-zinc-100 hover:text-white border-1 border-zinc-200 hover:bg-blue-500 rounded-lg text-sm px-3 py-2 text-center">Enviar invitación</button>
                 </form>
@@ -112,4 +122,4 @@ function AddUsuario () {
     )
 }
 
-export default withAuth(AddUsuario, ['admin'])
+export default withAuth(AddUsuario, ['administrador'])

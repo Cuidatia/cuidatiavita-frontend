@@ -24,7 +24,6 @@ function Roles () {
     useEffect(()=>{
         if (status === 'authenticated'){ 
             getRoles()
-            console.log('session.user.token', session?.user?.token)
         }
     }, [session, status])
 
@@ -41,14 +40,18 @@ function Roles () {
                     roles &&
                     <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                         {
-                            roles.filter((rol)=> rol.nombre !== 'superadmin' && rol.nombre !== 'admin').map((rol, index) => (
+                            roles.filter((rol)=> rol.nombre !== 'superadmin').map((rol, index) => (
                                 <div className="bg-white overflow-hidden shadow rounded-lg">
                                     <div className="p-4 sm:p-6 bg-gray-400">
                                         <h3 className="text-lg leading-6 font-medium text-white">{rol.nombre}</h3>
                                     </div>
                                     <div className="p-4 sm:p-6">
-                                        <p className="text-gray-700">
-                                            Diagnostica enfermedades, prescribe tratamientos médicos, realiza intervenciones y supervisa el estado de salud general del paciente.
+                                        <p className="text-gray-700 text-sm">
+                                            {
+                                                rol.description.split(';').filter(line => line.trim() !== '').map((line, index) => (
+                                                    <li key={index}>{line}</li>
+                                                ))
+                                            }
                                         </p>
                                     </div>
                                 </div>
@@ -61,4 +64,4 @@ function Roles () {
     );
 }
 
-export default withAuth(Roles, ['admin']);
+export default withAuth(Roles, ['administrador']);

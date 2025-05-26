@@ -29,7 +29,6 @@ function Pacientes() {
         })
         if(response.ok){
             const data = await response.json()
-            console.log('data.pacientes', data.pacientes)
             setPacientes(data.pacientes)
         }
     }
@@ -99,7 +98,7 @@ function Pacientes() {
                                             <path stroke="currentColor" strokeWidth="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                                             </svg>
                                         </div>
-                                        <div className='cursor-pointer' onClick={()=>{setOpenPopUp(!openPopUp); setSeleccionarPaciente(paciente)}}>
+                                        <div data-tooltip-target="tooltip-default" className='cursor-pointer' onClick={()=>{setOpenPopUp(!openPopUp); setSeleccionarPaciente(paciente)}}>
                                             <svg className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 hover:text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                             </svg>
@@ -147,4 +146,4 @@ function Pacientes() {
     )
 }
 
-export default withAuth(Pacientes, ['admin', 'medico', 'enfermero', 'trabajador social', 'terapeuta', 'fisioterapeuta', 'psicologo', 'logopeda'])
+export default withAuth(Pacientes, ['administrador', 'medico/enfermero', 'trabajador social/terapeuta ocupacional'])

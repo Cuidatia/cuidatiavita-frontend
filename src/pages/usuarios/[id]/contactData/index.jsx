@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import withAuth from '@/components/withAuth';
 import { useSession } from "next-auth/react";
+import PopUp from "@/components/popUps/popUp";
 
 function ContactData () {
     const [mostrarPaciente, setMostrarPaciente] = useState([])
@@ -23,6 +24,8 @@ function ContactData () {
         curatela: '',
         deFactoGuardian: '',
     })
+
+    const [saveData, setSaveData] = useState(false)
 
     const getPaciente = async () => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPaciente?id='+ id, {
@@ -114,7 +117,7 @@ function ContactData () {
                 <div>
                     <label htmlFor="contactSecondSurname" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál es su segundo apellido?</label>
                     <input type="text" name="contactSecondSurname" id="contactSecondSurname" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                         disabledisabled={!modificar}
+                         disabled={!modificar}
                          value={pacienteDatosContacto.contactSecondSurname}
                          onChange={(e)=> setPacienteDatosContacto({
                             ...pacienteDatosContacto,
@@ -187,12 +190,22 @@ function ContactData () {
             {
                 modificar &&
                     <button className="cursor-pointer mx-2 bg-zinc-100 hover:text-white border-1 border-zinc-200 hover:bg-blue-500 rounded-lg text-sm px-3 py-2 text-center"
-                        onClick={enviarDatos}
+                        onClick={()=>setSaveData(true)}
                     >
                         Guardar
                     </button>
             }
             </div>
+            {
+                <PopUp 
+                    open={saveData}
+                    popContent={'¿Desea guardar los cambios?'}
+                    popTitle="Guardar cambios"
+                    popType="option"
+                    confirmFunction={enviarDatos}
+                    cancelFunction={() => setSaveData(false)}
+                />
+            }
         </PacienteLayout>
     )
 }

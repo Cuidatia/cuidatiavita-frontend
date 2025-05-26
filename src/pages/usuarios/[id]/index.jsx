@@ -101,32 +101,63 @@ function PerfilPaciente () {
 
     return(
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
-            <div className="py-4 px-4">
-                <div className="grid grid-cols-2 gap-4">
-                    <Card color={"linear-gradient(to left, #e5c0fdaf 30%, #e5c0fd 80%)"} icon={'personalData'} title={'Datos Personales'} link={'/usuarios/'+mostrarPaciente.id+'/personalData'} />
-                    {
-                        session?.user?.roles === 'admin' &&
-                            <Card color={"linear-gradient(to right, #70dcff 0%, #a4e9ff 100%)"} icon={"personality"} title={'Personalidad'} link={'/usuarios/'+mostrarPaciente.id+'/personality/'} />
-                    }
-                    {
-                        (session?.user?.roles === 'Auxiliar' || session?.user?.roles === 'admin') &&
-                            <Card color={"linear-gradient(to left, #ffd495 0%, #ffbf62 100%)"} icon={"lifeStory"} title={'Historia de vida'} link={'/usuarios/'+mostrarPaciente.id+'/lifeStory'} />
-
-                    }
-                    {
-                        (session?.user?.roles === 'medico' || session?.user?.roles === 'admin') &&
-                            <Card color={"linear-gradient(to left, #c6ffb2 30%, #acff8f 80%)"} icon={"medico"} title={'Datos Médicos'} link={'/usuarios/'+mostrarPaciente.id+'/sanitaryData'} />
-                    }
-                    {
-                        session?.user?.roles === 'admin' &&
-                            <Card color={"linear-gradient(to left, #fff3a4 0%, #fee64f 100%)"} icon={"contactData"} title={'Contacto'} link={'/usuarios/'+mostrarPaciente.id+'/contactData'} />
-                    }
-                    {
-                        (session?.user?.roles === 'Auxiliar' || session?.user?.roles === 'admin') &&
-                            <Card color={"linear-gradient(to right, #ff8a71 0%, #ffa390 100%)"} icon={"gallery"} title={'Galería'} link={'/usuarios/'+mostrarPaciente.id+'/gallery'} />
-                    }
+            <div className="py-4 px-4 space-y-8">
+                {/* Bloque: Historial de Vida */}
+                <div>
+                    <h2 className="text-xl font-semibold text-gray-800 mb-4">Historial de Vida</h2>
+                    <div className="grid grid-cols-2 gap-4">
+                    <Card
+                        color={"linear-gradient(to left, #e5c0fdaf 30%, #e5c0fd 80%)"}
+                        icon={'personalData'}
+                        title={'Datos Personales'}
+                        link={`/usuarios/${mostrarPaciente.id}/personalData`}
+                    />
+                    {session?.user?.roles === 'administrador' && (
+                        <Card
+                        color={"linear-gradient(to right, #70dcff 0%, #a4e9ff 100%)"}
+                        icon={"personality"}
+                        title={'Personalidad'}
+                        link={`/usuarios/${mostrarPaciente.id}/personality/`}
+                        />
+                    )}
+                    {(session?.user?.roles === 'auxiliar' || session?.user?.roles === 'administrador') && (
+                        <Card
+                        color={"linear-gradient(to left, #ffd495 0%, #ffbf62 100%)"}
+                        icon={"lifeStory"}
+                        title={'Historia de vida'}
+                        link={`/usuarios/${mostrarPaciente.id}/lifeStory`}
+                        />
+                    )}
+                    <Card
+                        color={"linear-gradient(to left, #fff3a4 0%, #fee64f 100%)"}
+                        icon={"contactData"}
+                        title={'Contacto'}
+                        link={`/usuarios/${mostrarPaciente.id}/contactData`}
+                    />
+                    <Card
+                        color={"linear-gradient(to right, #ff8a71 0%, #ffa390 100%)"}
+                        icon={"gallery"}
+                        title={'Galería'}
+                        link={`/usuarios/${mostrarPaciente.id}/gallery`}
+                    />
+                    </div>
                 </div>
-            </div>
+
+                {/* Bloque: Historial Clínico */}
+                {(session?.user?.roles === 'medico/enfermero' || session?.user?.roles === 'administrador') && (
+                    <div>
+                    <h2 className="text-xl font-semibold text-gray-800 mb-4">Historial Sanitario</h2>
+                    <div className="grid grid-cols-2 gap-4">
+                        <Card
+                        color={"linear-gradient(to left, #c6ffb2 30%, #acff8f 80%)"}
+                        icon={"medico"}
+                        title={'Datos Sanitarios'}
+                        link={`/usuarios/${mostrarPaciente.id}/sanitaryData`}
+                        />
+                    </div>
+                    </div>
+                )}
+                </div>
             <div className="py-2">
                 <label htmlFor="personal" className="block mb-2 text-sm font-medium text-gray-900">Personal de referencia:</label>
                 <div id="personal" className="block p-2.5 w-full text-sm max-h-fit text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">
@@ -140,7 +171,7 @@ function PerfilPaciente () {
                 </div>
             </div>
             {
-                session?.user?.roles === 'admin' &&
+                session?.user?.roles === 'administrador' &&
                 <div className="flex py-2">
                     <select name="personal" id="personal"  className="block p-2.5 text-sm max-h-fit text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                         onChange={(e)=>setUsuarioSeleccionado(e.target.value)}
@@ -176,4 +207,4 @@ function PerfilPaciente () {
     )
 }
 
-export default withAuth(PerfilPaciente)
+export default withAuth(PerfilPaciente, ['administrador', 'medico/enfermero', 'educador social/terapeuta ocupacional', 'trabajador social', 'auxiliar', 'familiar'])

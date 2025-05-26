@@ -158,4 +158,4 @@ function Usuarios () {
     )
 }
 
-export default withAuth(Usuarios, ['admin'])
+export default withAuth(Usuarios, ['administrador'])

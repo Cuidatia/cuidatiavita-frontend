@@ -47,19 +47,19 @@ function lifeStory () {
             <div className="py-4 px-4">
                 <div className="grid grid-cols-2 gap-4">
                     {
-                        (session?.user?.roles === 'Auxiliar' || session?.user?.roles === 'admin') &&
+                        (session?.user?.roles === 'auxiliar' || session?.user?.roles === 'administrador') &&
                             <Card color={"linear-gradient(to left, #fff3a4 0%, #fee64f 100%)"} icon={''} title={'Infancia'} link={'/usuarios/'+mostrarPaciente.id+'/lifeStory/childhood'} />
                     }
                     {
-                        (session?.user?.roles === 'Auxiliar' || session?.user?.roles === 'admin') &&
+                        (session?.user?.roles === 'auxiliar' || session?.user?.roles === 'administrador') &&
                             <Card color={"linear-gradient(to right, #70dcff 0%, #a4e9ff 100%)"} icon={''} title={'Juventud'} link={'/usuarios/'+mostrarPaciente.id+'/lifeStory/youth'} />
                     }
                     {
-                        (session?.user?.roles === 'Auxiliar' || session?.user?.roles === 'admin') &&
+                        (session?.user?.roles === 'auxiliar' || session?.user?.roles === 'administrador') &&
                             <Card color={"linear-gradient(to left, #ffd495 0%, #ffbf62 100%)"} icon={''} title={'Adultez'} link={'/usuarios/'+mostrarPaciente.id+'/lifeStory/adulthood'} />
                     }
                     {
-                        (session?.user?.roles === 'Auxiliar' || session?.user?.roles === 'admin') &&
+                        (session?.user?.roles === 'auxiliar' || session?.user?.roles === 'administrador') &&
                             <Card color={"linear-gradient(to left, #c6ffb2 30%, #acff8f 80%)"} icon={''} title={'Madurez'} link={'/usuarios/'+mostrarPaciente.id+'/lifeStory/maturity'} />
                     }
                 </div>

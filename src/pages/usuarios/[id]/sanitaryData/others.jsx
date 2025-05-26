@@ -13,13 +13,13 @@ function Others () {
     const [modificar, setModificar] = useState(false)
 
     const [pacienteOtros, setPacienteOtros] = useState({
-        profesionalNotes: ''
+        professionalNotes: ''
     })
 
 
 
     const getPaciente = async () => {
-        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPaciente?id='+ id, {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteOtherData?id='+ id, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -29,17 +29,35 @@ function Others () {
 
         if (response.ok){
             const data = await response.json()
-            setMostrarPaciente(data.paciente)
+            console.log('data', data)
+            setPacienteOtros(data.otherData)
         }
 
     }
 
     useEffect(()=>{
-        getPaciente()
-    },[])
+        if (status === 'authenticated'){
+            getPaciente()
+        }
+    },[session, status])
 
     const enviarDatos = async () => {
-        console.log('pacienteOtros', pacienteOtros)
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteOtherData', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session.user.token}`
+            }, 
+            body: JSON.stringify({
+                id: id,
+                pacienteOtros: pacienteOtros
+            })
+        })
+
+        if(response.ok){
+            const data = await response.json()
+            alert('Datos guardados correctamente')
+        }
     }
 
     return(
@@ -50,7 +68,7 @@ function Others () {
                     <label htmlFor="profesionalNotes" className="block mb-2 text-sm font-medium text-gray-900">Notas adicionales</label>
                     <textarea name="profesionalNotes" id="profesionalNotes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5" 
                         disabled={!modificar}
-                        value={pacienteOtros?.profesionalNotes}
+                        value={pacienteOtros?.professionalNotes}
                         onChange={(e)=>setPacienteOtros({...pacienteOtros, [e.target.name]: e.target.value})}
                     />
                 </div>
@@ -80,4 +98,4 @@ function Others () {
     )
 }
 
-export default withAuth(Others)
+export default withAuth(Others, ['administrador', 'medico/enfermero', 'educador social/terapeuta ocupacional', 'trabajador social', 'auxiliar'])

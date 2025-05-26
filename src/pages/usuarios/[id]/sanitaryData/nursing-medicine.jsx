@@ -13,7 +13,7 @@ function NursingMedicine () {
     const {id} = router.query
     const {data: session, status} = useSession()
 
-    const [pacienteMdicinaEnfermeria, setPacienteMdicinaEnfermeria] = useState({
+    const [pacienteMedicinaEnfermeria, setPacienteMedicinaEnfermeria] = useState({
         nutritionalSituation: '',
         sleepQuality: '',
         fallRisks: '',
@@ -38,7 +38,7 @@ function NursingMedicine () {
     }
 
     const getPacienteMedicinaEnfermeria = async () => {
-        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteMedicinaMedicina?id='+ id, {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteMedicinaEnfermeria?id='+ id, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -48,7 +48,7 @@ function NursingMedicine () {
 
         if (response.ok){
             const data = await response.json()
-            setPacienteMedicinaEnfermeria(data.enfermeria)
+            setPacienteMedicinaEnfermeria(data.nursing)
         }
     }
 
@@ -89,9 +89,9 @@ function NursingMedicine () {
                 <div>
                     <label htmlFor="nutritionalSituation" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo describiría su situación nutricional?</label>
                     <input type="text" name="nutritionalSituation" id="nutritionalSituation" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                         didisabled={!modificar}
+                         disabled={!modificar}
                          value={pacienteMedicinaEnfermeria?.nutritionalSituation}
-                         onChange={(e)=>setPacienteMedicinaEnfermeria({...pacienteMedicinaEnfermeria, [e.target.name]:e.target.value})}sabled
+                         onChange={(e)=>setPacienteMedicinaEnfermeria({...pacienteMedicinaEnfermeria, [e.target.name]:e.target.value})}
                     />
                 </div>
                 <div>
@@ -146,4 +146,4 @@ function NursingMedicine () {
     )
 }
 
-export default withAuth(NursingMedicine)
+export default withAuth(NursingMedicine, ['administrador', 'medico/enfermero'])

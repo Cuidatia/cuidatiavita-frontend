@@ -223,4 +223,4 @@ function CrearPaciente () {
     )
 }
 
-export default withAuth(CrearPaciente, ['admin', 'medico', 'enfermero', 'trabajador social', 'terapeuta', 'fisioterapeuta', 'psicologo', 'logopeda'])
+export default withAuth(CrearPaciente, ['administrador', 'medico/enfermero', 'educador social/terapeuta ocupacional', 'trabajador social', 'auxiliar'])

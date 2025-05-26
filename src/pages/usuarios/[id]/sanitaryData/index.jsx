@@ -48,7 +48,6 @@ function sanitaryData () {
 
         if (response.ok){
             const data = await response.json()
-            console.log('data.sanitaryData', data.sanitaryData)
             setMainSanitaryData(data.sanitaryData)
         }
     }
@@ -85,23 +84,23 @@ function sanitaryData () {
             <div className="py-4 px-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div className="grid grid-cols-2 gap-4">
                     {
-                        (session?.user?.roles === 'auxiliar' || session?.user?.roles === 'admin') &&
+                        (session?.user?.roles === 'auxiliar' || session?.user?.roles === 'administrador') &&
                             <Card color={"linear-gradient(to left, #fff3a4 0%, #fee64f 100%)"} icon={'pharmacy'} title={'Farmacia'} link={'/usuarios/'+mostrarPaciente.id+'/sanitaryData/pharmacy'} />
                     }
                     {
-                        (session?.user?.roles === 'medico' || session?.user?.roles === 'enfermero' || session?.user?.roles === 'admin') &&
+                        (session?.user?.roles === 'medico/enfermero' || session?.user?.roles === 'administrador') &&
                             <Card color={"linear-gradient(to right, #70dcff 0%, #a4e9ff 100%)"} icon={'nursig/medicine'} title={'Medicina/Enfermería'} link={'/usuarios/'+mostrarPaciente.id+'/sanitaryData/nursing-medicine'} />
                     }
                     {
-                        (session?.user?.roles === 'terapeuta' || session?.user?.roles === 'admin') &&
+                        (session?.user?.roles === 'educador social/terapeuta ocupacional' || session?.user?.roles === 'administrador') &&
                             <Card color={"linear-gradient(to left, #ffd495 0%, #ffbf62 100%)"} icon={'socialEducation/occupationalTherapy'} title={'Educacion social/Terapia ocupacional'} link={'/usuarios/'+mostrarPaciente.id+'/sanitaryData/socialEducation-OccupationalTherapy'} />
                     }
                     {
-                        (session?.user?.roles === 'trabajador social' || session?.user?.roles === 'admin') &&
+                        (session?.user?.roles === 'trabajador social' || session?.user?.roles === 'administrador') &&
                             <Card color={"linear-gradient(to left, #c6ffb2 30%, #acff8f 80%)"} icon={'socialWork'} title={'Trabajo social'} link={'/usuarios/'+mostrarPaciente.id+'/sanitaryData/socialWork'} />
                     }
                     {
-                        (session?.user?.roles === 'auxiliar' || session?.user?.roles === 'admin') &&
+                        (session?.user?.roles === 'auxiliar' || session?.user?.roles === 'administrador') &&
                             <Card color={"linear-gradient(to left, #e5c0fdaf 30%, #e5c0fd 80%)"} icon={'kitchen/Hygiene'} title={'Cocina/Higiene'} link={'/usuarios/'+mostrarPaciente.id+'/sanitaryData/kitchen-Hygiene'} />
                     }
                     <Card color={"linear-gradient(to right, #ff8a71 0%, #ffa390 100%)"} icon={'others'} title={'Otros'} link={'/usuarios/'+mostrarPaciente.id+'/sanitaryData/others'} />
@@ -152,4 +151,4 @@ function sanitaryData () {
     )
 }
 
-export default withAuth(sanitaryData, [])
+export default withAuth(sanitaryData, ['administrador', 'medico/enfermero', 'educador social/terapeuta ocupacional', 'trabajador social', 'auxiliar'])

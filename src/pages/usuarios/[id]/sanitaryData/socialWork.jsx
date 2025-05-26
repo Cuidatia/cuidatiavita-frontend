@@ -50,7 +50,7 @@ function SocialWork () {
 
         if (response.ok){
             const data = await response.json()
-            setPacienteTrabajoSocial(data.trabajosocial)
+            setPacienteTrabajoSocial(data.trabajoSocial)
         }
     }
 
@@ -153,4 +153,4 @@ function SocialWork () {
     )
 }
 
-export default withAuth(SocialWork)
+export default withAuth(SocialWork, ['administrador', 'trabajador social'])

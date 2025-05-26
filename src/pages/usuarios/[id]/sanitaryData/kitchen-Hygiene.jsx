@@ -142,4 +142,4 @@ function KitchenHygiene () {
     )
 }
 
-export default withAuth(KitchenHygiene)
+export default withAuth(KitchenHygiene,['administrador', 'auxiliar'])
