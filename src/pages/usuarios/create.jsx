@@ -45,7 +45,7 @@ function CrearPaciente () {
             const data = await response.json()
             setMessage(data.message)
             router.push({
-                pathname : '/pacientes/[id]',
+                pathname : '/usuarios/[id]',
                 query: { id: data.paciente}
             })
         }else{
@@ -204,7 +204,7 @@ function CrearPaciente () {
                     </div>
                     
                     </div>
-                    <button className="cursor-pointer bg-zinc-100 hover:text-white border-1 border-zinc-200 hover:bg-blue-500 rounded-lg text-sm px-3 py-2 text-center w-32">Añadir paciente</button>
+                    <button className="cursor-pointer bg-zinc-100 hover:text-white border-1 border-zinc-200 hover:bg-blue-500 rounded-lg text-sm px-3 py-2 text-center w-32">Añadir usuario</button>
                 </form>
 
             {

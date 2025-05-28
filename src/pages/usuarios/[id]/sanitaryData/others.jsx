@@ -35,9 +35,25 @@ function Others () {
 
     }
 
+    const getPacienteOtros = async () => {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteOtherData?id='+ id, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${session?.user?.token}`
+            }
+        })
+
+        if (response.ok){
+            const data = await response.json()
+            console.log(data)
+            setPacienteOtros(data.otherData)
+        }
+    }
     useEffect(()=>{
         if (status === 'authenticated'){
             getPaciente()
+            getPacienteOtros()
         }
     },[session, status])
 
@@ -65,8 +81,8 @@ function Others () {
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
-                    <label htmlFor="profesionalNotes" className="block mb-2 text-sm font-medium text-gray-900">Notas adicionales</label>
-                    <textarea name="profesionalNotes" id="profesionalNotes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5" 
+                    <label htmlFor="professionalNotes" className="block mb-2 text-sm font-medium text-gray-900">Notas adicionales</label>
+                    <textarea name="professionalNotes" id="professionalNotes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5" 
                         disabled={!modificar}
                         value={pacienteOtros?.professionalNotes}
                         onChange={(e)=>setPacienteOtros({...pacienteOtros, [e.target.name]: e.target.value})}

@@ -13,7 +13,7 @@ function Personality () {
     const router = useRouter()
     const {id} = router.query
 
-    const [personality, setPersonality] = useState({
+    const [pacientePersonality, setPersonality] = useState({
         nature: '',
         habits: '',
         likes: '',
@@ -22,7 +22,9 @@ function Personality () {
         disturbMethods: '',
         hobbies: '',
         technologyLevel: '',
-        goals: ''
+        goals: '',
+        favouriteSongs: '',
+        clothes : ''
     })
 
     const getPaciente = async () => {
@@ -67,6 +69,7 @@ function Personality () {
     },[session, status])
 
     const handleSave = async () => {
+
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacientePersonality', {
             method: 'POST',
             headers: {
@@ -75,7 +78,7 @@ function Personality () {
             },
             body: JSON.stringify({
                 id:id,
-                personality:personality
+                personality:pacientePersonality
             })
         })
         if (response.ok){
@@ -83,7 +86,7 @@ function Personality () {
             alert(data.message)
             setModificar(false)
             setSaveData(false)
-        }
+        } 
     }
 
     return(
@@ -94,72 +97,88 @@ function Personality () {
                     <label htmlFor="nature" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo describiría su carácter?</label>
                     <input type="text" name="nature" id="nature" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
-                         value={personality?.nature}
-                         onChange={(e) => setPersonality({...setPersonality, [e.target.name]: e.target.value})}
+                         value={pacientePersonality.nature}
+                         onChange={(e) => setPersonality({...pacientePersonality, [e.target.name]: e.target.value})}
                     />
                 </div>
                 <div>
                     <label htmlFor="habits" className="block mb-2 text-sm font-medium text-gray-900">¿Qué hábitos o costumbres tiene o repite con frecuencia?</label>
                     <input type="text" name="habits" id="habits" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
-                         value={personality?.habits}
-                         onChange={(e) => setPersonality({...setPersonality, [e.target.name]: e.target.value})}
+                         value={pacientePersonality.habits}
+                         onChange={(e) => setPersonality({...pacientePersonality, [e.target.name]: e.target.value})}
                     />
                 </div>
                 <div>
                     <label htmlFor="likes" className="block mb-2 text-sm font-medium text-gray-900">¿Cuáles son sus gustos actuales?</label>
                     <input type="text" name="likes" id="likes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
-                         value={personality?.likes}
-                         onChange={(e) => setPersonality({...setPersonality, [e.target.name]: e.target.value})}
+                         value={pacientePersonality.likes}
+                         onChange={(e) => setPersonality({...pacientePersonality, [e.target.name]: e.target.value})}
                     />
                 </div>
                 <div>
                     <label htmlFor="dislikes" className="block mb-2 text-sm font-medium text-gray-900">¿Qué le provoca rechazo o no le gusta actualmente?</label>
                     <input type="text" name="dislikes" id="dislikes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
-                         value={personality?.dislikes}
-                         onChange={(e) => setPersonality({...setPersonality, [e.target.name]: e.target.value})}
+                         value={pacientePersonality.dislikes}
+                         onChange={(e) => setPersonality({...pacientePersonality, [e.target.name]: e.target.value})}
                     />
                 </div>
                 <div>
                     <label htmlFor="calmMethods" className="block mb-2 text-sm font-medium text-gray-900">¿Qué le tranquiliza o calma?</label>
                     <input type="text" name="calmMethods" id="calmMethods" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
-                         value={personality?.calmMethods}
-                         onChange={(e) => setPersonality({...setPersonality, [e.target.name]: e.target.value})}
+                         value={pacientePersonality.calmMethods}
+                         onChange={(e) => setPersonality({...pacientePersonality, [e.target.name]: e.target.value})}
                     />
                 </div>
                 <div>
                     <label htmlFor="disturbMethods" className="block mb-2 text-sm font-medium text-gray-900">¿Qué le incomoda o molesta?</label>
                     <input type="text" name="disturbMethods" id="disturbMethods" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
-                         value={personality?.disturbMethods}
-                         onChange={(e) => setPersonality({...setPersonality, [e.target.name]: e.target.value})}
+                         value={pacientePersonality.disturbMethods}
+                         onChange={(e) => setPersonality({...pacientePersonality, [e.target.name]: e.target.value})}
                     />
                 </div>
                 <div>
                     <label htmlFor="hobbies" className="block mb-2 text-sm font-medium text-gray-900">¿Cuáles son sus hobbies o intereses personales?</label>
                     <input type="text" name="hobbies" id="hobbies" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
-                         value={personality?.hobbies}
-                         onChange={(e) => setPersonality({...setPersonality, [e.target.name]: e.target.value})}
+                         value={pacientePersonality.hobbies}
+                         onChange={(e) => setPersonality({...pacientePersonality, [e.target.name]: e.target.value})}
                     />
                 </div>
                 <div>
                     <label htmlFor="technologyLevel" className="block mb-2 text-sm font-medium text-gray-900">¿Qué relación tiene con la tecnología?</label>
                     <input type="text" name="technologyLevel" id="technologyLevel" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
-                         value={personality?.technologyLevel}
-                         onChange={(e) => setPersonality({...setPersonality, [e.target.name]: e.target.value})}
+                         value={pacientePersonality.technologyLevel}
+                         onChange={(e) => setPersonality({...pacientePersonality, [e.target.name]: e.target.value})}
                     />
                 </div>
                 <div>
                     <label htmlFor="goals" className="block mb-2 text-sm font-medium text-gray-900">¿Cuáles son sus objetivos personales o metas actuales?</label>
                     <input type="text" name="goals" id="goals" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
-                         value={personality?.goals}
-                         onChange={(e) => setPersonality({...setPersonality, [e.target.name]: e.target.value})}
+                         value={pacientePersonality.goals}
+                         onChange={(e) => setPersonality({...pacientePersonality, [e.target.name]: e.target.value})}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="favouriteSongs" className="block mb-2 text-sm font-medium text-gray-900">¿Cuáles son sus canciones favoritas?</label>
+                    <input type="text" name="favouriteSongs" id="favouriteSongs" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                         value={pacientePersonality.favouriteSongs}
+                         onChange={(e) => setPersonality({...pacientePersonality, [e.target.name]: e.target.value})}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="clothes" className="block mb-2 text-sm font-medium text-gray-900">¿Qué ropa suele llevar?</label>
+                    <input type="text" name="clothes" id="clothes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                         value={pacientePersonality.clothes}
+                         onChange={(e) => setPersonality({...pacientePersonality, [e.target.name]: e.target.value})}
                     />
                 </div>
             </div>

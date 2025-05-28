@@ -16,7 +16,7 @@ function SocialEducationOccupationalTherapy () {
     const [pacienteTOES, setPacienteTOES] = useState({
         cognitiveAbilities: '',
         affectiveCapacity: '',
-        behaviourCapacity: '',
+        behaviorCapacity: '',
         collaborationLevel: '',
         autonomyLevel: '',
         groupParticipation: ''
@@ -90,8 +90,8 @@ function SocialEducationOccupationalTherapy () {
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
-                    <label htmlFor="cognitiveAbility" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo describiría su capacidad cognitiva?</label>
-                    <input type="text" name="cognitiveAbility" id="cognitiveAbility" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="cognitiveAbilities" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo describiría su capacidad cognitiva?</label>
+                    <input type="text" name="cognitiveAbilities" id="cognitiveAbilities" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteTOES?.cognitiveAbilities}
                          onChange={(e)=>setPacienteTOES({...pacienteTOES, [e.target.name]:e.target.value})}
@@ -106,10 +106,10 @@ function SocialEducationOccupationalTherapy () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="behaviourCapacity" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo suele comportarse frente a normas o límites?</label>
-                    <input type="text" name="behaviourCapacity" id="behaviourCapacity" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="behaviorCapacity" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo suele comportarse frente a normas o límites?</label>
+                    <input type="text" name="behaviorCapacity" id="behaviorCapacity" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
-                         value={pacienteTOES?.behaviourCapacity}
+                         value={pacienteTOES?.behaviorCapacity}
                          onChange={(e)=>setPacienteTOES({...pacienteTOES, [e.target.name]:e.target.value})}
                     />
                 </div>

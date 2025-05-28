@@ -21,7 +21,7 @@ function Adulthood () {
         adulthoodWorkRol: '',
         adulthoodFamilyCore: '',
         adulthoodFriendsGroup: '',
-        adulhoodWorkGroup: '',
+        adulthoodWorkGroup: '',
         adulthoodTravels: '',
         adulthoodFavouritePlace: '',
         adulthoodRoutine: '',
@@ -104,7 +104,7 @@ function Adulthood () {
                     <label htmlFor="adulthoodSentimentalCouple" className="block mb-2 text-sm font-medium text-gray-900">¿Quién es su pareja sentimental o persona íntima de convivencia?</label>
                     <input type="text" name="adulthoodSentimentalCouple" id="adulthoodSentimentalCouple" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodSentimentalCouple}
+                            value={pacienteAdultez.adulthoodSentimentalCouple}
                             onChange={(e) => setPacienteAdultez({
                                 ...pacienteAdultez,
                                 [e.target.name]:e.target.value
@@ -115,7 +115,7 @@ function Adulthood () {
                     <label htmlFor="adulthoodChildren" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo se llaman sus hijos?</label>
                     <input type="text" name="adulthoodChildren" id="adulthoodChildren" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodChildren}
+                            value={pacienteAdultez.adulthoodChildren}
                             onChange={(e) => setPacienteAdultez({
                                 ...pacienteAdultez,
                                 [e.target.name]:e.target.value
@@ -126,7 +126,7 @@ function Adulthood () {
                     <label htmlFor="adulthoodStudies" className="block mb-2 text-sm font-medium text-gray-900">¿Qué estudió?</label>
                     <input type="text" name="adulthoodStudies" id="adulthoodStudies" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodStudies}
+                            value={pacienteAdultez.adulthoodStudies}
                             onChange={(e) => setPacienteAdultez({
                                 ...pacienteAdultez,
                                 [e.target.name]:e.target.value
@@ -137,7 +137,7 @@ function Adulthood () {
                     <label htmlFor="adulthoodWorkPlace" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde trabajaba?</label>
                     <input type="text" name="adulthoodWorkPlace" id="adulthoodWorkPlace" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodWorkPlace}
+                            value={pacienteAdultez.adulthoodWorkPlace}
                             onChange={(e) => setPacienteAdultez({
                                 ...pacienteAdultez,
                                 [e.target.name]:e.target.value
@@ -148,7 +148,7 @@ function Adulthood () {
                     <label htmlFor="adulthoodWorkRol" className="block mb-2 text-sm font-medium text-gray-900">¿Qué rol desempeñaba?</label>
                     <input type="text" name="adulthoodWorkRol" id="adulthoodWorkRol" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodWorkRol}
+                            value={pacienteAdultez.adulthoodWorkRol}
                             onChange={(e) => setPacienteAdultez({
                                 ...pacienteAdultez,
                                 [e.target.name]:e.target.value
@@ -159,7 +159,7 @@ function Adulthood () {
                     <label htmlFor="adulthoodFamilyCore" className="block mb-2 text-sm font-medium text-gray-900">¿Quiénes formaban su núcleo familiar?</label>
                     <input type="text" name="adulthoodFamilyCore" id="adulthoodFamilyCore" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodFamilyCore}
+                            value={pacienteAdultez.adulthoodFamilyCore}
                             onChange={(e) => setPacienteAdultez({
                                 ...pacienteAdultez,
                                 [e.target.name]:e.target.value
@@ -170,7 +170,7 @@ function Adulthood () {
                     <label htmlFor="adulthoodFriendsGroup" className="block mb-2 text-sm font-medium text-gray-900">¿Quiénes formaban su grupo de amigos?</label>
                     <input type="text" name="adulthoodFriendsGroup" id="adulthoodFriendsGroup" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodFriendsGroup}
+                            value={pacienteAdultez.adulthoodFriendsGroup}
                             onChange={(e) => setPacienteAdultez({
                                 ...pacienteAdultez,
                                 [e.target.name]:e.target.value
@@ -181,7 +181,7 @@ function Adulthood () {
                     <label htmlFor="adulthoodWorkGroup" className="block mb-2 text-sm font-medium text-gray-900">¿Qué relaciones tenía en el entorno laboral?</label>
                     <input type="text" name="adulthoodWorkGroup" id="adulthoodWorkGroup" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodWorkGroup}
+                            value={pacienteAdultez.adulthoodWorkGroup}
                             onChange={(e) => setPacienteAdultez({
                                 ...pacienteAdultez,
                                 [e.target.name]:e.target.value
@@ -192,7 +192,7 @@ function Adulthood () {
                     <label htmlFor="adulthoodTravels" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde ha viajado?</label>
                     <input type="text" name="adulthoodTravels" id="adulthoodTravels" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodTravels}
+                            value={pacienteAdultez.adulthoodTravels}
                             onChange={(e) => setPacienteAdultez({
                                 ...pacienteAdultez,
                                 [e.target.name]:e.target.value
@@ -203,7 +203,7 @@ function Adulthood () {
                     <label htmlFor="adulthoodFavouritePlace" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál era su lugar favorito?</label>
                     <input type="text" name="adulthoodFavouritePlace" id="adulthoodFavouritePlace" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodFavouritePlace}
+                            value={pacienteAdultez.adulthoodFavouritePlace}
                             onChange={(e) => setPacienteAdultez({
                                 ...pacienteAdultez,
                                 [e.target.name]:e.target.value
@@ -214,7 +214,7 @@ function Adulthood () {
                     <label htmlFor="adulthoodRoutine" className="block mb-2 text-sm font-medium text-gray-900">¿Qué rutina seguía?</label>
                     <input type="text" name="adulthoodRoutine" id="adulthoodRoutine" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodRoutine}
+                            value={pacienteAdultez.adulthoodRoutine}
                             onChange={(e) => setPacienteAdultez({
                                 ...pacienteAdultez,
                                 [e.target.name]:e.target.value
@@ -225,7 +225,7 @@ function Adulthood () {
                     <label htmlFor="adulthoodPositiveExperiences" className="block mb-2 text-sm font-medium text-gray-900">¿Qué experiencias positivas tuvo?</label>
                     <input type="text" name="adulthoodPositiveExperiences" id="adulthoodPositiveExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodPositiveExperiences}
+                            value={pacienteAdultez.adulthoodPositiveExperiences}
                             onChange={(e) => setPacienteAdultez({
                                 ...pacienteAdultez,
                                 [e.target.name]:e.target.value
@@ -236,7 +236,7 @@ function Adulthood () {
                     <label htmlFor="adulthoodNegativeExperiences" className="block mb-2 text-sm font-medium text-gray-900">¿Qué experiencias negativas tuvo?</label>
                     <input type="text" name="adulthoodNegativeExperiences" id="adulthoodNegativeExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodNegativeExperiences}
+                            value={pacienteAdultez.adulthoodNegativeExperiences}
                             onChange={(e) => setPacienteAdultez({
                                 ...pacienteAdultez,
                                 [e.target.name]:e.target.value
@@ -247,7 +247,7 @@ function Adulthood () {
                     <label htmlFor="adulthoodAddress" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde viviste?</label>
                     <input type="text" name="adulthoodAddress" id="adulthoodAddress" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodAddress}
+                            value={pacienteAdultez.adulthoodAddress}
                             onChange={(e) => setPacienteAdultez({
                                 ...pacienteAdultez,
                                 [e.target.name]:e.target.value
@@ -258,7 +258,7 @@ function Adulthood () {
                     <label htmlFor="adulthoodEconomicSituation" className="block mb-2 text-sm font-medium text-gray-900">¿Por qué situación económica pasaste?</label>
                     <input type="text" name="adulthoodEconomicSituation" id="adulthoodEconomicSituation" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodEconomicSituation}
+                            value={pacienteAdultez.adulthoodEconomicSituation}
                             onChange={(e) => setPacienteAdultez({
                                 ...pacienteAdultez,
                                 [e.target.name]:e.target.value
@@ -269,7 +269,7 @@ function Adulthood () {
                     <label htmlFor="adulthoodProjects" className="block mb-2 text-sm font-medium text-gray-900">¿Te propusiste iniciar algún proyecto?</label>
                     <input type="text" name="adulthoodProjects" id="adulthoodProjects" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodProjects}
+                            value={pacienteAdultez.adulthoodProjects}
                             onChange={(e) => setPacienteAdultez({
                                 ...pacienteAdultez,
                                 [e.target.name]:e.target.value
@@ -280,7 +280,7 @@ function Adulthood () {
                     <label htmlFor="adulthoodUncompletedProjects" className="block mb-2 text-sm font-medium text-gray-900">¿Te quedó alguna tarea por completar?</label>
                     <input type="text" name="adulthoodUncompletedProjects" id="adulthoodUncompletedProjects" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodUncompletedProjects}
+                            value={pacienteAdultez.adulthoodUncompletedProjects}
                             onChange={(e) => setPacienteAdultez({
                                 ...pacienteAdultez,
                                 [e.target.name]:e.target.value
@@ -291,7 +291,7 @@ function Adulthood () {
                     <label htmlFor="adulthoodIllness" className="block mb-2 text-sm font-medium text-gray-900">¿Sufrió alguna enfermedad?</label>
                     <input type="text" name="adulthoodIllness" id="adulthoodIllness" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodIllness}
+                            value={pacienteAdultez.adulthoodIllness}
                             onChange={(e) => setPacienteAdultez({...pacienteAdultez, [e.target.name]:e.target.value})}
                     />
                 </div>
@@ -299,7 +299,7 @@ function Adulthood () {
                     <label htmlFor="adulthoodPersonalCrisis" className="block mb-2 text-sm font-medium text-gray-900">¿Sufrió alguna crisis emocional?</label>
                     <input type="text" name="adulthoodPersonalCrisis" id="adulthoodPersonalCrisis" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
-                            value={pacienteAdultez?.adulthoodPersonalCrisis}
+                            value={pacienteAdultez.adulthoodPersonalCrisis}
                             onChange={(e) => setPacienteAdultez({
                                 ...pacienteAdultez,
                                 [e.target.name]:e.target.value

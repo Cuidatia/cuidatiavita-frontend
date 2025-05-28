@@ -22,7 +22,7 @@ function ContactData () {
         contactEmail: '',
         contactTelecom: '',
         curatela: '',
-        deFactoGuardian: '',
+        deFactoGuardian: ''
     })
 
     const [saveData, setSaveData] = useState(false)
