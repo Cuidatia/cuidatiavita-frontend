@@ -59,7 +59,7 @@ function Dashboard() {
                         personasReferencia &&
                         personasReferencia.map((persona, index) => (
                             <div key={index} className="p-4">
-                                <CardPacientes nombre={persona.name} primerApellido={persona.firstSurname} segundoApellido={persona.secondSurname} img={persona.imgPerfil} funcion={()=>router.replace('/pacientes/'+persona.id)} />
+                                <CardPacientes nombre={persona.name} primerApellido={persona.firstSurname} segundoApellido={persona.secondSurname} img={persona.imgPerfil} funcion={()=>router.replace('/usuarios/'+persona.id)} />
                             </div>
                         ))
                     :

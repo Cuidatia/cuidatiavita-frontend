@@ -144,7 +144,7 @@ function PerfilPaciente () {
                 </div>
 
                 {/* Bloque: Historial Clínico */}
-                {(session?.user?.roles === 'medico/enfermero' || session?.user?.roles === 'administrador') && (
+                {(session?.user?.roles === 'medico/enfermero' || session?.user?.roles === 'administrador' || session?.user?.roles === 'trabajador social' || session?.user?.roles === 'educador social/terapeuta ocupacional') && (
                     <div>
                     <h2 className="text-xl font-semibold text-gray-800 mb-4">Historial Sanitario</h2>
                     <div className="grid grid-cols-2 gap-4">
@@ -159,14 +159,14 @@ function PerfilPaciente () {
                 )}
                 </div>
             <div className="py-2">
-                <label htmlFor="personal" className="block mb-2 text-sm font-medium text-gray-900">Personal de referencia:</label>
+                <label htmlFor="personal" className="block mb-2 text-sm font-medium text-gray-900"><strong>Personal de referencia</strong>, <strong>cuidadores</strong> o <strong>familiares</strong> asignados:</label>
                 <div id="personal" className="block p-2.5 w-full text-sm max-h-fit text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">
                     {
                         personalReferencia ? 
                         personalReferencia.map((persona, index) => (
                             <p>{persona.nombre}</p>
                         ))
-                        : <p>No tiene personal de referencia asignado</p>
+                        : <p>A este usuario no se le ha asignado ningún <strong>personal de referencia</strong>, <strong>cuidador</strong> o <strong>familiar</strong>.</p>
                     }
                 </div>
             </div>
