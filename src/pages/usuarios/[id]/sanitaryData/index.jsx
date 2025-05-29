@@ -6,14 +6,17 @@ import PacienteLayout from "../layout"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
+import PopUp from "@/components/popUps/popUp";
 
 function sanitaryData () {
     const {data: session, status} = useSession()
     const [mostrarPaciente, setMostrarPaciente] = useState([])
     const router = useRouter()
     const {id} = router.query
-
+    const [saveData, setSaveData] = useState(false)
     const [modificar, setModificar] = useState(false)
+    const [message, setMessage] = useState()
+    const [error, setError] = useState('')
 
     const [mainSanitaryData, setMainSanitaryData] = useState({
         mainIllness: '',
@@ -76,6 +79,13 @@ function sanitaryData () {
         if (response.ok){
             const data = await response.json()
             alert(data.message)
+            setMessage(data.message)
+            setModificar(false)
+            setSaveData(false)
+        } else{
+            const data = await response.json()
+            alert(data.error)
+            setError(data.error)
         }
     }
 
@@ -141,12 +151,34 @@ function sanitaryData () {
             {
                 modificar &&
                     <button className="cursor-pointer mx-2 bg-zinc-100 hover:text-white border-1 border-zinc-200 hover:bg-blue-500 rounded-lg text-sm px-3 py-2 text-center"
-                        onClick={enviarDatos}
+                        onClick={() => setSaveData(true)}
                     >
                         Guardar
                     </button>
             }
+            {
+                message ?
+                    <Alerts
+                        alertType={'success'}
+                        alertContent={message}
+                    />
+                : error && 
+                    <Alerts
+                        alertType={'error'}
+                        alertContent={error}
+                    />
+            }
             </div>
+            {
+                <PopUp
+                    open={saveData}
+                    popContent={'¿Desea guardar los cambios?'}
+                    popTitle="Guardar cambios"
+                    popType="option"
+                    confirmFunction={enviarDatos}
+                    cancelFunction={() => setSaveData(false)}
+                />
+            }
         </PacienteLayout>
     )
 }

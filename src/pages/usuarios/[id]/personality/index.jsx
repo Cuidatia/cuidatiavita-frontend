@@ -4,12 +4,15 @@ import { useEffect, useState } from "react";
 import withAuth from '@/components/withAuth';
 import PopUp from "@/components/popUps/popUp";
 import { useSession } from "next-auth/react";
+import Alerts from "@/components/alerts/alerts";
 
 function Personality () {
     const {data: session, status} = useSession()
     const [mostrarPaciente, setMostrarPaciente] = useState([])
     const [modificar, setModificar] = useState(false)
     const [saveData, setSaveData] = useState(false)
+    const [message, setMessage] = useState()
+    const [error, setError] = useState()
     const router = useRouter()
     const {id} = router.query
 
@@ -84,9 +87,14 @@ function Personality () {
         if (response.ok){
             const data = await response.json()
             alert(data.message)
+            setMessage(data.message)
             setModificar(false)
             setSaveData(false)
-        } 
+        } else{
+            const data = await response.json()
+            alert(data.error)
+            setError(data.error)
+        }
     }
 
     return(
@@ -195,6 +203,18 @@ function Personality () {
                     >
                         Guardar
                     </button>
+            }
+            {
+                message ?
+                    <Alerts
+                        alertType={'success'}
+                        alertContent={message}
+                    />
+                : error && 
+                    <Alerts
+                        alertType={'error'}
+                        alertContent={error}
+                    />
             }
             </div>
             {
