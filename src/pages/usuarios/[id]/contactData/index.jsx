@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import withAuth from '@/components/withAuth';
 import { useSession } from "next-auth/react";
 import PopUp from "@/components/popUps/popUp";
+import Alerts from "@/components/alerts/alerts";
 
 function ContactData () {
     const [mostrarPaciente, setMostrarPaciente] = useState([])
@@ -81,11 +82,12 @@ function ContactData () {
 
         if (response.ok){
             const data = await response.json()
-            alert('data', data)
+            setMessage(data.message)
+            setSaveData(false)
         }else {
             const data = await response.json()
-            alert('data.error', data.error)
             setError(data.error)
+            setSaveData(false)
         }
     }
 
@@ -196,6 +198,14 @@ function ContactData () {
                     </button>
             }
             </div>
+            {
+                message &&
+                    <Alerts alertContent={message} alertType={'success'} />
+            }
+            {
+                error &&
+                    <Alerts alertContent={error} alertType={'error'} />
+            }
             {
                 <PopUp 
                     open={saveData}

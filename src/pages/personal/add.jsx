@@ -14,6 +14,8 @@ function AddUsuario () {
     const [message, setMessage] = useState()
     const [error, setError] = useState()
 
+    const [showEmailSubstitute, setShowEmailSubstitute] = useState(false)
+
 
     const getRoles = async () => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getRoles', {
@@ -40,26 +42,30 @@ function AddUsuario () {
     }, [session, status])
 
     const enviarInvitacion = async () => {
-        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'sendMailInvitacion', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${session.user.token}`
-            },
-            body: JSON.stringify({
-                email: handleEmail,
-                rol: handleRol,
-                organizacion: session?.user?.idOrganizacion
-            })
-        })
+        // const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'sendMailInvitacion', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Authorization': `Bearer ${session.user.token}`
+        //     },
+        //     body: JSON.stringify({
+        //         email: handleEmail,
+        //         rol: handleRol,
+        //         organizacion: session?.user?.idOrganizacion
+        //     })
+        // })
         
-        if(response.ok){
-            const data = await response.json()
-            setMessage(data.message)
-        } else {
-            const data = await response.json()
-            setError(data.error)
-        }
+        // if(response.ok){
+        //     const data = await response.json()
+        //     setMessage(data.message)
+        //     setShowEmailSubstitute(true)
+        // } else {
+        //     const data = await response.json()
+        //     setError(data.error)
+        // }
+
+        setMessage('Invitación enviada correctamente')
+        setShowEmailSubstitute(true)
     }
 
     return(
@@ -105,6 +111,29 @@ function AddUsuario () {
                     </div>
                     <button className="cursor-pointer bg-zinc-100 hover:text-white border-1 border-zinc-200 hover:bg-blue-500 rounded-lg text-sm px-3 py-2 text-center">Enviar invitación</button>
                 </form>
+                {
+                    showEmailSubstitute && (
+                        <div className="mt-6 border border-yellow-300 bg-yellow-100 text-yellow-800 p-4 rounded-lg space-y-2">
+                            <h3 className="text-lg font-bold text-red-600">¡IMPORTANTE!</h3>
+                            <p>Este sistema aún no cuenta con servidor de correo, por lo tanto no se ha enviado ningún email.</p>
+                            <p>
+                            A continuación se muestra el enlace de invitación que deberías acceder para completar el registro del nuevo usuario:
+                            </p>
+                            <div className="bg-white border border-yellow-400 p-3 rounded-md break-words">
+                            <p className="mb-2 font-medium">Enlace de invitación:</p>
+                            <a
+                                href={`${process.env.NEXT_PUBLIC_URL}personal/create?m=${encodeURIComponent(handleEmail)}&r=${handleRol}&o=${session?.user?.idOrganizacion}`}
+                                className="text-blue-700 underline break-words"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Aceptar invitación
+                            </a>
+                            </div>
+                            <p className="text-sm italic text-yellow-700">Comparte este enlace directamente con la persona que deseas invitar.</p>
+                        </div>
+                    )
+                }
                 {
                     message ?
                         <Alerts
