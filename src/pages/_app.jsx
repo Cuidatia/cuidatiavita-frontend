@@ -8,7 +8,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
         console.log("Inicializando Clarity...");
         import('@microsoft/clarity')
         .then((clarity) => {
-            clarity.init("rt6kuejhx5");
+            clarity.default.init("rt6kuejhx5");
             console.log("Clarity iniciado");
         })
         .catch((err) => {
