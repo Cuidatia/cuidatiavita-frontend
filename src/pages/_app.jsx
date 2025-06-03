@@ -3,6 +3,7 @@ import { SessionProvider } from 'next-auth/react';
 
 export default function App({ Component, pageProps: { session, ...pageProps } }) {
     useEffect(() => {
+    console.log("NODE_ENV:", process.env.NODE_ENV);
     if (typeof window !== 'undefined' && process.env.NODE_ENV === 'production') {
         console.log("Inicializando Clarity...");
         import('@microsoft/clarity')
