@@ -7,6 +7,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
       import('@microsoft/clarity')
         .then((clarity) => {
           clarity.default.start('rt6kuejhx5');
+          console.log('Clarity iniciado');
         })
         .catch((err) => {
           console.error('Error cargando Microsoft Clarity:', err);
