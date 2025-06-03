@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { SessionProvider } from 'next-auth/react';
-import 'src/app/globals.css';
+import 'app/globals.css';
 
 export default function App({ Component, pageProps: { session, ...pageProps } }) {
     useEffect(() => {
