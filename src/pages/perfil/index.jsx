@@ -28,7 +28,7 @@ function Perfil() {
     },[session, status])
 
     const modificarDatosUsuario = async () => {
-        const response = await fetch(`http://localhost:5000/modificarUsuario`, {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'modificarUsuario', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

@@ -45,7 +45,7 @@ function lifeStory () {
     return(
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
             <div className="py-4 px-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4">
                     {
                         (session?.user?.roles === 'auxiliar' || session?.user?.roles === 'administrador') &&
                             <Card color={"linear-gradient(to left, #fff3a4 0%, #fee64f 100%)"} icon={''} title={'Infancia'} link={'/usuarios/'+mostrarPaciente.id+'/lifeStory/childhood'} />

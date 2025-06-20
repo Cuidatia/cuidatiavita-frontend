@@ -20,8 +20,12 @@ function Usuarios () {
 
     const router = useRouter()
 
+    const [paginaActual, setPaginaActual] = useState(1)
+    const [totalUsuarios, setTotalUsuarios] = useState(0)
+    const usuariosPorPagina = 5 //4 por página, ya que admin se elimina
+
     const getUsuarios = async (organizacion) => {
-        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getUsuarios?org=' + organizacion,{
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getUsuarios?org=' + organizacion + '&page=' + paginaActual + '&limit=' + usuariosPorPagina,{
             method:'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -32,6 +36,7 @@ function Usuarios () {
         if(response.ok) {
             const data = await response.json()
             setUsuarios(data.usuarios)
+            setTotalUsuarios(data.totalUsuarios)
         }
     }
 
@@ -39,7 +44,28 @@ function Usuarios () {
         if (status === 'authenticated' && session?.user?.idOrganizacion) {
             getUsuarios(session?.user?.idOrganizacion);
         }
-    },[session, status])
+    },[session, status, paginaActual])
+
+    const getUsuario = async (nombre) => {
+        if (!nombre) {getUsuarios(session?.user?.idOrganizacion)
+            return
+        }
+
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'searchUsuario?nombre=' + nombre + '&idOrganizacion=' + session?.user?.idOrganizacion, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${session.user.token}`
+            }
+        })
+
+        if (response.ok) {
+            const data = await response.json()
+            setUsuarios(data.usuarios)
+        } else {
+            setUsuarios([])
+        }
+    }
 
     const eliminarUsuario = async (usuarioId) => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'eliminarUsuario', {
@@ -65,7 +91,11 @@ function Usuarios () {
         <DashboardLayout>
             <div className='flex items-center justify-end'>
                 <input type="text" placeholder='Buscar personal...' className="bg-white border border-gray-300 text-gray-900 rounded-lg block w-64 p-2.5"
-                    onChange={(e)=>setBuscarUsuario(e.target.value)}
+                    value={buscarUsuario}
+                    onChange={(e)=>{
+                        setBuscarUsuario(e.target.value)
+                        getUsuario(e.target.value) 
+                    }}
                 />
             </div>
             <div className="relative flex py-2 items-center">
@@ -88,22 +118,25 @@ function Usuarios () {
                         usuarios.length > 0 ?
                         usuarios.filter((usuario)=> usuario.nombre.toLowerCase().includes(buscarUsuario.toLowerCase())).map((usuario, index) => (
                             usuario.id !== session.user.id &&
-                            <div className='border-b border-gray-100'>
-                                <div className='bg-white hover:bg-gray-200 shadow-sm p-4 flex items-center justify-between rounded-sm my-0.5'>
-                                    <div className='text-lg font-bold'>{usuario.nombre}</div>
+                            <div className='border-b border-gray-100 transition-all duration-[1000ms] ease-[cubic-bezier(0.15,0.83,0.66,1)] hover:scale-[1.01]'>
+                                <div className='bg-white hover:bg-gradient-to-r from-blue-300 to-blue-200 shadow-sm p-4 flex items-center justify-between rounded-sm my-0.5 cursor-pointer'
+                                    onClick={()=>router.push('personal/'+usuario.id)}>
+                                    <div className='text-lg font-bold'>
+                                            {usuario.nombre}
+                                    </div>
                                     <div className='flex justify-between w-50'>
-                                        <div className=' p-1 text-xs text-gray-600 bg-gray-100 border-gray-300 border-1 rounded-md'>
+                                        <div className='mr-8 p-1 text-xs text-gray-600 bg-gray-100 border-gray-300 border-1 rounded-md'>
                                             {usuario.roles}
                                         </div>
                                         <div className='w-12 flex items-center justify-between'>
-                                            <div className='cursor-pointer' onClick={()=>router.push('personal/'+usuario.id)}>
-                                                <svg className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 hover:text-blue-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <div className='cursor-pointer' onClick={(e)=> {e.stopPropagation(); router.push('personal/'+usuario.id)}}>
+                                                <svg className="shrink-0 w-5 h-5 text-gray-600 transition duration-75 group-hover:text-gray-900 hover:text-yellow-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" strokeWidth="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"/>
                                                 <path stroke="currentColor" strokeWidth="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                                                 </svg>
                                             </div>
-                                            <div className='cursor-pointer' onClick={()=>{setOpenPopUp(!openPopUp); setUsuarioSeleccionado(usuario)}}>
-                                                <svg className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 hover:text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <div className='cursor-pointer' onClick={(e)=> {e.stopPropagation(); setOpenPopUp(!openPopUp); setUsuarioSeleccionado(usuario)}}>
+                                                <svg className="shrink-0 w-5 h-5 text-gray-600 transition duration-75 group-hover:text-gray-900 hover:text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                                 </svg>
                                             </div>
@@ -127,7 +160,37 @@ function Usuarios () {
                         </div>
                     }
                 </div>
+                {buscarUsuario === '' && (
+                <div className="flex justify-center mt-4">
+                    <button
+                        className="px-4 py-2 mx-2 bg-gray-200 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-300"
+                        onClick={() => {
+                            const nuevaPagina = paginaActual - 1
+                            setPaginaActual(nuevaPagina)
+                            getUsuarios(session?.user?.idOrganizacion, nuevaPagina)
+                        }}
+                        disabled={paginaActual === 1}
+                    >
+                        Anterior
+                    </button>
+                    <span className="px-4 py-2 mx-2">
+                        Página {paginaActual} de {Math.ceil(totalUsuarios / usuariosPorPagina)}
+                    </span>
+                    <button
+                        className="px-4 py-2 mx-2 bg-gray-200 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-300"
+                        onClick={() => {
+                            const nuevaPagina = paginaActual + 1
+                            setPaginaActual(nuevaPagina)
+                            getUsuarios(session?.user?.idOrganizacion, nuevaPagina)
+                        }}
+                        disabled={paginaActual >= Math.ceil(totalUsuarios / usuariosPorPagina)}
+                    >
+                        Siguiente
+                    </button>
+                </div>   
+                )}
             </div>
+            
 
             {
                 message ? 

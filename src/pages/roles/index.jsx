@@ -42,7 +42,7 @@ function Roles () {
                         {
                             roles.filter((rol)=> rol.nombre !== 'superadmin').map((rol, index) => (
                                 <div className="bg-white overflow-hidden shadow rounded-lg">
-                                    <div className="p-4 sm:p-6 bg-gray-400">
+                                    <div className="p-4 sm:p-6 bg-gradient-to-r from-blue-500 to-blue-900">
                                         <h3 className="text-lg leading-6 font-medium text-white">{rol.nombre}</h3>
                                     </div>
                                     <div className="p-4 sm:p-6">

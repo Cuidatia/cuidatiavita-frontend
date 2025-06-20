@@ -14,13 +14,16 @@ function Pacientes() {
     const [openPopUp, setOpenPopUp] = useState(false)
     const router = useRouter()
 
-    const [ buscarPaciente, setBuscarPacientes ] = useState('')
+    const [buscarPaciente, setBuscarPaciente] = useState('')
     const [pacientes, setPacientes] = useState([])
     const [seleccionarPaciente, setSeleccionarPaciente] = useState()
 
+    const [paginaActual, setPaginaActual] = useState(1)
+    const [totalPacientes, setTotalPacientes] = useState(0)
+    const pacientesPorPagina = 5
+
     const getPacientes = async (organizacion) => {
-        console.log('sesion.user', session.user)
-        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPacientes?idOrganizacion='+ organizacion, {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPacientes?idOrganizacion='+ organizacion + '&page=' + paginaActual + '&limit=' + pacientesPorPagina, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -30,6 +33,7 @@ function Pacientes() {
         if(response.ok){
             const data = await response.json()
             setPacientes(data.pacientes)
+            setTotalPacientes(data.totalPacientes)
         }
     }
 
@@ -37,7 +41,28 @@ function Pacientes() {
         if (status === 'authenticated' && session?.user?.idOrganizacion) {
             getPacientes(session?.user?.idOrganizacion)
         }
-    },[session, status])
+    },[session, status, paginaActual])
+
+    const getPaciente = async (nombre) => {
+        if (!nombre) {getPacientes(session?.user?.idOrganizacion)
+            return
+        }
+
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'searchPaciente?nombre=' + nombre + '&idOrganizacion=' + session?.user?.idOrganizacion, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${session.user.token}`
+            }
+        })
+
+        if (response.ok) {
+            const data = await response.json()
+            setPacientes(data.pacientes)
+        } else {
+            setPacientes([])
+        }
+    }
 
     const eliminarPaciente = async (pacienteId) => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'eliminarPaciente', {
@@ -62,7 +87,11 @@ function Pacientes() {
         <DashboardLayout>
             <div className='flex items-center justify-end'>
                 <input type="text" placeholder='Buscar usuario...' className="bg-white border border-gray-300 text-gray-900 rounded-lg block w-64 p-2.5"
-                    onChange={(e)=>setBuscarPacientes(e.target.value)}
+                    value={buscarPaciente}
+                    onChange={(e)=>{
+                        setBuscarPaciente(e.target.value)
+                        getPaciente(e.target.value) 
+                    }}
                 />
             </div>
             <div className="relative flex py-2 items-center">
@@ -84,21 +113,22 @@ function Pacientes() {
                     {
                         pacientes.length > 0 ?
                          pacientes.filter(paciente => paciente.name.toLowerCase().includes(buscarPaciente.toLowerCase())).map((paciente, index) => (
-                            <div className='border-b border-gray-100' key={index}>
-                                <div className='bg-white hover:bg-gray-100 shadow-sm p-4 flex items-center justify-between rounded-sm my-0.5'>
+                            <div className='border-b border-gray-100 transition-all duration-[1000ms] ease-[cubic-bezier(0.15,0.83,0.66,1)] hover:scale-[1.01]' key={index}>
+                                <div className='bg-white hover:bg-gradient-to-r from-blue-300 to-blue-200 shadow-sm p-4 flex items-center justify-between rounded-sm my-0.5 cursor-pointer'
+                                    onClick={()=>router.push('usuarios/'+paciente.id)}>
                                     <div className='flex items-center'>
                                         {/* <img src={paciente.imgPerfil} alt={paciente.nombre} className='rounded-full w-16 h-auto max-w-16 mr-2'/> */}
                                         <p className='text-lg font-bold'>{paciente.name} {paciente.firstSurname} {paciente.secondSurname}</p>
                                     </div>
                                     
                                     <div className='w-12 flex items-center justify-between'>
-                                    <div className='cursor-pointer' onClick={()=>router.push('usuarios/'+paciente.id)}>
-                                            <svg className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 hover:text-blue-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <div className='cursor-pointer' onClick={(e)=> {e.stopPropagation(); router.push('usuarios/'+paciente.id)}}>
+                                            <svg className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 hover:text-yellow-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                             <path stroke="currentColor" strokeWidth="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"/>
                                             <path stroke="currentColor" strokeWidth="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                                             </svg>
                                         </div>
-                                        <div data-tooltip-target="tooltip-default" className='cursor-pointer' onClick={()=>{setOpenPopUp(!openPopUp); setSeleccionarPaciente(paciente)}}>
+                                        <div data-tooltip-target="tooltip-default" className='cursor-pointer' onClick={(e)=> {e.stopPropagation(); setOpenPopUp(!openPopUp); setSeleccionarPaciente(paciente)}}>
                                             <svg className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 hover:text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                             </svg>
@@ -120,6 +150,35 @@ function Pacientes() {
                             </div>
                     }
                 </div>
+                {buscarPaciente === '' && (
+                <div className="flex justify-center mt-4">
+                    <button
+                        className="px-4 py-2 mx-2 bg-gray-200 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-300"
+                        onClick={() => {
+                            const nuevaPagina = paginaActual - 1
+                            setPaginaActual(nuevaPagina)
+                            getPacientes(session?.user?.idOrganizacion, nuevaPagina)
+                        }}
+                        disabled={paginaActual === 1}
+                    >
+                        Anterior
+                    </button>
+                    <span className="px-4 py-2 mx-2">
+                        Página {paginaActual} de {Math.ceil(totalPacientes / pacientesPorPagina)}
+                    </span>
+                    <button
+                        className="px-4 py-2 mx-2 bg-gray-200 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-300"
+                        onClick={() => {
+                            const nuevaPagina = paginaActual + 1
+                            setPaginaActual(nuevaPagina)
+                            getPacientes(session?.user?.idOrganizacion, nuevaPagina)
+                        }}
+                        disabled={paginaActual >= Math.ceil(totalPacientes / pacientesPorPagina)}
+                    >
+                        Siguiente
+                    </button>
+                </div>
+                )}
             </div>
             {
                 showAlert &&

@@ -4,6 +4,7 @@ import { use, useEffect, useState } from "react";
 import Card from "@/components/cards/card";
 import withAuth from '@/components/withAuth';
 import Alerts from "@/components/alerts/alerts";
+import PopUp from '@/components/popUps/popUp';
 import { useSession } from "next-auth/react";
 
 function PerfilPaciente () {
@@ -12,6 +13,7 @@ function PerfilPaciente () {
     const [personalReferencia, setPersonalReferencia] = useState([])
     const [usuarios, setUsuarios] = useState([])
     const [usuarioSeleccionado, setUsuarioSeleccionado] = useState()
+    const [openPopUp, setOpenPopUp] = useState(false)
     const [message, setMessage] = useState()
     const [error, setError] = useState()
     const [roles, setRoles] = useState()
@@ -105,7 +107,7 @@ function PerfilPaciente () {
                 {/* Bloque: Historial de Vida */}
                 <div>
                     <h2 className="text-xl font-semibold text-gray-800 mb-4">Historial de Vida</h2>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Card
                         color={"linear-gradient(to left, #e5c0fdaf 30%, #e5c0fd 80%)"}
                         icon={'personalData'}
@@ -147,7 +149,7 @@ function PerfilPaciente () {
                 {(session?.user?.roles === 'medico/enfermero' || session?.user?.roles === 'administrador' || session?.user?.roles === 'trabajador social' || session?.user?.roles === 'educador social/terapeuta ocupacional') && (
                     <div>
                     <h2 className="text-xl font-semibold text-gray-800 mb-4">Historial Sanitario</h2>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <Card
                         color={"linear-gradient(to left, #c6ffb2 30%, #acff8f 80%)"}
                         icon={"medico"}
@@ -159,14 +161,38 @@ function PerfilPaciente () {
                 )}
                 </div>
             <div className="py-2">
-                <label htmlFor="personal" className="block mb-2 text-sm font-medium text-gray-900"><strong>Personal de referencia</strong>, <strong>cuidadores</strong> o <strong>familiares</strong> asignados:</label>
+                <label htmlFor="personal" className="block mb-2 text-sm font-medium text-gray-900"><strong>Personal de referencia</strong> asignados:</label>
                 <div id="personal" className="block p-2.5 w-full text-sm max-h-fit text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">
                     {
-                        personalReferencia ? 
-                        personalReferencia.map((persona, index) => (
+                        personalReferencia && personalReferencia.filter(persona => persona.roles?.includes('medico/enfermero','trabajador social','educador social/terapeuta ocupacional')).length > 0 ? 
+                        personalReferencia.filter(persona => persona.roles !== 'auxiliar' && persona.roles !== 'familiar').map((persona, index) => (
                             <p>{persona.nombre}</p>
                         ))
-                        : <p>A este usuario no se le ha asignado ningún <strong>personal de referencia</strong>, <strong>cuidador</strong> o <strong>familiar</strong>.</p>
+                        : <p>A este usuario no se le ha asignado ningún <strong>personal de referencia</strong>.</p>
+                    }
+                </div>
+            </div>
+            <div className="py-2">
+                <label htmlFor="personal" className="block mb-2 text-sm font-medium text-gray-900"><strong>Cuidadores</strong> asignados:</label>
+                <div id="personal" className="block p-2.5 w-full text-sm max-h-fit text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">
+                    {
+                        personalReferencia && personalReferencia.filter(persona => persona.roles?.includes('auxiliar')).length > 0 ? 
+                        personalReferencia.filter(persona => persona.roles === 'auxiliar').map((persona, index) => (
+                            <p>{persona.nombre}</p>
+                        ))
+                        : <p>A este usuario no se le ha asignado ningún <strong>cuidador</strong>.</p>
+                    }
+                </div>
+            </div>
+            <div className="py-2">
+                <label htmlFor="personal" className="block mb-2 text-sm font-medium text-gray-900"><strong>Familiares</strong> asignados:</label>
+                <div id="personal" className="block p-2.5 w-full text-sm max-h-fit text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">
+                    {
+                        personalReferencia && personalReferencia.filter(persona => persona.roles?.includes('familiar')).length > 0 ? 
+                        personalReferencia.filter(persona => persona.roles === 'familiar').map((persona, index) => (
+                            <p>{persona.nombre}</p>
+                        ))
+                        : <p>A este usuario no se le ha asignado ningún <strong>familiar</strong>.</p>
                     }
                 </div>
             </div>

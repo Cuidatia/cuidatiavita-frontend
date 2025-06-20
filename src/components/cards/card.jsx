@@ -40,9 +40,11 @@ export default function Card (props) {
 
     return(
         <Link className="card rounded-md" style={{background: color}} href={link}>
-            <div className="card-header flex flex-nowrap text-stone-600">
-                <p className='text-2xl'>{title}</p>
-                <div className='card-logo'>
+            <div className="card-header flex items-center gap-2 text-stone-600">
+              <div className="flex flex-col items-start flex-1 min-w-0">
+                <p className='text-base sm:text-2xl font-semibold text-wrap leading-snug truncate sm:whitespace-normal'>{title}</p>
+                </div>
+                <div className='card-logo shrink-0'>
                     {
                       getIcon()
                         // icon === 'general' ?

@@ -2,10 +2,17 @@ import { useRouter } from "next/router"
 import DashboardLayout from "../dashboard/layout"
 import { useEffect, useState } from "react"
 import withAuth from '@/components/withAuth';
+import Alerts from "@/components/alerts/alerts";
+import PopUp from '@/components/popUps/popUp';
+import { useSession } from "next-auth/react";
 
 function PerfilPaciente () {
+    const {data: session, status} = useSession()
     const [mostrarUsuario, setMostrarUsuario] = useState([])
     const [modificar, setModificar] = useState(false)
+    const [message, setMessage] = useState()
+    const [openPopUp, setOpenPopUp] = useState(false)
+    const [error, setError] = useState()
     const [roles, setRoles] = useState()
     const router = useRouter()
     const {id} = router.query
@@ -14,7 +21,8 @@ function PerfilPaciente () {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getUsuario?id='+ id, {
             method: 'GET',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${session.user.token}`
             }
         })
 
@@ -30,6 +38,7 @@ function PerfilPaciente () {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${session.user.token}`
             }
         })
         if(response.ok){
@@ -39,9 +48,54 @@ function PerfilPaciente () {
     }
 
     useEffect(()=>{
-        getUsuario()
-        getRoles()
-    },[])
+        if (status === 'authenticated') {
+            getUsuario()
+            getRoles()
+        }
+    },[session, status])
+
+    const modificarDatosUsuario = async () => {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'modificarUsuario', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${session.user.token}`
+            },
+            body: JSON.stringify({mostrarUsuario})
+        })
+
+        if (response.ok) {
+            const data = await response.json()
+            setMostrarUsuario(data.usuario)
+            setMessage(data.message)
+        }
+        else {
+            const data = await response.json()
+            setError(data.error)
+        }
+
+        setModificarDatos(!modificarDatos)
+    }
+
+    const eliminarUsuario = async (usuarioId) => {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'eliminarUsuario', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${session.user.token}`
+            },
+            body: JSON.stringify({usuarioId})
+        })
+
+        if(response.ok){
+            const data = await response.json()
+            setMessage(data.message)
+            router.push("/personal/");
+        }else{
+            const data = await response.json()
+            setError(data.error)
+        }
+    }
 
     return(
         <DashboardLayout>
@@ -50,6 +104,10 @@ function PerfilPaciente () {
                 <div>
                     <div className='flex items-center justify-between'>
                         <h2 className='text-2xl font-bold'>{mostrarUsuario.nombre}</h2>
+                        <button className="cursor-pointer border-2 border-red-600 bg-white text-red-600 text-xs sm:text-sm font-medium px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg transition-colors duration-200 hover:bg-red-600 hover:text-white"
+                         onClick={()=>{setOpenPopUp(!openPopUp);}}>
+                            Eliminar personal
+                        </button>
                     </div>
                     <div className="py-4">
                         <form action="" className="space-y-4 md:space-y-6">
@@ -93,6 +151,31 @@ function PerfilPaciente () {
                     </div>
                 </div>
             }
+
+            {
+                message ? 
+                <Alerts
+                    alertType={'success'}
+                    alertContent={message}
+                    />
+                : error &&
+                <Alerts
+                    alertType={'error'}
+                    alertContent={error}
+                />
+            }
+
+            <PopUp
+                open={openPopUp} 
+                popTitle="Eliminar personal"
+                popContent={`¿Está seguro de que desea eliminar al personal ${mostrarUsuario.nombre}?`}
+                popType="option"
+                confirmFunction={() => {
+                    eliminarUsuario(mostrarUsuario.id);
+                    setOpenPopUp(false);
+                }}
+                cancelFunction={() => setOpenPopUp(false)}
+            />
         </DashboardLayout>
     )
 }
