@@ -97,7 +97,7 @@ function Pacientes() {
             <div className="relative flex py-2 items-center">
                 <div className="flex-grow border-t border-gray-300"></div>
             </div>
-            <div>
+            <div className='flex flex-grow flex-col'>
                 <div className='flex items-center justify-between'>
                     <h2 className='text-2xl font-bold'>Usuarios</h2>
                     <div className='w-18 flex items-center justify-between text-gray-500 cursor-pointer hover:text-green-400'

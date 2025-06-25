@@ -31,7 +31,7 @@ export default NextAuth({
         if (data.usuario) {
           const user = {
             id: data.usuario.id,
-            name: data.usuario.nombre,
+            nombre: data.usuario.nombre,
             email: data.usuario.email,
             idOrganizacion: data.usuario.idOrganizacion,
             roles: data.usuario.roles,
@@ -52,7 +52,7 @@ export default NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.name = user.name;
+        token.nombre = user.nombre;
         token.email = user.email;
         token.roles = user.roles;
         token.idOrganizacion = user.idOrganizacion;
@@ -62,7 +62,7 @@ export default NextAuth({
     },
     async session({ session, token }) {
       session.user.id = token.id;
-      session.user.name = token.name;
+      session.user.nombre = token.nombre;
       session.user.email = token.email;
       session.user.roles = token.roles;
       session.user.idOrganizacion = token.idOrganizacion;

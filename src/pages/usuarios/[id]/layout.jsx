@@ -36,7 +36,7 @@ export default function PacienteLayout({ children, mostrarPaciente }) {
         <DashboardLayout>
             <div className='flex items-center justify-between'>
                 <h2 className='text-2xl font-bold'>{mostrarPaciente.name} {mostrarPaciente.firstSurname} {mostrarPaciente.secondSurname}</h2>            
-                <button className="cursor-pointer border-2 border-red-600 bg-white text-red-600 text-xs sm:text-sm font-medium px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg transition-colors duration-200 hover:bg-red-600 hover:text-white"
+                <button className="cursor-pointer text-red-700 hover:text-white border border-red-500 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                     onClick={()=>{setOpenPopUp(!openPopUp);}}>
                     Eliminar usuario
                 </button>
@@ -46,7 +46,7 @@ export default function PacienteLayout({ children, mostrarPaciente }) {
             </div>
             {children}
 
-                        <PopUp
+            <PopUp
                 open={openPopUp} 
                 popTitle="Eliminar usuario"
                 popContent={`¿Está seguro de que desea eliminar al usuario ${mostrarPaciente.name} ${mostrarPaciente.firstSurname} ${mostrarPaciente.secondSurname}?`}

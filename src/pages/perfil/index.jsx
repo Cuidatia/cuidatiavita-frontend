@@ -84,14 +84,14 @@ function Perfil() {
             mostrarUsuario &&
             <div >
                 <div className='flex items-center justify-between'>
-                    <h2 className='text-2xl font-bold'>{mostrarUsuario.name}</h2>
+                    <h2 className='text-2xl font-bold'>{mostrarUsuario.nombre}</h2>
                 </div> 
                 <div className="py-4 my-4 overflow-y-scroll h-[calc(100vh-220px)]">
                     <div className="space-y-4 md:space-y-6">
                         <div>
                             <label htmlFor="nombre" className="block mb-2 text-sm font-medium text-gray-900">Nombre</label>
                             <input type="text" name="nombre" id="nombre" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full block p-2.5"
-                                value={mostrarUsuario.name}
+                                value={mostrarUsuario.nombre}
                                 disabled={!modificarDatos}
                                 onChange={(e) => setMostrarUsuario({ ...mostrarUsuario, name: e.target.value })}
                             />
@@ -124,7 +124,7 @@ function Perfil() {
                         <div className="flex-grow border-t border-gray-300"></div>
                     </div>
                     <div className="py-4 md:space-y-6">
-                        <h3 className="text-xl font-bold">Establecer nueva contraseña</h3>
+                        <h3 className="text-xl font-semibold">Establecer nueva contraseña</h3>
                         <div>
                             <label htmlFor="passsword" className="block mb-2 text-sm font-medium text-gray-900">Nueva contraseña</label>
                             <input type="password" name="newpassword" id="newpassword" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full block p-2.5" 

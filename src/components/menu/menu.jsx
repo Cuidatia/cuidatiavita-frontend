@@ -9,7 +9,7 @@ export default function Menu () {
     const pathname = router.pathname;
 
     const cerrarSesion = async () => {
-        signOut({ callbackUrl: '/login' })
+        signOut({ callbackUrl: process.env.NEXT_PUBLIC_API_URL + '/login' })
     }
 
     const isActive = (route) => pathname === route || pathname.startsWith(route + '/');

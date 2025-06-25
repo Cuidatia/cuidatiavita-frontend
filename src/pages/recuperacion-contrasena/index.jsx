@@ -31,7 +31,7 @@ export default function RecuperarContrasena () {
             <div className="flex flex-col bg-white shadow-sm border border-slate-200 rounded-lg my-6 p-4">
                 <div class="relative m-2.5 items-center flex justify-center text-white h-24 w-96 rounded-md bg-gray-50 header-login"></div>
                 <div>
-                    <h2 className='text-2xl font-bold mt-8 text-center'>Recuperar contraseña</h2>
+                    <h2 className='text-2xl font-semibold mt-8 text-center'>Recuperar contraseña</h2>
                 </div>
                 <div className="py-4">
                     <form className="space-y-4 md:space-y-6" action={enviarForm}>

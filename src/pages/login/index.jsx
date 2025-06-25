@@ -30,10 +30,10 @@ export default function Login(){
     }
     return (
         <LogInLayout>
-            <div className="flex flex-col bg-white shadow-sm border border-slate-200 w-full max-w-sm sm:mx-auto rounded-lg my-4 px-4">
+            <div className="md:min-w-104 flex flex-col bg-white shadow-sm border border-slate-200 w-full max-w-sm sm:mx-auto rounded-lg my-4 px-4 pt-4">
                 <div class="relative m-2.5 items-center flex justify-center text-white h-24 rounded-md bg-gray-50 header-login"></div>
                 <form className="space-y-4 m-2 pt-4 pb-6" action={handleSubmit}>
-                    <h1 className="font-bold text-2xl text-center text-gray-800">Iniciar Sesión</h1>
+                    <h1 className="font-semibold text-2xl text-center text-gray-800">Iniciar Sesión</h1>
                     <div>
                         <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Correo</label>
                         <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2 text-sm" placeholder="ejemplo@ejemplo.com" required

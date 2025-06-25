@@ -86,13 +86,11 @@ function Personality () {
         })
         if (response.ok){
             const data = await response.json()
-            alert(data.message)
             setMessage(data.message)
             setModificar(false)
             setSaveData(false)
         } else{
             const data = await response.json()
-            alert(data.error)
             setError(data.error)
         }
     }

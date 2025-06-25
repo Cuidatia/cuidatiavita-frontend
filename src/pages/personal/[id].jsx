@@ -74,7 +74,7 @@ function PerfilPaciente () {
             setError(data.error)
         }
 
-        setModificarDatos(!modificarDatos)
+        setModificar(!modificar)
     }
 
     const eliminarUsuario = async (usuarioId) => {
@@ -104,37 +104,41 @@ function PerfilPaciente () {
                 <div>
                     <div className='flex items-center justify-between'>
                         <h2 className='text-2xl font-bold'>{mostrarUsuario.nombre}</h2>
-                        <button className="cursor-pointer border-2 border-red-600 bg-white text-red-600 text-xs sm:text-sm font-medium px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg transition-colors duration-200 hover:bg-red-600 hover:text-white"
+                        <button className="cursor-pointer text-red-700 hover:text-white border border-red-500 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                          onClick={()=>{setOpenPopUp(!openPopUp);}}>
                             Eliminar personal
                         </button>
                     </div>
                     <div className="py-4">
-                        <form action="" className="space-y-4 md:space-y-6">
+                        <div className="space-y-4 md:space-y-6">
                             <div>
                                 <label htmlFor="nombre" className="block mb-2 text-sm font-medium text-gray-900">Nombre</label>
                                 <input type="text" name="nombre" id="nombre" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full block p-2.5"
                                     value={mostrarUsuario.nombre}
-                                    disabled
+                                    onChange={(e) => setMostrarUsuario({ ...mostrarUsuario, nombre: e.target.value })}
+                                    disabled={!modificar}
                                 />
                             </div>
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Email</label>
                                 <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full block p-2.5"
                                     value={mostrarUsuario.email}
-                                    disabled
+                                    onChange={(e) => setMostrarUsuario({ ...mostrarUsuario, email: e.target.value })}
+                                    disabled={!modificar}
                                 />
                             </div>
-                            <div>
+                            {/* <div>
                                 <label htmlFor="passsword" className="block mb-2 text-sm font-medium text-gray-900">Contraseña</label>
                                 <input type="password" name="password" id="password" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full block p-2.5" 
-                                    disabled
+                                    //onChange={(e) => setMostrarUsuario({ ...mostrarUsuario, password: e.target.value })}
+                                    disabled={!modificar}
                                 />
-                            </div>
+                            </div> */}
                             <div>
                                 <label htmlFor="roles" className="block mb-2 text-sm font-medium text-gray-900">Roles</label>
                                 <select name="roles" id="roles" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                                    disabled
+                                    onChange={(e) => setMostrarUsuario({ ...mostrarUsuario, roles: e.target.value })}
+                                    disabled={!modificar}
                                 >
                                     {
                                         roles && 
@@ -146,8 +150,22 @@ function PerfilPaciente () {
                                     }
                                 </select>
                             </div>
-                            <button className="cursor-pointer bg-zinc-100 hover:text-white border-1 border-zinc-200 hover:bg-blue-500 rounded-lg text-sm px-3 py-2 text-center">Modificar</button>
-                        </form>
+                            <div>
+                                <button className="cursor-pointer bg-zinc-100 border-1 border-zinc-200 hover:bg-zinc-300 me-1 rounded-lg text-sm px-3 py-2 text-center"
+                                    onClick={()=>{setModificar(!modificar)}}
+                                >
+                                    {!modificar ? 'Modificar' : 'Cancelar'}
+                                </button>
+                                {
+                                    modificar &&
+                                    <button className="cursor-pointer text-white bg-blue-400 hover:text-white border-1 border-zinc-200 hover:bg-blue-600 rounded-lg text-sm px-3 py-2 text-center"
+                                        onClick={()=>{modificarDatosUsuario()}}
+                                    >
+                                        Guardar
+                                    </button>
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
             }
