@@ -53,7 +53,7 @@ function Galeria () {
     return(
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
             <div className="py-4 px-4">
-                <h2 className='text-2xl font-bold'>Galería de imagenes</h2>
+                <h2 className='text-xl font-semibold'>Galería de imagenes</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
                     <div className="grid gap-4">
                         {

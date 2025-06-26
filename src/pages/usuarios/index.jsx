@@ -6,12 +6,16 @@ import withAuth from '@/components/withAuth';
 import PopUp from '@/components/popUps/popUp';
 import Alerts from '@/components/alerts/alerts';
 import { useSession } from 'next-auth/react';
+import { GoogleGenAI } from "@google/genai";
+
+const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY });
 
 function Pacientes() {
     const {data: session, status} = useSession()
     const [showAlert, setShowAlert] = useState()
     const [showError, setShowError] = useState()
     const [openPopUp, setOpenPopUp] = useState(false)
+    const [openPopUpExportar, setOpenPopUpExportar] = useState(false)
     const router = useRouter()
 
     const [buscarPaciente, setBuscarPaciente] = useState('')
@@ -83,6 +87,32 @@ function Pacientes() {
         }
     }
 
+    const exportarPDF = async (id) => {
+            const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPaciente?id='+ id, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': `Bearer ${session.user.token}`
+                }
+            })
+    
+            if (response.ok){
+                const data = await response.json()
+                console.log('data.paciente', data.paciente)
+                const res = await ai.models.generateContent({
+                    model: "gemini-2.5-flash",
+                    contents: "Genera un informe detallado teniendo en cuenta el siguiente json: " + JSON.stringify(data.paciente),
+                });
+                console.log(res.text);
+    
+                // if(res.ok){
+                //     const informe = await res.json()
+                //     console.log('informe', informe)
+                // }
+            }
+            
+        }
+
     return (
         <DashboardLayout>
             <div className='flex items-center justify-end'>
@@ -121,8 +151,13 @@ function Pacientes() {
                                         <p className='text-lg font-bold'>{paciente.name} {paciente.firstSurname} {paciente.secondSurname}</p>
                                     </div>
                                     
-                                    <div className='w-12 flex items-center justify-between'>
-                                    <div className='cursor-pointer' onClick={(e)=> {e.stopPropagation(); router.push('usuarios/'+paciente.id)}}>
+                                    <div className='w-18 flex items-center justify-between'>
+                                            <div title='Exportar' className='cursor-pointer' onClick={(e)=> {e.stopPropagation(); setOpenPopUpExportar(!openPopUpExportar); setSeleccionarPaciente(paciente)}}>
+                                                <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 hover:text-green-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 17v-5h1.5a1.5 1.5 0 1 1 0 3H5m12 2v-5h2m-2 3h2M5 10V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1v6M5 19v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1M10 3v4a1 1 0 0 1-1 1H5m6 4v5h1.375A1.627 1.627 0 0 0 14 15.375v-1.75A1.627 1.627 0 0 0 12.375 12H11Z"/>
+                                                </svg>
+                                            </div>
+                                        <div className='cursor-pointer' onClick={(e)=> {e.stopPropagation(); router.push('usuarios/'+paciente.id)}}>
                                             <svg className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 hover:text-yellow-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                             <path stroke="currentColor" strokeWidth="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"/>
                                             <path stroke="currentColor" strokeWidth="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
@@ -199,6 +234,16 @@ function Pacientes() {
                     setOpenPopUp(false);
                 }}
                 cancelFunction={() => setOpenPopUp(false)}
+            />
+            <PopUp
+                open={openPopUpExportar} 
+                popTitle="Exportar informe"
+                popContent={``}
+                popType="option"
+                confirmFunction={() => {
+                    exportarPDF(seleccionarPaciente?.id);
+                }}
+                cancelFunction={() => setOpenPopUpExportar(false)}
             />
                 
         </DashboardLayout>

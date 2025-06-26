@@ -115,12 +115,27 @@ function Pharmacy () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="paymentMethod" className="block mb-2 text-sm font-medium text-gray-900">¿Qué método de pago suele utilizar para adquirir sus medicamentos?</label>
-                    <input type="text" name="paymentMethod" id="paymentMethod" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                         disabled={!modificar}
-                         value={pacienteFarmacia?.paymentMethod}
-                         onChange={(e)=>setPacienteFarmacia({...pacienteFarmacia, [e.target.name]:e.target.value})}
-                    />
+                    <fieldset disabled={!modificar}>
+                            <legend className="block mb-4 text-sm font-medium text-gray-900">¿Qué método de pago suele utilizar para adquirir sus medicamentos?</legend>
+                            <div className="flex items-center mb-4">
+                                <input type="radio" name="paymentMethod" id="Seguros" className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
+                                    checked={pacienteFarmacia?.paymentMethod === 'S'} value='S' onClick={(e)=>setPacienteFarmacia({...pacienteFarmacia, [e.target.name]:e.target.value})}
+                                />
+                                <label htmlFor="Seguros" className="block ms-2  text-sm font-medium text-gray-900">Seguros de salud</label>
+                            </div>
+                            <div className="flex items-center mb-4">
+                                <input type="radio" name="paymentMethod" id="Particulares" className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
+                                    checked={pacienteFarmacia?.paymentMethod === 'P'} value='P' onClick={(e)=>setPacienteFarmacia({...pacienteFarmacia, [e.target.name]:e.target.value})}
+                                />
+                                <label htmlFor="Particulares" className="block ms-2  text-sm font-medium text-gray-900">Pagos particulares</label>
+                            </div>
+                            <div className="flex items-center mb-4">
+                                <input type="radio" name="paymentMethod" id="Descuentos" className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
+                                    checked={pacienteFarmacia?.paymentMethod === 'D'} value='D' onClick={(e)=>setPacienteFarmacia({...pacienteFarmacia, [e.target.name]:e.target.value})}
+                                />
+                                <label htmlFor="Descuentos" className="block ms-2  text-sm font-medium text-gray-900">Programas de descuentos</label>
+                            </div>
+                    </fieldset>
                 </div>
             </div>
             <div className="border-t-1 border-gray-300">

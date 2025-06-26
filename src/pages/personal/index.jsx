@@ -119,23 +119,23 @@ function Usuarios () {
                         usuarios.filter((usuario)=> usuario.nombre.toLowerCase().includes(buscarUsuario.toLowerCase())).map((usuario, index) => (
                             usuario.id !== session.user.id &&
                             <div className='border-b border-gray-100 transition-all duration-[1000ms] ease-[cubic-bezier(0.15,0.83,0.66,1)] hover:scale-[1.01]'>
-                                <div className='bg-white hover:bg-gradient-to-r from-blue-300 to-blue-200 shadow-sm p-4 flex items-center justify-between rounded-sm my-0.5 cursor-pointer'
+                                <div className='bg-white hover:bg-gradient-to-r from-blue-200 to-blue-100 shadow-sm p-4 flex items-center justify-between rounded-sm my-0.5 cursor-pointer'
                                     onClick={()=>router.push('personal/'+usuario.id)}>
                                     <div className='text-lg font-bold'>
                                             {usuario.nombre}
                                     </div>
-                                    <div className='flex justify-between w-50'>
-                                        <div className='mr-8 p-1 text-xs text-gray-600 bg-gray-100 border-gray-300 border-1 rounded-md'>
+                                    <div className='flex justify-between w-fit max-w-50'>
+                                        <div title={usuario.roles} className='mr-8 p-1 text-xs text-gray-600 bg-gray-100 border-gray-300 border-1 rounded-md whitespace-nowrap overflow-hidden text-ellipsis'>
                                             {usuario.roles}
                                         </div>
-                                        <div className='w-12 flex items-center justify-between'>
-                                            <div className='cursor-pointer' onClick={(e)=> {e.stopPropagation(); router.push('personal/'+usuario.id)}}>
+                                        <div className='w-12 flex items-center justify-between min-w-12'>
+                                            <div title='Ver' className='cursor-pointer' onClick={(e)=> {e.stopPropagation(); router.push('personal/'+usuario.id)}}>
                                                 <svg className="shrink-0 w-5 h-5 text-gray-600 transition duration-75 group-hover:text-gray-900 hover:text-yellow-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" strokeWidth="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"/>
                                                 <path stroke="currentColor" strokeWidth="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                                                 </svg>
                                             </div>
-                                            <div className='cursor-pointer' onClick={(e)=> {e.stopPropagation(); setOpenPopUp(!openPopUp); setUsuarioSeleccionado(usuario)}}>
+                                            <div title='Eliminar' className='cursor-pointer' onClick={(e)=> {e.stopPropagation(); setOpenPopUp(!openPopUp); setUsuarioSeleccionado(usuario)}}>
                                                 <svg className="shrink-0 w-5 h-5 text-gray-600 transition duration-75 group-hover:text-gray-900 hover:text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                                 </svg>
