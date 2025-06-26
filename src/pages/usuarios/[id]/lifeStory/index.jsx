@@ -56,7 +56,7 @@ function lifeStory () {
                     }
                     {
                         (session?.user?.roles === 'auxiliar' || session?.user?.roles === 'administrador') &&
-                            <Card color={"linear-gradient(to left, #ffd495 0%, #ffbf62 100%)"} icon={''} title={'Adultez'} link={'/usuarios/'+mostrarPaciente.id+'/lifeStory/adulthood'} />
+                            <Card color={"linear-gradient(to left, #ffd495 0%, #ffbf62 100%)"} icon={''} title={'Edad Adulta'} link={'/usuarios/'+mostrarPaciente.id+'/lifeStory/adulthood'} />
                     }
                     {
                         (session?.user?.roles === 'auxiliar' || session?.user?.roles === 'administrador') &&

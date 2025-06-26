@@ -50,22 +50,68 @@ function Galeria () {
         }
     },[session, status])
 
+    const galleryData= [
+        {
+            title: "Generales",
+            images: [
+            { src: "/static/juan.png" },
+            { src: "/static/manolo.jpeg" },
+            ],
+        },
+        {
+            title: "Infancia",
+            images: [
+            { src: "/static/marta.jpg" },
+            ],
+        },
+        {
+            title: "Juventud",
+            images: [
+            { src: "/static/antonio.jpg" },
+            ],
+        },
+    ];
+
     return(
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
-            <div className="py-4 px-4">
+            {/*<div className="py-4 px-4">
                 <h2 className='text-xl font-semibold'>Galería de imagenes</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
                     <div className="grid gap-4">
                         {
-                            imagenesPaciente && imagenesPaciente.map((imagen, index) => (
-                                <div key={index}>
-                                    <img src={imagen.url} alt={`Imagen ${index}`} className="h-auto max-w-full rounded-lg" />
-                                </div>
+                            galleryData.map((imagenes) => (
+                                imagenes.images.map((imagen, index)=>(
+                                    <div key={index}>
+                                        <img src={imagen.src} alt={`Imagen ${index}`} className="h-auto max-w-full rounded-lg" />
+                                    </div>
+                                ))
                             ))
                         }
                     </div>
                 </div>
-            </div>
+            </div>*/}
+            <div className="space-y-10 p-6">
+                {galleryData.map((section) => (
+                    <div key={section.title}>
+                    <h2 className="text-2xl font-semibold mb-4">{section.title}</h2>
+                    <div className="flex space-x-4 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400">
+                        {section.images.map((img, idx) => (
+                        <div
+                            key={idx}
+                            className="min-w-[200px] h-[150px] relative rounded overflow-hidden shadow-md"
+                        >
+                            <img
+                            src={img.src}
+                            alt={img.alt || section.title}
+                            fill
+                            className="object-cover max-w-64"
+                            />
+                        </div>
+                        ))}
+                    </div>
+                    </div>
+                ))}
+                </div>
         </PacienteLayout>
     )
 }

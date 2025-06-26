@@ -103,7 +103,7 @@ function Usuarios () {
             </div>
             <div>
                 <div className='flex items-center justify-between'>
-                    <h2 className='text-2xl font-bold'>Personal</h2>
+                    <h2 className='text-2xl font-semibold'>Personal</h2>
                     <div className='w-18 flex items-center justify-between cursor-pointer rounded-2xl hover:text-green-400 text-gray-500'
                         onClick={()=>{router.push('personal/add')}}
                     >
@@ -121,7 +121,7 @@ function Usuarios () {
                             <div className='border-b border-gray-100 transition-all duration-[1000ms] ease-[cubic-bezier(0.15,0.83,0.66,1)] hover:scale-[1.01]'>
                                 <div className='bg-white hover:bg-gradient-to-r from-blue-200 to-blue-100 shadow-sm p-4 flex items-center justify-between rounded-sm my-0.5 cursor-pointer'
                                     onClick={()=>router.push('personal/'+usuario.id)}>
-                                    <div className='text-lg font-bold'>
+                                    <div className='text-lg font-semibold'>
                                             {usuario.nombre}
                                     </div>
                                     <div className='flex justify-between w-fit max-w-50'>

@@ -8,6 +8,8 @@ import Alerts from '@/components/alerts/alerts';
 import { useSession } from 'next-auth/react';
 import { GoogleGenAI } from "@google/genai";
 
+import { getContactData, getPersonalData, getPersonality } from '@/api/exportar';
+
 const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY });
 
 function Pacientes() {
@@ -16,6 +18,7 @@ function Pacientes() {
     const [showError, setShowError] = useState()
     const [openPopUp, setOpenPopUp] = useState(false)
     const [openPopUpExportar, setOpenPopUpExportar] = useState(false)
+    const [selectedData, setSelectedData] = useState(0)
     const router = useRouter()
 
     const [buscarPaciente, setBuscarPaciente] = useState('')
@@ -87,31 +90,135 @@ function Pacientes() {
         }
     }
 
+    const contentPopUpExportar = (
+        <fieldset>
+                <legend className="block mb-4 text-sm font-medium text-gray-900">
+                    ¿Que desea exportar?
+                </legend>
+
+                {/* <div className="flex items-center mb-4">
+                    <input
+                        type="radio"
+                        name="informe"
+                        id="personalData"
+                        className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
+                        value="0"
+                        onClick={(e)=>setSelectedData(e.target.value)}
+                    />
+                    <label htmlFor="Masculino" className="block ms-2 text-sm font-medium text-gray-900">
+                        Todos
+                    </label>
+                </div> */}
+
+                <div className="flex items-center mb-4">
+                    <input
+                        type="radio"
+                        name="exportar"
+                        id="personalData"
+                        className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
+                        value="1"
+                        onClick={(e)=>setSelectedData(e.target.value)}
+                    />
+                    <label htmlFor="personalData" className="block ms-2 text-sm font-medium text-gray-900">
+                        Datos personales
+                    </label>
+                </div>
+                <div className="flex items-center mb-4">
+                    <input
+                        type="radio"
+                        name="exportar"
+                        id="personalidad"
+                        className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
+                        value="2"
+                        onClick={(e)=>setSelectedData(e.target.value)}
+                    />
+                    <label htmlFor="personalidad" className="block ms-2 text-sm font-medium text-gray-900">
+                        Personalidad
+                    </label>
+                </div>
+                <div className="flex items-center mb-4">
+                    <input
+                        type="radio"
+                        name="exportar"
+                        id="contactData"
+                        className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
+                        value="3"
+                        onClick={(e)=>setSelectedData(e.target.value)}
+                    />
+                    <label htmlFor="contactData" className="block ms-2 text-sm font-medium text-gray-900">
+                        Datos de contacto
+                    </label>
+                </div>
+                {/* <div className="flex items-center mb-4">
+                    <input
+                        type="radio"
+                        name="exportar"
+                        id="juventud"
+                        className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
+                        value="3"
+                        onClick={(e)=>setSelectedData(e.target.value)}
+                    />
+                    <label htmlFor="juventud" className="block ms-2 text-sm font-medium text-gray-900">
+                        Juventud
+                    </label>
+                </div> */}
+        </fieldset>
+    );
+
+
     const exportarPDF = async (id) => {
-            const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPaciente?id='+ id, {
-                method: 'GET',
-                headers: {
-                    "Content-Type": "application/json",
-                    'Authorization': `Bearer ${session.user.token}`
-                }
-            })
-    
-            if (response.ok){
-                const data = await response.json()
-                console.log('data.paciente', data.paciente)
-                const res = await ai.models.generateContent({
-                    model: "gemini-2.5-flash",
-                    contents: "Genera un informe detallado teniendo en cuenta el siguiente json: " + JSON.stringify(data.paciente),
-                });
-                console.log(res.text);
-    
-                // if(res.ok){
-                //     const informe = await res.json()
-                //     console.log('informe', informe)
-                // }
+        try {
+            let data;
+
+            switch (selectedData) {
+                case '1':
+                    data = await getPersonalData(id, session.user.token);
+                    break;
+                case '2':
+                    data = await getPersonality(id,session.user.token);
+                    break;
+                case '3':
+                    data = await getContactData(id,session.user.token);
+                    break;
+                default:
+                    console.warn('No se reconoce el valor de selectedData:', selectedData);
+                    return;
             }
-            
+
+            const res = await ai.models.generateContent({
+                model: "gemini-2.5-flash",
+                contents: "A partir del siguiente objeto JSON que describe la historia de vida de una persona, genera un informe detallado en formato HTML (para introducirlo dentro de una section). El HTML debe tener una estructura clara y profesional, incluyendo secciones con títulos, párrafos bien redactados, y estilos básicos para una presentación legible (usa etiquetas HTML estándar como <h1>, <p>, <ul>, etc.). Por favor, no devuelvas explicaciones ni comentarios, solo el contenido HTML final. Este es el JSON de entrada: " + JSON.stringify(data),
+            });
+
+            if (res.text) {
+                const dataPaciente = res.text;
+                const informe = await fetch(`${process.env.NEXT_PUBLIC_API_URL}exportarInforme`, {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': `Bearer ${session.user.token}`
+                    },
+                    body: JSON.stringify({ dataPaciente })
+                });
+
+                if (informe.ok) {
+                    const blob = await informe.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'informe.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                    setSelectedData('');
+                    setOpenPopUpExportar(false);
+                }
+            }
+        } catch (error) {
+            console.error('Error al exportar PDF:', error);
         }
+    };
 
     return (
         <DashboardLayout>
@@ -129,7 +236,7 @@ function Pacientes() {
             </div>
             <div className='flex flex-grow flex-col'>
                 <div className='flex items-center justify-between'>
-                    <h2 className='text-2xl font-bold'>Usuarios</h2>
+                    <h2 className='text-2xl font-semibold'>Usuarios</h2>
                     <div className='w-18 flex items-center justify-between text-gray-500 cursor-pointer hover:text-green-400'
                         onClick={()=>{router.push('usuarios/create')}}
                     >
@@ -148,7 +255,7 @@ function Pacientes() {
                                     onClick={()=>router.push('usuarios/'+paciente.id)}>
                                     <div className='flex items-center'>
                                         {/* <img src={paciente.imgPerfil} alt={paciente.nombre} className='rounded-full w-16 h-auto max-w-16 mr-2'/> */}
-                                        <p className='text-lg font-bold'>{paciente.name} {paciente.firstSurname} {paciente.secondSurname}</p>
+                                        <p className='text-lg font-semibold'>{paciente.name} {paciente.firstSurname} {paciente.secondSurname}</p>
                                     </div>
                                     
                                     <div className='w-18 flex items-center justify-between'>
@@ -238,7 +345,7 @@ function Pacientes() {
             <PopUp
                 open={openPopUpExportar} 
                 popTitle="Exportar informe"
-                popContent={``}
+                popContent={contentPopUpExportar}
                 popType="option"
                 confirmFunction={() => {
                     exportarPDF(seleccionarPaciente?.id);

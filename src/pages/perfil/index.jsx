@@ -84,7 +84,7 @@ function Perfil() {
             mostrarUsuario &&
             <div >
                 <div className='flex items-center justify-between'>
-                    <h2 className='text-2xl font-bold'>{mostrarUsuario.nombre}</h2>
+                    <h2 className='text-2xl font-semibold'>{mostrarUsuario.nombre}</h2>
                 </div> 
                 <div className="py-4 my-4 overflow-y-scroll h-[calc(100vh-220px)]">
                     <div className="space-y-4 md:space-y-6">
