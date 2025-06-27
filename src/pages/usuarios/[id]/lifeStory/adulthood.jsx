@@ -24,11 +24,13 @@ function Adulthood () {
         adulthoodFamilyCore: '',
         adulthoodFriendsGroup: '',
         adulthoodWorkGroup: '',
+        adulthoodImportantPerson:'',
         adulthoodTravels: '',
         adulthoodFavouritePlace: '',
         adulthoodRoutine: '',
         adulthoodPositiveExperiences: '',
         adulthoodNegativeExperiences: '',
+        adulthoodResponsabilities:'',
         adulthoodAddress: '',
         adulthoodEconomicSituation: '',
         adulthoodProjects: '',
@@ -194,6 +196,17 @@ function Adulthood () {
                     />
                 </div>
                 <div>
+                    <label htmlFor="adulthoodImportantPerson" className="block mb-2 text-sm font-medium text-gray-900">¿Quién fue su persona más importante durante esta etapa?</label>
+                    <input type="textarea" name="adulthoodImportantPerson" id="adulthoodImportantPerson" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                         value={pacienteAdultez.adulthoodImportantPerson}
+                         onChange={(e) => setPacienteAdultez({
+                            ...pacienteAdultez,
+                            [e.target.name]:e.target.value
+                        })}
+                    />
+                </div>
+                <div>
                     <label htmlFor="adulthoodTravels" className="block mb-2 text-sm font-medium text-gray-900">¿Qué lugares pudo visitar? ¿Dónde ha viajado?</label>
                     <input type="text" name="adulthoodTravels" id="adulthoodTravels" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
@@ -246,6 +259,17 @@ function Adulthood () {
                                 ...pacienteAdultez,
                                 [e.target.name]:e.target.value
                             })}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="adulthoodResponsabilities" className="block mb-2 text-sm font-medium text-gray-900">¿Qué responsabilidades tenía durante esta etapa?</label>
+                    <input type="textarea" name="adulthoodResponsabilities" id="adulthoodResponsabilities" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                         value={pacienteAdultez.adulthoodResponsabilities}
+                         onChange={(e) => setPacienteAdultez({
+                            ...pacienteAdultez,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
                 <div>

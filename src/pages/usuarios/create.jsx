@@ -27,6 +27,7 @@ function CrearPaciente () {
         gender: '',
         address: '',
         maritalStatus: '',
+        sentimentalCouple:'',
         language: '',
         otherLanguages: '',
         culturalHeritage: '',
@@ -162,7 +163,7 @@ function CrearPaciente () {
                             }
                         </div>
                         <div>
-                            <label htmlFor="alias" className="block mb-2 text-sm font-medium text-gray-900">¿Se le conoce por algún alias o apodo?</label>
+                            <label htmlFor="alias" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo le gustan que le llamen?</label>
                             <input type="text" name="alias" id="alias" className={`bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5  ${erroresFormulario?.alias && 'border-red-300'}`}
                                 onChange={handleInpustChange}
                             />
@@ -284,6 +285,12 @@ function CrearPaciente () {
                                 erroresFormulario?.maritalStatus && 
                                 <p className="text-red-400 text-xs">{erroresFormulario?.maritalStatus[0]}</p>
                             }
+                        </div>
+                        <div>
+                            <label htmlFor="sentimentalCouple" className="block mb-2 text-sm font-medium text-gray-900">¿Quién es su pareja sentimental o persona íntima de convivencia?</label>
+                            <input type="text" name="sentimentalCouple" id="sentimentalCouple" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                                onChange={handleInpustChange}
+                            />
                         </div>
                         <div>
                             <label htmlFor="language" className="block mb-2 text-sm font-medium text-gray-900 after:content-['*'] after:ml-1 after:text-red-500">¿Qué idioma usa en su día a día?</label>

@@ -23,15 +23,18 @@ function Youth () {
         youthWorkRol: '',
         youthFamilyCore: '',
         youthFriendsGroup: '',
+        youthImportantPerson:'',
         youthTravels: '',
         youthFavouritePlace: '',
         youthRoutine: '',
         youthPositiveExperiences: '',
         youthNegativeExperiences: '',
+        youthResponsabilities:'',
         youthAddress: '',
         youthLikes: '',
         youthHobbies: '',
         youthAfraids: '',
+        youthSentimentalCouple:'',
         youthProjects: '',
         youthUncompletedProjects: '',
         youthIllness: '',
@@ -177,6 +180,17 @@ function Youth () {
                     />
                 </div>
                 <div>
+                    <label htmlFor="youthImportantPerson" className="block mb-2 text-sm font-medium text-gray-900">¿Quién fue su persona más importante durante esta etapa?</label>
+                    <input type="textarea" name="youthImportantPerson" id="youthImportantPerson" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                         value={pacienteJuventud.youthImportantPerson}
+                         onChange={(e) => setPacienteJuventud({
+                            ...pacienteJuventud,
+                            [e.target.name]:e.target.value
+                        })}
+                    />
+                </div>
+                <div>
                     <label htmlFor="youthTravels" className="block mb-2 text-sm font-medium text-gray-900">¿Qué lugares pudo visitar? ¿Dónde ha viajado?</label>
                     <input type="text" name="youthTravels" id="youthTravels" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
@@ -231,6 +245,17 @@ function Youth () {
                     />
                 </div>
                 <div>
+                    <label htmlFor="youthResponsabilities" className="block mb-2 text-sm font-medium text-gray-900">¿Qué responsabilidades tenía durante esta etapa?</label>
+                    <input type="textarea" name="youthResponsabilities" id="youthResponsabilities" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                         value={pacienteJuventud.youthResponsabilities}
+                         onChange={(e) => setPacienteJuventud({
+                            ...pacienteJuventud,
+                            [e.target.name]:e.target.value
+                        })}
+                    />
+                </div>
+                <div>
                     <label htmlFor="youthAddress" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde vivió? ¿Cómo era el lugar donde vivía?</label>
                     <input type="textarea" name="youthAddress" id="youthAddress" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
@@ -268,6 +293,17 @@ function Youth () {
                     <input type="textarea" name="youthAfraids" id="youthAfraids" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthAfraids}
+                            onChange={(e)=> setPacienteJuventud({
+                                ...pacienteJuventud,
+                                [e.target.name]: e.target.value
+                            })}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="youthSentimentalCouple" className="block mb-2 text-sm font-medium text-gray-900">¿Tuvo parejas sentimentales o relaciones amorosas durante su juventud?</label>
+                    <input type="textarea" name="youthSentimentalCouple" id="youthSentimentalCouple" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                            disabled={!modificar}
+                            value={pacienteJuventud?.youthSentimentalCouple}
                             onChange={(e)=> setPacienteJuventud({
                                 ...pacienteJuventud,
                                 [e.target.name]: e.target.value

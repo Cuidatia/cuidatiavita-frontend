@@ -21,10 +21,12 @@ function Childhood () {
         childhoodMotivations: "",
         childhoodFamilyCore: "",
         childhoodFriendsGroup: "",
+        childhoodImportantPerson: "",
         childhoodTravels: "",
         childhoodFavouritePlace: "",
         childhoodPositiveExperiences: "",
         childhoodNegativeExperiences: "",
+        childhoodResponsabilities: "",
         childhoodAddress: "",
         childhoodLikes: "",
         childhoodAfraids: "",
@@ -154,6 +156,17 @@ function Childhood () {
                     />
                 </div>
                 <div>
+                    <label htmlFor="childhoodImportantPerson" className="block mb-2 text-sm font-medium text-gray-900">¿Quién fue su persona más importante durante esta etapa?</label>
+                    <input type="textarea" name="childhoodImportantPerson" id="childhoodImportantPerson" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                         value={pacienteInfancia.childhoodImportantPerson}
+                         onChange={(e) => setPacienteInfancia({
+                            ...pacienteInfancia,
+                            [e.target.name]:e.target.value
+                        })}
+                    />
+                </div>
+                <div>
                     <label htmlFor="childhoodTravels" className="block mb-2 text-sm font-medium text-gray-900">¿Qué lugares pudo visitar? ¿Dónde ha viajado?</label>
                     <input type="textarea" name="childhoodTravels" id="childhoodTravels" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
@@ -192,6 +205,17 @@ function Childhood () {
                          disabled={!modificar}
                         value={pacienteInfancia.childhoodNegativeExperiences}
                         onChange={(e) => setPacienteInfancia({
+                            ...pacienteInfancia,
+                            [e.target.name]:e.target.value
+                        })}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="childhoodResponsabilities" className="block mb-2 text-sm font-medium text-gray-900">¿Qué responsabilidades tenía durante esta etapa?</label>
+                    <input type="textarea" name="childhoodResponsabilities" id="childhoodResponsabilities" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                         value={pacienteInfancia.childhoodResponsabilities}
+                         onChange={(e) => setPacienteInfancia({
                             ...pacienteInfancia,
                             [e.target.name]:e.target.value
                         })}
