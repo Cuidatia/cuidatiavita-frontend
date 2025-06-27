@@ -92,7 +92,7 @@ function DatosPersonales () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="alias" className="block mb-2 text-sm font-medium text-gray-900">¿Se le conoce por algún alias o apodo?</label>
+                    <label htmlFor="alias" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo le gustan que le llamen?</label>
                     <input type="text" name="alias" id="alias" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                         value={mostrarPaciente?.alias} disabled={!modificar} onChange={handleInpustChange}
                     />
@@ -140,7 +140,7 @@ function DatosPersonales () {
                             <input type="radio" name="gender" id="Otro" className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
                                 value='O' checked={mostrarPaciente?.gender === 'O'} onClick={handleInpustChange}
                             />
-                            <label htmlFor="Otro" className="block ms-2  text-sm font-medium text-gray-900">Otro</label>
+                            <label htmlFor="Otro" className="block ms-2  text-sm font-medium text-gray-900">Otros</label>
                         </div>
                     </fieldset>
                 </div>
@@ -205,7 +205,7 @@ function DatosPersonales () {
                 </div>
                 <div>
                     <label htmlFor="faith" className="block mb-2 text-sm font-medium text-gray-900">¿Tiene alguna creencia espiritual o practica alguna creencia religiosa?</label>
-                    <input type="text" name="faith" id="faith" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <input type="textarea" name="faith" id="faith" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                         value={mostrarPaciente?.faith} onChange={handleInpustChange}
                         disabled={!modificar}
                     />

@@ -85,7 +85,7 @@ function Dashboard() {
     }
 
     const chartDataGenre = {
-        labels: ['Hombres', 'Mujeres', 'Otro'],
+        labels: ['Hombres', 'Mujeres', 'Otros'],
         datasets: [
             {
                 label: 'Usuarios por género',

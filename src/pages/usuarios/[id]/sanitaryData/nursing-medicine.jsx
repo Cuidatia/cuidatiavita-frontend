@@ -91,7 +91,7 @@ function NursingMedicine () {
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
-                    <label htmlFor="nutritionalSituation" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo describiría su situación nutricional?</label>
+                    <label htmlFor="nutritionalSituation" className="block mb-2 text-sm font-medium text-gray-900">¿Qué tal come? ¿Cómo es su situación nutricional?</label>
                     <input type="text" name="nutritionalSituation" id="nutritionalSituation" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteMedicinaEnfermeria?.nutritionalSituation}
@@ -99,7 +99,7 @@ function NursingMedicine () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="sleepQuality" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo califica su calidad de sueño actual?</label>
+                    <label htmlFor="sleepQuality" className="block mb-2 text-sm font-medium text-gray-900">¿Qué tal duerme? ¿Cómo es su calidad de sueño actual?</label>
                     <input type="text" name="sleepQuality" id="sleepQuality" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteMedicinaEnfermeria?.sleepQuality}
@@ -107,7 +107,7 @@ function NursingMedicine () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="fallRisks" className="block mb-2 text-sm font-medium text-gray-900">¿Existe algún riesgo de caída?</label>
+                    <label htmlFor="fallRisks" className="block mb-2 text-sm font-medium text-gray-900">¿Se ha caído con frecuencia? ¿Cuántas veces ha llegado a caerse?</label>
                     <input type="text" name="fallRisks" id="fallRisks" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteMedicinaEnfermeria?.fallRisks}
@@ -115,16 +115,16 @@ function NursingMedicine () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="mobilityNeeds" className="block mb-2 text-sm font-medium text-gray-900">¿Tiene necesidades especiales de movilidad?</label>
-                    <input type="text" name="mobilityNeeds" id="mobilityNeeds" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="mobilityNeeds" className="block mb-2 text-sm font-medium text-gray-900">¿Tiene necesidades especiales de movilidad dentro o fuera de casa?</label>
+                    <input type="textarea" name="mobilityNeeds" id="mobilityNeeds" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteMedicinaEnfermeria?.mobilityNeeds}
                          onChange={(e)=>setPacienteMedicinaEnfermeria({...pacienteMedicinaEnfermeria, [e.target.name]:e.target.value})}
                     />
                 </div>
                 <div>
-                    <label htmlFor="healthPreferences" className="block mb-2 text-sm font-medium text-gray-900">¿Tiene preferencias sanitarias?</label>
-                    <input type="text" name="healthPreferences" id="healthPreferences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="healthPreferences" className="block mb-2 text-sm font-medium text-gray-900">¿Tiene preferencias sanitarias? ¿Qué relación tiene con su médico?</label>
+                    <input type="textarea" name="healthPreferences" id="healthPreferences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteMedicinaEnfermeria?.healthPreferences}
                          onChange={(e)=>setPacienteMedicinaEnfermeria({...pacienteMedicinaEnfermeria, [e.target.name]:e.target.value})}

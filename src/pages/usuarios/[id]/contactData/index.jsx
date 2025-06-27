@@ -95,7 +95,7 @@ function ContactData () {
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
-                    <label htmlFor="contactName" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo se llama la persona con la que debemos contactar si ocurre algo?</label>
+                    <label htmlFor="contactName" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo se llama la persona con la que se debe contactar si ocurre algo?</label>
                     <input type="text" name="contactName" id="contactName" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteDatosContacto.contactName}

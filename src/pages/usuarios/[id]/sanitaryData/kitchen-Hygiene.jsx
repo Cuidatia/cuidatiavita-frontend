@@ -109,7 +109,7 @@ function KitchenHygiene () {
                 </div>
                 <div>
                     <label htmlFor="confortAdvices" className="block mb-2 text-sm font-medium text-gray-900">¿Qué cosas le hacen sentir cómodo y seguro en su entorno?</label>
-                    <input type="text" name="confortAdvices" id="confortAdvices" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <input type="textarea" name="confortAdvices" id="confortAdvices" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteCocinaHigiene?.confortAdvices}
                          onChange={(e)=>setPacienteCocinaHigiene({...pacienteCocinaHigiene, [e.target.name]:e.target.value})}
@@ -117,7 +117,7 @@ function KitchenHygiene () {
                 </div>
                 <div>
                     <label htmlFor="routine" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo es su rutina diaria?</label>
-                    <input type="text" name="routine" id="routine" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <input type="textarea" name="routine" id="routine" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteCocinaHigiene?.routine}
                          onChange={(e)=>setPacienteCocinaHigiene({...pacienteCocinaHigiene, [e.target.name]:e.target.value})}
@@ -125,7 +125,7 @@ function KitchenHygiene () {
                 </div>
                 <div>
                     <label htmlFor="carePlan" className="block mb-2 text-sm font-medium text-gray-900">¿Sigue algún plan de cuidado específico?</label>
-                    <input type="text" name="carePlan" id="carePlan" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <input type="textarea" name="carePlan" id="carePlan" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteCocinaHigiene?.carePlan}
                          onChange={(e)=>setPacienteCocinaHigiene({...pacienteCocinaHigiene, [e.target.name]:e.target.value})}
