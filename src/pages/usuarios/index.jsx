@@ -8,7 +8,21 @@ import Alerts from '@/components/alerts/alerts';
 import { useSession } from 'next-auth/react';
 import { GoogleGenAI } from "@google/genai";
 
-import { getContactData, getPersonalData, getPersonality } from '@/api/exportar';
+import { 
+    getAdultez,
+    getContactData,
+    getInfancia, 
+    getJuventud, 
+    getKitchenHygiene, 
+    getMadurez, 
+    getNursingMedicine, 
+    getPersonalData, 
+    getPersonality, 
+    getPharmacy, 
+    getSanitaryData,
+    getSocialEdu,
+    getSocialWork} from '@/api/exportar';
+import CheckboxAccordion from '@/components/chekboxAcordeon/checkboxAcordeon';
 
 const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY });
 
@@ -18,7 +32,7 @@ function Pacientes() {
     const [showError, setShowError] = useState()
     const [openPopUp, setOpenPopUp] = useState(false)
     const [openPopUpExportar, setOpenPopUpExportar] = useState(false)
-    const [selectedData, setSelectedData] = useState(0)
+    const [selectedOptions, setSelectedOptions] = useState(["0"])
     const router = useRouter()
 
     const [buscarPaciente, setBuscarPaciente] = useState('')
@@ -90,108 +104,90 @@ function Pacientes() {
         }
     }
 
-    const contentPopUpExportar = (
-        <fieldset>
-                <legend className="block mb-4 text-sm font-medium text-gray-900">
-                    ¿Que desea exportar?
-                </legend>
-
-                {/* <div className="flex items-center mb-4">
-                    <input
-                        type="radio"
-                        name="informe"
-                        id="personalData"
-                        className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-                        value="0"
-                        onClick={(e)=>setSelectedData(e.target.value)}
-                    />
-                    <label htmlFor="Masculino" className="block ms-2 text-sm font-medium text-gray-900">
-                        Todos
-                    </label>
-                </div> */}
-
-                <div className="flex items-center mb-4">
-                    <input
-                        type="radio"
-                        name="exportar"
-                        id="personalData"
-                        className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-                        value="1"
-                        onClick={(e)=>setSelectedData(e.target.value)}
-                    />
-                    <label htmlFor="personalData" className="block ms-2 text-sm font-medium text-gray-900">
-                        Datos personales
-                    </label>
-                </div>
-                <div className="flex items-center mb-4">
-                    <input
-                        type="radio"
-                        name="exportar"
-                        id="personalidad"
-                        className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-                        value="2"
-                        onClick={(e)=>setSelectedData(e.target.value)}
-                    />
-                    <label htmlFor="personalidad" className="block ms-2 text-sm font-medium text-gray-900">
-                        Personalidad
-                    </label>
-                </div>
-                <div className="flex items-center mb-4">
-                    <input
-                        type="radio"
-                        name="exportar"
-                        id="contactData"
-                        className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-                        value="3"
-                        onClick={(e)=>setSelectedData(e.target.value)}
-                    />
-                    <label htmlFor="contactData" className="block ms-2 text-sm font-medium text-gray-900">
-                        Datos de contacto
-                    </label>
-                </div>
-                {/* <div className="flex items-center mb-4">
-                    <input
-                        type="radio"
-                        name="exportar"
-                        id="juventud"
-                        className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-                        value="3"
-                        onClick={(e)=>setSelectedData(e.target.value)}
-                    />
-                    <label htmlFor="juventud" className="block ms-2 text-sm font-medium text-gray-900">
-                        Juventud
-                    </label>
-                </div> */}
-        </fieldset>
-    );
-
-
     const exportarPDF = async (id) => {
         try {
-            let data;
+            const dataRecolectada = {};
 
-            switch (selectedData) {
-                case '1':
-                    data = await getPersonalData(id, session.user.token);
-                    break;
-                case '2':
-                    data = await getPersonality(id,session.user.token);
-                    break;
-                case '3':
-                    data = await getContactData(id,session.user.token);
-                    break;
-                default:
-                    console.warn('No se reconoce el valor de selectedData:', selectedData);
-                    return;
+            for (const option of selectedOptions) {
+                let result;
+
+                switch (option) {
+                    case '1':
+                        result = await getPersonalData(id, session.user.token);
+                        dataRecolectada["Datos personales"] = result;
+                        break;
+                    case '2':
+                        result = await getPersonality(id, session.user.token);
+                        dataRecolectada["Personalidad"] = result;
+                        break;
+                    case '3':
+                        result = await getInfancia(id, session.user.token);
+                        dataRecolectada["Infancia"] = result;
+                        break;
+                    case '4':
+                        result = await getJuventud(id, session.user.token);
+                        dataRecolectada["Juventud"] = result;
+                        break;
+                    case '5':
+                        result = await getAdultez(id, session.user.token);
+                        dataRecolectada["Edad adulta"] = result;
+                        break;
+                    case '6':
+                        result = await getMadurez(id, session.user.token);
+                        dataRecolectada["Madurez"] = result;
+                        break;
+                    case '7':
+                        result = await getSanitaryData(id, session.user.token);
+                        dataRecolectada["Datos sanitarios"] = result;
+                        break;
+                    case '8':
+                        result = await getPharmacy(id, session.user.token);
+                        dataRecolectada["Farmacia"] = result;
+                        break;
+                    case '9':
+                        result = await getNursingMedicine(id, session.user.token);
+                        dataRecolectada["Medicina"] = result;
+                        break;
+                    case '10':
+                        result = await getSocialEdu(id, session.user.token);
+                        dataRecolectada["Terapia ocupacional"] = result;
+                        break;
+                    case '11':
+                        result = await getSocialWork(id, session.user.token);
+                        dataRecolectada["Trabajo social"] = result;
+                        break;
+                    case '12':
+                        result = await getKitchenHygiene(id, session.user.token);
+                        dataRecolectada["Cocina"] = result;
+                        break;
+                    case '13':
+                        // Si hay una función específica para "Otros", llámala aquí
+                        dataRecolectada["Otros"] = "No implementado"; // Ajusta si tienes función real
+                        break;
+                    case '14':
+                        result = await getContactData(id, session.user.token);
+                        dataRecolectada["Datos de contacto"] = result;
+                        break;
+                    default:
+                        console.warn('Valor no reconocido en selectedOptions:', option);
+                }
+            }
+
+            if (Object.keys(dataRecolectada).length === 0) {
+                console.warn("No se seleccionaron datos válidos.");
+                return;
             }
 
             const res = await ai.models.generateContent({
                 model: "gemini-2.5-flash",
-                contents: "A partir del siguiente objeto JSON que describe la historia de vida de una persona, genera un informe detallado en formato HTML (para introducirlo dentro de una section). El HTML debe tener una estructura clara y profesional, incluyendo secciones con títulos, párrafos bien redactados, y estilos básicos para una presentación legible (usa etiquetas HTML estándar como <h1>, <p>, <ul>, etc.). Por favor, no devuelvas explicaciones ni comentarios, solo el contenido HTML final. Este es el JSON de entrada: " + JSON.stringify(data),
+                contents:
+                    "A partir del siguiente objeto JSON que describe diferentes aspectos de la vida de una persona, genera un informe detallado en formato HTML (para introducirlo dentro de una sección). El HTML debe ser profesional, con títulos y párrafos bien redactados. Aquí va el JSON: " +
+                    JSON.stringify(dataRecolectada),
             });
 
             if (res.text) {
                 const dataPaciente = res.text;
+
                 const informe = await fetch(`${process.env.NEXT_PUBLIC_API_URL}exportarInforme`, {
                     method: 'POST',
                     headers: {
@@ -211,10 +207,11 @@ function Pacientes() {
                     a.click();
                     a.remove();
                     window.URL.revokeObjectURL(url);
-                    setSelectedData('');
+                    setSelectedOptions([]); // Limpia selección
                     setOpenPopUpExportar(false);
                 }
             }
+
         } catch (error) {
             console.error('Error al exportar PDF:', error);
         }
@@ -345,7 +342,7 @@ function Pacientes() {
             <PopUp
                 open={openPopUpExportar} 
                 popTitle="Exportar informe"
-                popContent={contentPopUpExportar}
+                popContent={<CheckboxAccordion selected={selectedOptions} setSelected={setSelectedOptions} />}
                 popType="option"
                 confirmFunction={() => {
                     exportarPDF(seleccionarPaciente?.id);

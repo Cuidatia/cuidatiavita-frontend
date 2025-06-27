@@ -5,6 +5,10 @@ import withAuth from '@/components/withAuth';
 import { useSession } from "next-auth/react";
 import PopUp from "@/components/popUps/popUp";
 import Alerts from "@/components/alerts/alerts";
+import { getPersonalData } from "@/api/exportar";
+import { GoogleGenAI } from "@google/genai";
+
+const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY });
 
 function DatosPersonales () {
     const {data:session, status} = useSession()
@@ -16,6 +20,45 @@ function DatosPersonales () {
     const {id} = router.query
 
     const [saveData, setSaveData] = useState(false)
+
+    const [showPopUpExportar, setShowPopUpExportar] = useState(false)
+
+    const exportarDatos = async () => {
+        const response = await getPersonalData(id, session.user.token);
+
+        const res = await ai.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents:
+                "A partir del siguiente objeto JSON que describe diferentes aspectos de la vida de una persona, genera un informe detallado en formato HTML (para introducirlo dentro de una sección). El HTML debe ser profesional, con títulos y párrafos bien redactados. Aquí va el JSON: " +
+                JSON.stringify(response),
+        });
+
+        if (res.text) {
+            const dataPaciente = res.text;
+
+            const informe = await fetch(`${process.env.NEXT_PUBLIC_API_URL}exportarInforme`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': `Bearer ${session.user.token}`
+                },
+                body: JSON.stringify({ dataPaciente })
+            });
+
+            if (informe.ok) {
+                const blob = await informe.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'informe.pdf';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+                setShowPopUpExportar(false);
+            }
+        }
+    }
 
     const handleInpustChange = (e) => {
         const {name, value} = e.target
@@ -217,20 +260,27 @@ function DatosPersonales () {
                     />
                 </div>
             </div>
-            <div className="my-2 border-t-1 border-gray-300">
-                <button className="cursor-pointer bg-zinc-100 border-1 border-zinc-200 hover:bg-zinc-300 me-1 rounded-lg text-sm px-3 py-2 text-center"
-                    onClick={() => setModificar(!modificar)}
+            <div className="my-2 py-2 border-t-1 border-gray-300 flex flex-nowrap justify-between">
+                <div>
+                    <button className="cursor-pointer bg-zinc-100 border-1 border-zinc-200 hover:bg-zinc-300 me-1 rounded-lg text-sm px-3 py-2 text-center"
+                            onClick={() => setModificar(!modificar)}
+                        >
+                            {!modificar ? 'Modificar': 'Cancelar'}
+                        </button>
+                    {
+                        modificar &&
+                            <button className="cursor-pointer mx-2 bg-zinc-100 hover:text-white border-1 border-zinc-200 hover:bg-blue-500 rounded-lg text-sm px-3 py-2 text-center"
+                                onClick={()=>setSaveData(true)}
+                            >
+                                Guardar
+                            </button>
+                    }
+                </div>
+                <button className="cursor-pointer bg-zinc-100 border-1 border-zinc-200 hover:bg-green-300 me-1 rounded-lg text-sm px-3 py-2 text-center"
+                    onClick={()=>setShowPopUpExportar(!showPopUpExportar)}
                 >
-                    {!modificar ? 'Modificar': 'Cancelar'}
+                    Exportar
                 </button>
-            {
-                modificar &&
-                    <button className="cursor-pointer mx-2 bg-zinc-100 hover:text-white border-1 border-zinc-200 hover:bg-blue-500 rounded-lg text-sm px-3 py-2 text-center"
-                        onClick={()=>setSaveData(true)}
-                    >
-                        Guardar
-                    </button>
-            }
             </div>
             {
                 message &&
@@ -248,6 +298,16 @@ function DatosPersonales () {
                     popType="option"
                     confirmFunction={enviarDatos}
                     cancelFunction={() => setSaveData(false)}
+                />
+            }
+            {
+                <PopUp 
+                    open={showPopUpExportar}
+                    popContent={'¿Desea exportar la información de este usuario?'}
+                    popTitle="Exportar"
+                    popType="option"
+                    confirmFunction={exportarDatos}
+                    cancelFunction={() => setShowPopUpExportar(false)}
                 />
             }
         </PacienteLayout>
