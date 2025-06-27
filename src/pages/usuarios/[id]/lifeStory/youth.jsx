@@ -110,7 +110,7 @@ function Youth () {
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
-                    <label htmlFor="youthStudies" className="block mb-2 text-sm font-medium text-gray-900">¿Qué estudió?</label>
+                    <label htmlFor="youthStudies" className="block mb-2 text-sm font-medium text-gray-900">¿Qué estudios realizó?</label>
                     <input type="text" name="youthStudies" id="youthStudies" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthStudies}
@@ -121,7 +121,7 @@ function Youth () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthSchool" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde estudió?</label>
+                    <label htmlFor="youthSchool" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde realizó sus estudios?</label>
                     <input type="text" name="youthSchool" id="youthSchool" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthSchool}
@@ -132,7 +132,7 @@ function Youth () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthWorkPlace" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde trabajaba?</label>
+                    <label htmlFor="youthWorkPlace" className="block mb-2 text-sm font-medium text-gray-900">En esta etapa de vida, ¿Comenzó a trabajar? ¿Dónde trabajaba?</label>
                     <input type="text" name="youthWorkPlace" id="youthWorkPlace" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthWorkPlace}
@@ -143,7 +143,7 @@ function Youth () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthWorkRol" className="block mb-2 text-sm font-medium text-gray-900">¿Qué rol desempeñaba?</label>
+                    <label htmlFor="youthWorkRol" className="block mb-2 text-sm font-medium text-gray-900">Si trabajaba, ¿Qué rol desempeñaba?</label>
                     <input type="text" name="youthWorkRol" id="youthWorkRol" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthWorkRol}
@@ -154,8 +154,8 @@ function Youth () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthFamilyCore" className="block mb-2 text-sm font-medium text-gray-900">¿Quiénes formaban su núcleo familiar?</label>
-                    <input type="text" name="youthFamilyCore" id="youthFamilyCore" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="youthFamilyCore" className="block mb-2 text-sm font-medium text-gray-900">¿Qué personas formaban su núcleo familiar? ¿Cómo se llevaba con ellos?</label>
+                    <input type="textarea" name="youthFamilyCore" id="youthFamilyCore" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthFamilyCore}
                             onChange={(e)=> setPacienteJuventud({
@@ -165,8 +165,8 @@ function Youth () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthFriendsGroup" className="block mb-2 text-sm font-medium text-gray-900">¿Quiénes formaban su grupo de amigos?</label>
-                    <input type="text" name="youthFriendsGroup" id="youthFriendsGroup" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="youthFriendsGroup" className="block mb-2 text-sm font-medium text-gray-900">¿Quiénes formaban su grupo de amigos? ¿Cómo se llevaba con ellos?</label>
+                    <input type="textarea" name="youthFriendsGroup" id="youthFriendsGroup" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthFriendsGroup}
                             onChange={(e)=> setPacienteJuventud({
@@ -176,7 +176,7 @@ function Youth () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthTravels" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde ha viajado?</label>
+                    <label htmlFor="youthTravels" className="block mb-2 text-sm font-medium text-gray-900">¿Qué lugares pudo visitar? ¿Dónde ha viajado?</label>
                     <input type="text" name="youthTravels" id="youthTravels" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthTravels}
@@ -197,8 +197,8 @@ function Youth () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthRoutine" className="block mb-2 text-sm font-medium text-gray-900">¿Qué rutina seguía?</label>
-                    <input type="text" name="youthRoutine" id="youthRoutine" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="youthRoutine" className="block mb-2 text-sm font-medium text-gray-900">¿Qué rutina seguía en su día a día?</label>
+                    <input type="textarea" name="youthRoutine" id="youthRoutine" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthRoutine}
                             onChange={(e)=> setPacienteJuventud({
@@ -209,7 +209,7 @@ function Youth () {
                 </div>
                 <div>
                     <label htmlFor="youthPositiveExperiences" className="block mb-2 text-sm font-medium text-gray-900">¿Qué experiencias positivas tuvo?</label>
-                    <input type="text" name="youthPositiveExperiences" id="youthPositiveExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <input type="textarea" name="youthPositiveExperiences" id="youthPositiveExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthPositiveExperiences}
                             onChange={(e)=> setPacienteJuventud({
@@ -230,8 +230,8 @@ function Youth () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthAddress" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde viviste?</label>
-                    <input type="text" name="youthAddress" id="youthAddress" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="youthAddress" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde vivió? ¿Cómo era el lugar donde vivía?</label>
+                    <input type="textarea" name="youthAddress" id="youthAddress" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthAddress}
                             onChange={(e)=> setPacienteJuventud({
@@ -241,8 +241,8 @@ function Youth () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthLikes" className="block mb-2 text-sm font-medium text-gray-900">¿Qué te gustaba?</label>
-                    <input type="text" name="youthLikes" id="youthLikes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="youthLikes" className="block mb-2 text-sm font-medium text-gray-900">¿Qué gustos tenía en esta etapa de vida?</label>
+                    <input type="textarea" name="youthLikes" id="youthLikes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthLikes}
                             onChange={(e)=> setPacienteJuventud({
@@ -252,8 +252,8 @@ function Youth () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthHobbies" className="block mb-2 text-sm font-medium text-gray-900">¿Qué aficiones desarrollaste?</label>
-                    <input type="text" name="youthHobbies" id="youthHobbies" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="youthHobbies" className="block mb-2 text-sm font-medium text-gray-900">¿Qué hobbies o aficiones desarrolló?</label>
+                    <input type="textarea" name="youthHobbies" id="youthHobbies" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthHobbies}
                             onChange={(e)=> setPacienteJuventud({
@@ -263,8 +263,8 @@ function Youth () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthAfraids" className="block mb-2 text-sm font-medium text-gray-900">¿Algo te daba miedo?</label>
-                    <input type="text" name="youthAfraids" id="youthAfraids" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="youthAfraids" className="block mb-2 text-sm font-medium text-gray-900">¿Qué le daba miedo o provocaba temor?</label>
+                    <input type="textarea" name="youthAfraids" id="youthAfraids" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthAfraids}
                             onChange={(e)=> setPacienteJuventud({
@@ -274,8 +274,8 @@ function Youth () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthProjects" className="block mb-2 text-sm font-medium text-gray-900">¿Te propusiste iniciar algún proyecto?</label>
-                    <input type="text" name="youthProjects" id="youthProjects" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="youthProjects" className="block mb-2 text-sm font-medium text-gray-900">¿Se propuso iniciar algún proyecto?</label>
+                    <input type="textarea" name="youthProjects" id="youthProjects" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthProjects}
                             onChange={(e)=> setPacienteJuventud({
@@ -285,8 +285,8 @@ function Youth () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthUncompletedProjects" className="block mb-2 text-sm font-medium text-gray-900">¿Te quedó alguna tarea por completar?</label>
-                    <input type="text" name="youthUncompletedProjects" id="youthUncompletedProjects" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="youthUncompletedProjects" className="block mb-2 text-sm font-medium text-gray-900">¿Acabó algún proyecto que se propuso? ¿Le quedó alguna tarea por completar?</label>
+                    <input type="textarea" name="youthUncompletedProjects" id="youthUncompletedProjects" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthUncompletedProjects}
                             onChange={(e)=> setPacienteJuventud({
@@ -296,8 +296,8 @@ function Youth () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthIllness" className="block mb-2 text-sm font-medium text-gray-900">¿Sufrió alguna enfermedad?</label>
-                    <input type="text" name="youthIllness" id="youthIllness" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="youthIllness" className="block mb-2 text-sm font-medium text-gray-900">¿Sufrió alguna enfermedad que le marcase durante esta etapa de vida?</label>
+                    <input type="textarea" name="youthIllness" id="youthIllness" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthIllness}
                             onChange={(e)=> setPacienteJuventud({
@@ -307,8 +307,8 @@ function Youth () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthPersonalCrisis" className="block mb-2 text-sm font-medium text-gray-900">¿Sufrió alguna crisis emocional?</label>
-                    <input type="text" name="youthPersonalCrisis" id="youthPersonalCrisis" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="youthPersonalCrisis" className="block mb-2 text-sm font-medium text-gray-900">¿Sufrió alguna crisis emocional que le marcase durante esta etapa de vida?</label>
+                    <input type="textarea" name="youthPersonalCrisis" id="youthPersonalCrisis" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthPersonalCrisis}
                             onChange={(e)=>setPacienteJuventud({

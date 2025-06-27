@@ -95,7 +95,7 @@ function SocialEducationOccupationalTherapy () {
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
                     <label htmlFor="cognitiveAbilities" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo describiría su capacidad cognitiva?</label>
-                    <input type="text" name="cognitiveAbilities" id="cognitiveAbilities" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <input type="textarea" name="cognitiveAbilities" id="cognitiveAbilities" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteTOES?.cognitiveAbilities}
                          onChange={(e)=>setPacienteTOES({...pacienteTOES, [e.target.name]:e.target.value})}
@@ -103,7 +103,7 @@ function SocialEducationOccupationalTherapy () {
                 </div>
                 <div>
                     <label htmlFor="affectiveCapacity" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo maneja sus emociones y afectos?</label>
-                    <input type="text" name="affectiveCapacity" id="affectiveCapacity" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <input type="textarea" name="affectiveCapacity" id="affectiveCapacity" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteTOES?.affectiveCapacity}
                          onChange={(e)=>setPacienteTOES({...pacienteTOES, [e.target.name]:e.target.value})}
@@ -111,15 +111,15 @@ function SocialEducationOccupationalTherapy () {
                 </div>
                 <div>
                     <label htmlFor="behaviorCapacity" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo suele comportarse frente a normas o límites?</label>
-                    <input type="text" name="behaviorCapacity" id="behaviorCapacity" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <input type="textarea" name="behaviorCapacity" id="behaviorCapacity" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteTOES?.behaviorCapacity}
                          onChange={(e)=>setPacienteTOES({...pacienteTOES, [e.target.name]:e.target.value})}
                     />
                 </div>
                 <div>
-                    <label htmlFor="collaborationLevel" className="block mb-2 text-sm font-medium text-gray-900">¿Suele participar en actividades del hogar?</label>
-                    <input type="text" name="collaborationLevel" id="collaborationLevel" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="collaborationLevel" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo es su participación en actividades del hogar?</label>
+                    <input type="textarea" name="collaborationLevel" id="collaborationLevel" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteTOES?.collaborationLevel}
                          onChange={(e)=>setPacienteTOES({
@@ -129,7 +129,7 @@ function SocialEducationOccupationalTherapy () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="autonomyLevel" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál es su grado de autonnomía?</label>
+                    <label htmlFor="autonomyLevel" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo lleva su situación económica o sanitaria? ¿Puede hacerlo de forma autónoma?</label>
                     <input type="text" name="autonomyLevel" id="autonomyLevel" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteTOES?.autonomyLevel}
@@ -140,8 +140,8 @@ function SocialEducationOccupationalTherapy () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="groupParticipation" className="block mb-2 text-sm font-medium text-gray-900">¿Cuánto participa en actividades de grupo?</label>
-                    <input type="text" name="groupParticipation" id="groupParticipation" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="groupParticipation" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo es su participación en actividades de grupo?</label>
+                    <input type="textarea" name="groupParticipation" id="groupParticipation" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteTOES?.groupParticipation}
                          onChange={(e)=>setPacienteTOES({

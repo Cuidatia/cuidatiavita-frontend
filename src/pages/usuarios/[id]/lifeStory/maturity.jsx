@@ -104,8 +104,8 @@ function Maturity () {
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
-                    <label htmlFor="maturityGrandchildren" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo se llaman sus nietos?</label>
-                    <input type="text" name="maturityGrandchildren" id="maturityGrandchildren" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="maturityGrandchildren" className="block mb-2 text-sm font-medium text-gray-900">¿Cuántos nietos tuvo? ¿Cómo se llaman sus nietos?</label>
+                    <input type="textarea" name="maturityGrandchildren" id="maturityGrandchildren" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteMadurez?.maturityGrandchildren}
                             onChange={(e)=> setPacienteMadurez({
@@ -137,8 +137,8 @@ function Maturity () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="maturityFamilyCore" className="block mb-2 text-sm font-medium text-gray-900">¿Quiénes formaban su núcleo familiar?</label>
-                    <input type="text" name="maturityFamilyCore" id="maturityFamilyCore" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="maturityFamilyCore" className="block mb-2 text-sm font-medium text-gray-900">¿Qué personas formaban su núcleo familiar? ¿Cómo se llevaba con ellos?</label>
+                    <input type="textarea" name="maturityFamilyCore" id="maturityFamilyCore" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteMadurez?.maturityFamilyCore}
                             onChange={(e)=> setPacienteMadurez({
@@ -148,8 +148,8 @@ function Maturity () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="maturityFriendsGroup" className="block mb-2 text-sm font-medium text-gray-900">¿Quiénes formaban su grupo de amigos?</label>
-                    <input type="text" name="maturityFriendsGroup" id="maturityFriendsGroup" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="maturityFriendsGroup" className="block mb-2 text-sm font-medium text-gray-900">¿Quiénes formaban su grupo de amigos? ¿Cómo se llevaba con ellos?</label>
+                    <input type="textarea" name="maturityFriendsGroup" id="maturityFriendsGroup" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteMadurez?.maturityFriendsGroup}
                             onChange={(e)=> setPacienteMadurez({
@@ -159,8 +159,8 @@ function Maturity () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="maturityWorkGroup" className="block mb-2 text-sm font-medium text-gray-900">¿Qué relaciones tenía en el entorno laboral?</label>
-                    <input type="text" name="maturityWorkGroup" id="maturityWorkGroup" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="maturityWorkGroup" className="block mb-2 text-sm font-medium text-gray-900">¿Qué relaciones mantenía en el entorno laboral? ¿Cómo se llevaba con ellos?</label>
+                    <input type="textarea" name="maturityWorkGroup" id="maturityWorkGroup" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteMadurez?.maturityWorkGroup}
                             onChange={(e)=> setPacienteMadurez({
@@ -170,7 +170,7 @@ function Maturity () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="maturityTravels" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde ha viajado?</label>
+                    <label htmlFor="maturityTravels" className="block mb-2 text-sm font-medium text-gray-900">¿Qué lugares pudo visitar? ¿Dónde ha viajado?</label>
                     <input type="text" name="maturityTravels" id="maturityTravels" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteMadurez?.maturityTravels}
@@ -192,8 +192,8 @@ function Maturity () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="maturityRoutine" className="block mb-2 text-sm font-medium text-gray-900">¿Qué rutina seguía?</label>
-                    <input type="text" name="maturityRoutine" id="maturityRoutine" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="maturityRoutine" className="block mb-2 text-sm font-medium text-gray-900">¿Qué rutina seguía en su día a día?</label>
+                    <input type="textarea" name="maturityRoutine" id="maturityRoutine" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteMadurez?.maturityRoutine}
                             onChange={(e)=> setPacienteMadurez({
@@ -204,7 +204,7 @@ function Maturity () {
                 </div>
                 <div>
                     <label htmlFor="maturityPositiveExperiences" className="block mb-2 text-sm font-medium text-gray-900">¿Qué experiencias positivas tuvo?</label>
-                    <input type="text" name="maturityPositiveExperiences" id="maturityPositiveExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <input type="textarea" name="maturityPositiveExperiences" id="maturityPositiveExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteMadurez?.maturityPositiveExperiences}
                             onChange={(e)=> setPacienteMadurez({
@@ -215,7 +215,7 @@ function Maturity () {
                 </div>
                 <div>
                     <label htmlFor="maturityNegativeExperiences" className="block mb-2 text-sm font-medium text-gray-900">¿Qué experiencias negativas tuvo?</label>
-                    <input type="text" name="maturityNegativeExperiences" id="maturityNegativeExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <input type="textarea" name="maturityNegativeExperiences" id="maturityNegativeExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteMadurez?.maturityNegativeExperiences}
                             onChange={(e)=> setPacienteMadurez({
@@ -247,8 +247,8 @@ function Maturity () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="maturityProjects" className="block mb-2 text-sm font-medium text-gray-900">¿Te propusiste iniciar algún proyecto?</label>
-                    <input type="text" name="maturityProjects" id="maturityProjects" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="maturityProjects" className="block mb-2 text-sm font-medium text-gray-900">¿Se propuso iniciar algún proyecto?</label>
+                    <input type="textarea" name="maturityProjects" id="maturityProjects" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteMadurez?.maturityProjects}
                             onChange={(e)=> setPacienteMadurez({
@@ -258,8 +258,8 @@ function Maturity () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="maturityUncompletedProjects" className="block mb-2 text-sm font-medium text-gray-900">¿Te quedó alguna tarea por completar?</label>
-                    <input type="text" name="maturityUncompletedProjects" id="maturityUncompletedProjects" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="maturityUncompletedProjects" className="block mb-2 text-sm font-medium text-gray-900">¿Acabó algún proyecto que se propuso? ¿Le quedó alguna tarea por completar?</label>
+                    <input type="textarea" name="maturityUncompletedProjects" id="maturityUncompletedProjects" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteMadurez?.maturityUncompletedProjects}
                             onChange={(e)=> setPacienteMadurez({
@@ -269,8 +269,8 @@ function Maturity () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="maturityIllness" className="block mb-2 text-sm font-medium text-gray-900">¿Sufrió alguna enfermedad?</label>
-                    <input type="text" name="maturityIllness" id="maturityIllness" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="maturityIllness" className="block mb-2 text-sm font-medium text-gray-900">¿Sufrió alguna enfermedad que le marcase durante esta etapa de vida?</label>
+                    <input type="textarea" name="maturityIllness" id="maturityIllness" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteMadurez?.maturityIllness}
                             onChange={(e)=> setPacienteMadurez({
@@ -280,8 +280,8 @@ function Maturity () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="maturityPersonalCrisis" className="block mb-2 text-sm font-medium text-gray-900">¿Sufrió alguna crisis emocional?</label>
-                    <input type="text" name="maturityPersonalCrisis" id="maturityPersonalCrisis" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <label htmlFor="maturityPersonalCrisis" className="block mb-2 text-sm font-medium text-gray-900">¿Sufrió alguna crisis emocional que le marcase durante esta etapa de vida?</label>
+                    <input type="textarea" name="maturityPersonalCrisis" id="maturityPersonalCrisis" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteMadurez?.maturityPersonalCrisis}
                             onChange={(e)=> setPacienteMadurez({

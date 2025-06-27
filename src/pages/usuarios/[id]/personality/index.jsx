@@ -109,7 +109,7 @@ function Personality () {
                 </div>
                 <div>
                     <label htmlFor="habits" className="block mb-2 text-sm font-medium text-gray-900">¿Qué hábitos o costumbres tiene o repite con frecuencia?</label>
-                    <input type="text" name="habits" id="habits" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <input type="textarea" name="habits" id="habits" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacientePersonality.habits}
                          onChange={(e) => setPersonality({...pacientePersonality, [e.target.name]: e.target.value})}
@@ -117,7 +117,7 @@ function Personality () {
                 </div>
                 <div>
                     <label htmlFor="likes" className="block mb-2 text-sm font-medium text-gray-900">¿Cuáles son sus gustos actuales?</label>
-                    <input type="text" name="likes" id="likes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <input type="textarea" name="likes" id="likes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacientePersonality.likes}
                          onChange={(e) => setPersonality({...pacientePersonality, [e.target.name]: e.target.value})}
@@ -125,7 +125,7 @@ function Personality () {
                 </div>
                 <div>
                     <label htmlFor="dislikes" className="block mb-2 text-sm font-medium text-gray-900">¿Qué le provoca rechazo o no le gusta actualmente?</label>
-                    <input type="text" name="dislikes" id="dislikes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <input type="textarea" name="dislikes" id="dislikes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacientePersonality.dislikes}
                          onChange={(e) => setPersonality({...pacientePersonality, [e.target.name]: e.target.value})}
@@ -133,7 +133,7 @@ function Personality () {
                 </div>
                 <div>
                     <label htmlFor="calmMethods" className="block mb-2 text-sm font-medium text-gray-900">¿Qué le tranquiliza o calma?</label>
-                    <input type="text" name="calmMethods" id="calmMethods" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <input type="textarea" name="calmMethods" id="calmMethods" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacientePersonality.calmMethods}
                          onChange={(e) => setPersonality({...pacientePersonality, [e.target.name]: e.target.value})}
@@ -141,7 +141,7 @@ function Personality () {
                 </div>
                 <div>
                     <label htmlFor="disturbMethods" className="block mb-2 text-sm font-medium text-gray-900">¿Qué le incomoda o molesta?</label>
-                    <input type="text" name="disturbMethods" id="disturbMethods" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <input type="textarea" name="disturbMethods" id="disturbMethods" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacientePersonality.disturbMethods}
                          onChange={(e) => setPersonality({...pacientePersonality, [e.target.name]: e.target.value})}
@@ -149,7 +149,7 @@ function Personality () {
                 </div>
                 <div>
                     <label htmlFor="hobbies" className="block mb-2 text-sm font-medium text-gray-900">¿Cuáles son sus hobbies o intereses personales?</label>
-                    <input type="text" name="hobbies" id="hobbies" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <input type="textarea" name="hobbies" id="hobbies" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacientePersonality.hobbies}
                          onChange={(e) => setPersonality({...pacientePersonality, [e.target.name]: e.target.value})}
@@ -165,7 +165,7 @@ function Personality () {
                 </div>
                 <div>
                     <label htmlFor="goals" className="block mb-2 text-sm font-medium text-gray-900">¿Cuáles son sus objetivos personales o metas actuales?</label>
-                    <input type="text" name="goals" id="goals" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <input type="textarea" name="goals" id="goals" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacientePersonality.goals}
                          onChange={(e) => setPersonality({...pacientePersonality, [e.target.name]: e.target.value})}
@@ -173,7 +173,7 @@ function Personality () {
                 </div>
                 <div>
                     <label htmlFor="favouriteSongs" className="block mb-2 text-sm font-medium text-gray-900">¿Cuáles son sus canciones favoritas?</label>
-                    <input type="text" name="favouriteSongs" id="favouriteSongs" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <input type="textarea" name="favouriteSongs" id="favouriteSongs" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacientePersonality.favouriteSongs}
                          onChange={(e) => setPersonality({...pacientePersonality, [e.target.name]: e.target.value})}
@@ -181,7 +181,7 @@ function Personality () {
                 </div>
                 <div>
                     <label htmlFor="clothes" className="block mb-2 text-sm font-medium text-gray-900">¿Qué ropa suele llevar?</label>
-                    <input type="text" name="clothes" id="clothes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <input type="textarea" name="clothes" id="clothes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacientePersonality.clothes}
                          onChange={(e) => setPersonality({...pacientePersonality, [e.target.name]: e.target.value})}
