@@ -66,7 +66,6 @@ function Adulthood () {
 
         if (response.ok){
             const data = await response.json()
-            console.log('data.adultez', data.adultez)
             setPacienteAdultez(data.adultez)
         }
     }

@@ -71,7 +71,6 @@ function Youth () {
 
         if (response.ok){
             const data = await response.json()
-            console.log('data.juventud', data.juventud)
             setPacienteJuventud(data.juventud)
         }
     }
