@@ -23,11 +23,13 @@ function Maturity () {
         maturityFamilyCore: "",
         maturityFriendsGroup: "",
         maturityWorkGroup: "",
+        maturityImportantPerson:"",
         maturityTravels: "",
         maturityFavouritePlace: "",
         maturityRoutine: "",
         maturityPositiveExperiences: "",
         maturityNegativeExperiences: "",
+        maturityResponsabilities:"",
         maturityRetirement: "",
         maturityWills: "",
         maturityProjects: "",
@@ -170,6 +172,17 @@ function Maturity () {
                     />
                 </div>
                 <div>
+                    <label htmlFor="maturityImportantPerson" className="block mb-2 text-sm font-medium text-gray-900">¿Quién fue su persona más importante durante esta etapa?</label>
+                    <input type="textarea" name="maturityImportantPerson" id="maturityImportantPerson" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                         value={pacienteMadurez.maturityImportantPerson}
+                         onChange={(e) => setPacienteMadurez({
+                            ...pacienteMadurez,
+                            [e.target.name]:e.target.value
+                        })}
+                    />
+                </div>
+                <div>
                     <label htmlFor="maturityTravels" className="block mb-2 text-sm font-medium text-gray-900">¿Qué lugares pudo visitar? ¿Dónde ha viajado?</label>
                     <input type="text" name="maturityTravels" id="maturityTravels" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
@@ -222,6 +235,17 @@ function Maturity () {
                                 ...pacienteMadurez,
                                 [e.target.name]: e.target.value
                             })}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="maturityResponsabilities" className="block mb-2 text-sm font-medium text-gray-900">¿Qué responsabilidades tenía durante esta etapa?</label>
+                    <input type="textarea" name="maturityResponsabilities" id="maturityResponsabilities" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                         value={pacienteMadurez.maturityResponsabilities}
+                         onChange={(e) => setPacienteMadurez({
+                            ...pacienteMadurez,
+                            [e.target.name]:e.target.value
+                        })}
                     />
                 </div>
                 <div>

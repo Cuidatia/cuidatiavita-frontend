@@ -187,6 +187,12 @@ function DatosPersonales () {
                     </fieldset>
                 </div>
                 <div>
+                    <label htmlFor="sentimentalCouple" className="block mb-2 text-sm font-medium text-gray-900">¿Quién es su pareja sentimental o persona íntima de convivencia?</label>
+                    <input type="text" name="sentimentalCouple" id="sentimentalCouple" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                        value={mostrarPaciente?.sentimentalCouple} disabled={!modificar} onChange={handleInpustChange}
+                    />
+                </div>
+                <div>
                     <label htmlFor="language" className="block mb-2 text-sm font-medium text-gray-900">¿Qué idioma usa en su día a día?</label>
                     <input type="text" name="language" id="language" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                         value={mostrarPaciente?.language} disabled={!modificar} onChange={handleInpustChange}
