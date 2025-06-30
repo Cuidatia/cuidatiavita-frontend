@@ -97,7 +97,7 @@ function Personality () {
 
     return(
         mostrarPaciente &&
-        <PacienteLayout mostrarPaciente={mostrarPaciente}>
+        <PacienteLayout mostrarPaciente={mostrarPaciente} page={"2"}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)] flex flex-col">
                 <div>
                     <label htmlFor="nature" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo describiría su carácter?</label>

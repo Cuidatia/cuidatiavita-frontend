@@ -90,7 +90,7 @@ function SocialWork () {
 
     return(
         mostrarPaciente &&
-        <PacienteLayout mostrarPaciente={mostrarPaciente}>
+        <PacienteLayout mostrarPaciente={mostrarPaciente} page={"11"}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
                     <label htmlFor="residentAndRelationship" className="block mb-2 text-sm font-medium text-gray-900">¿Vive con otras personas?¿Cuál es su relación con ellas?</label>

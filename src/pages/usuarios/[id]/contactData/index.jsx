@@ -92,7 +92,7 @@ function ContactData () {
     }
 
     return(
-        <PacienteLayout mostrarPaciente={mostrarPaciente}>
+        <PacienteLayout mostrarPaciente={mostrarPaciente} page={"14"}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
                     <label htmlFor="contactName" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo se llama la persona con la que se debe contactar si ocurre algo?</label>

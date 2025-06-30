@@ -96,7 +96,7 @@ function Childhood () {
     }
 
     return(
-        <PacienteLayout mostrarPaciente={mostrarPaciente}>
+        <PacienteLayout mostrarPaciente={mostrarPaciente} page={"3"}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
                     <label htmlFor="childhoodStudies" className="block mb-2 text-sm font-medium text-gray-900">¿Qué estudios realizó?</label>

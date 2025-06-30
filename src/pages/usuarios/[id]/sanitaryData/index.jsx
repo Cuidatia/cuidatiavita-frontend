@@ -88,7 +88,7 @@ function sanitaryData () {
     }
 
     return(
-        <PacienteLayout mostrarPaciente={mostrarPaciente}>
+        <PacienteLayout mostrarPaciente={mostrarPaciente} page={"7"}>
             <div className="py-4 px-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div className="grid grid-cols-2 gap-4">
                     {

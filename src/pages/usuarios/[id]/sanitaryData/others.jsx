@@ -23,7 +23,7 @@ function Others () {
 
 
     const getPaciente = async () => {
-        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteOtherData?id='+ id, {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPaciente?id='+ id, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -34,7 +34,7 @@ function Others () {
         if (response.ok){
             const data = await response.json()
             console.log('data', data)
-            setPacienteOtros(data.otherData)
+            setMostrarPaciente(data.paciente)
         }
 
     }
@@ -50,7 +50,6 @@ function Others () {
 
         if (response.ok){
             const data = await response.json()
-            console.log(data)
             setPacienteOtros(data.otherData)
         }
     }
@@ -87,7 +86,7 @@ function Others () {
 
     return(
         mostrarPaciente &&
-        <PacienteLayout mostrarPaciente={mostrarPaciente}>
+        <PacienteLayout mostrarPaciente={mostrarPaciente} page={"13"}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
                     <label htmlFor="professionalNotes" className="block mb-2 text-sm font-medium text-gray-900">Notas adicionales</label>

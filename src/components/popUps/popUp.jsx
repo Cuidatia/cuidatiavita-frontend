@@ -12,7 +12,7 @@ export default function PopUp({
       <div className="fixed inset-0 bg-black/20 flex items-center justify-center z-50">
         <div className="w-full max-w-md bg-white rounded-sm shadow-xl p-6">
           {popTitle && <h2 className="text-xl font-bold mb-4">{popTitle}</h2>}
-          {popContent && <p className="mb-6">{popContent}</p>}
+          {popContent && <div className="mb-6">{popContent}</div>}
           
           <div className="flex justify-end space-x-3">
             {popType === 'option' && (

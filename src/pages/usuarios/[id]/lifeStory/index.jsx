@@ -43,7 +43,7 @@ function lifeStory () {
     },[session, status])
 
     return(
-        <PacienteLayout mostrarPaciente={mostrarPaciente}>
+        <PacienteLayout mostrarPaciente={mostrarPaciente} page={"16"}>
             <div className="py-4 px-4">
                 <div className="grid grid-cols-1 gap-4">
                     {

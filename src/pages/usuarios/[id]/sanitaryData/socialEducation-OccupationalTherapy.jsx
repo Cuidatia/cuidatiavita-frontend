@@ -53,7 +53,6 @@ function SocialEducationOccupationalTherapy () {
 
         if (response.ok){
             const data = await response.json()
-            console.log('data.socialedu', data.socialedu)
             setPacienteTOES(data.socialedu)
         }
     }
@@ -91,7 +90,7 @@ function SocialEducationOccupationalTherapy () {
 
     return(
         mostrarPaciente &&
-        <PacienteLayout mostrarPaciente={mostrarPaciente}>
+        <PacienteLayout mostrarPaciente={mostrarPaciente} page={"10"}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
                     <label htmlFor="cognitiveAbilities" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo describiría su capacidad cognitiva?</label>

@@ -146,11 +146,11 @@ function Pacientes() {
                         break;
                     case '9':
                         result = await getNursingMedicine(id, session.user.token);
-                        dataRecolectada["Medicina"] = result;
+                        dataRecolectada["Medicina/enfermería"] = result;
                         break;
                     case '10':
                         result = await getSocialEdu(id, session.user.token);
-                        dataRecolectada["Terapia ocupacional"] = result;
+                        dataRecolectada["Educación social/terapia ocupacional"] = result;
                         break;
                     case '11':
                         result = await getSocialWork(id, session.user.token);
@@ -158,7 +158,7 @@ function Pacientes() {
                         break;
                     case '12':
                         result = await getKitchenHygiene(id, session.user.token);
-                        dataRecolectada["Cocina"] = result;
+                        dataRecolectada["Cocina/higiene"] = result;
                         break;
                     case '13':
                         // Si hay una función específica para "Otros", llámala aquí

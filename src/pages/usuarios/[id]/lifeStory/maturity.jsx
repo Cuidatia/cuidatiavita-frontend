@@ -101,7 +101,7 @@ function Maturity () {
     }
 
     return(
-        <PacienteLayout mostrarPaciente={mostrarPaciente}>
+        <PacienteLayout mostrarPaciente={mostrarPaciente} page={"6"}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
                     <label htmlFor="maturityGrandchildren" className="block mb-2 text-sm font-medium text-gray-900">¿Cuántos nietos tuvo? ¿Cómo se llaman sus nietos?</label>

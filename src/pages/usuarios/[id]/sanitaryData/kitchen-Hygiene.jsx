@@ -89,7 +89,7 @@ function KitchenHygiene () {
 
     return(
         mostrarPaciente &&
-        <PacienteLayout mostrarPaciente={mostrarPaciente}>
+        <PacienteLayout mostrarPaciente={mostrarPaciente} page={"12"}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
                     <label htmlFor="favouriteFood" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál es su comida favorita?</label>

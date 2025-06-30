@@ -88,7 +88,7 @@ function NursingMedicine () {
 
     return(
         mostrarPaciente &&
-        <PacienteLayout mostrarPaciente={mostrarPaciente}>
+        <PacienteLayout mostrarPaciente={mostrarPaciente} page={"9"}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
                     <label htmlFor="nutritionalSituation" className="block mb-2 text-sm font-medium text-gray-900">¿Qué tal come? ¿Cómo es su situación nutricional?</label>

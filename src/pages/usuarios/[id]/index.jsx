@@ -102,7 +102,7 @@ function PerfilPaciente () {
     }, [mostrarPaciente])
 
     return(
-        <PacienteLayout mostrarPaciente={mostrarPaciente}>
+        <PacienteLayout mostrarPaciente={mostrarPaciente} page={"0"}>
             <div className="py-4 px-4 space-y-8">
                 {/* Bloque: Historial de Vida */}
                 <div>
@@ -116,10 +116,10 @@ function PerfilPaciente () {
                     />
                     {session?.user?.roles === 'administrador' && (
                         <Card
-                        color={"linear-gradient(to right, #70dcff 0%, #a4e9ff 100%)"}
-                        icon={"personality"}
-                        title={'Personalidad'}
-                        link={`/usuarios/${mostrarPaciente.id}/personality/`}
+                            color={"linear-gradient(to right, #70dcff 0%, #a4e9ff 100%)"}
+                            icon={"personality"}
+                            title={'Personalidad'}
+                            link={`/usuarios/${mostrarPaciente.id}/personality/`}
                         />
                     )}
                     {(session?.user?.roles === 'auxiliar' || session?.user?.roles === 'administrador') && (
