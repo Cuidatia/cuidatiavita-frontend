@@ -6,17 +6,17 @@ export default function withAuth(Component, allowedRoles = []) {
     return function AuthenticatedComponent(props) {
         const router = useRouter();
         const [isLoading, setIsLoading] = useState(true);
-    
+        
         useEffect(() => {
             const checkSession = async () => {
                 const session = await getSession();
-                const userRole = session?.user?.roles
+                const userRoles = session?.user?.roles?.split(',') || []
                 
                 if (!session) {
                     router.push('/login');
                     return;
                 }
-                if (session && (allowedRoles.length > 0 && !allowedRoles.includes(userRole))) {
+                if (allowedRoles.length > 0 && !allowedRoles.some(role => userRoles.includes(role))) {
                     router.push('/403');
                 }
                 else {

@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import '../../../assets/styles.css';
 import '../../login/styles.css';
 import Alerts from "@/components/alerts/alerts";
+import {signIn} from 'next-auth/react'
+import { useRouter } from "next/router"
 import { usePathname, useSearchParams } from 'next/navigation';
 
 export default function Recuperar () {
@@ -10,16 +12,33 @@ export default function Recuperar () {
     const [newPassword, setNewPassword] = useState()
     const [confirmPassword, setConfirmPassword] = useState()
     const [email, setEmail] = useState()
+    const router = useRouter()
 
     const pathName = usePathname()
     const searchParams = useSearchParams()
 
     useEffect(()=>{
-            const paramMail = searchParams.get("m")
-    
-            setEmail(paramMail)
-            
-        },[searchParams, pathName])
+        // const paramMail = searchParams.get("m")
+
+        // setEmail(paramMail)
+        let token = searchParams.get("token")
+
+        async function getData(token) {
+            const res = await fetch(process.env.NEXT_PUBLIC_API_URL + 'api/decoded',{
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token }),
+            })
+
+            if(res.ok){
+                let data = await res.json()
+                
+                setEmail(data.decoded.email)
+            }
+        }
+        
+        getData(token)
+    },[searchParams, pathName])
 
     const validarContrasena = () => {
         if (newPassword !== confirmPassword) {
@@ -48,6 +67,18 @@ export default function Recuperar () {
         if (response.ok){
             const data = await response.json()
             setMessage(data.message)
+            const result = await signIn('credentials', {
+                        email: email,
+                        password: newPassword,
+                        redirect: false,
+                    })
+            
+            if (result?.error) {
+                setError(result.error)
+            } else {
+                setMessage('Inicio de sesión exitoso')
+                router.push('/dashboard')
+            }
         } else {    
             setError('Error al cambiar la contraseña')
         }

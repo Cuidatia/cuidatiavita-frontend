@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MultipleSelector, { Option } from "@/components/ui/multiselect";
+import Select from "react-select"
 import '../dashboard/styles.css';
 import DashboardLayout from "../dashboard/layout";
 import withAuth from '@/components/withAuth';
@@ -9,10 +9,14 @@ import { useSession } from "next-auth/react";
 function AddUsuario () {
     const {data: session, status} = useSession()
     const [handleEmail, setHandleEmail] = useState()
-    const [handleRol, setHandleRol] = useState([])
     const [roles, setRoles] = useState()
+    const [rolesOpciones, setRolesOpciones] = useState()
     const [message, setMessage] = useState()
     const [error, setError] = useState()
+
+    const [link, setLink] = useState()
+
+    const rolesSeleccionados = new Set();
 
     const [showEmailSubstitute, setShowEmailSubstitute] = useState(false)
 
@@ -27,12 +31,22 @@ function AddUsuario () {
         })
         if(response.ok){
             const data = await response.json()
-            // const options = data.roles.map((rol) => ({
-            //     label: rol.nombre,
-            //     value: rol.id
-            // }))
+            const options = data.roles.map((rol) => ({
+                label: rol.nombre,
+                value: rol.id
+            }))
+            setRolesOpciones(options)
             setRoles(data.roles)
         }
+    }
+
+    const handleRoles = (options) =>{
+        options.forEach((option) => {
+            const rol = roles.find((rol) => rol.id === option.value);
+            if (rol) {
+                rolesSeleccionados.add(rol.id);
+            }
+        });
     }
 
     useEffect(()=>{
@@ -42,28 +56,29 @@ function AddUsuario () {
     }, [session, status])
 
     const enviarInvitacion = async () => {
-        // const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'sendMailInvitacion', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': `Bearer ${session.user.token}`
-        //     },
-        //     body: JSON.stringify({
-        //         email: handleEmail,
-        //         rol: handleRol,
-        //         organizacion: session?.user?.idOrganizacion
-        //     })
-        // })
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'sendMailInvitacion', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${session.user.token}`
+            },
+            body: JSON.stringify({
+                email: handleEmail,
+                rol: Array.from(rolesSeleccionados).join(','),
+                organizacion: session?.user?.idOrganizacion
+            })
+        })
         
-        // if(response.ok){
-        //     const data = await response.json()
-        //     setMessage(data.message)
-        //     setShowEmailSubstitute(true)
-        // } else {
-        //     const data = await response.json()
-        //     setError(data.error)
-        // }
-
+        if(response.ok){
+            const data = await response.json()
+            setLink(data.url)
+            setMessage(data.message)
+            setShowEmailSubstitute(true)
+        } else {
+            const data = await response.json()
+            setError(data.error)
+        }
+        
         setMessage('Invitación enviada correctamente')
         setShowEmailSubstitute(true)
     }
@@ -83,7 +98,7 @@ function AddUsuario () {
                     </div>
                     <div>
                         <label htmlFor="roles">Rol</label>
-                        <select name="roles" id="roles" placeholder="Selecciona rol"  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-64 p-2.5" required
+                        {/* <select name="roles" id="roles" placeholder="Selecciona rol"  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-64 p-2.5" required
                             onChange={(e)=>setHandleRol(e.target.value)}
                         >
                             {
@@ -92,22 +107,14 @@ function AddUsuario () {
                                     <option key={rol.id} value={rol.id}>{rol.nombre}</option>
                                 ))
                             }
-                        </select>
-                        {/* {
-                            roles && roles.length > 0 &&
-                            <MultipleSelector
-                                className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-64 p-2.5"
-                                commandProps={{
-                                label: "Selecciona un rol",
-                                }}
-                                value={handleRol}
-                                defaultOptions={roles}
-                                placeholder="Selecciona un rol"
-                                hideClearAllButton
-                                hidePlaceholderWhenSelected
-                                emptyIndicator={<p className="text-center text-sm">No results found</p>}
-                            />
-                        } */}
+                        </select> */}
+                        <Select className="w-64 block"
+                            options={rolesOpciones}
+                            isMulti
+                            isClearable={false}
+                            placeholder={'Selecciona un rol'}
+                            onChange={handleRoles}
+                        />
                     </div>
                     <button className="cursor-pointer bg-zinc-100 hover:text-white border-1 border-zinc-200 hover:bg-blue-500 rounded-lg text-sm px-3 py-2 text-center">Enviar invitación</button>
                 </form>
@@ -122,7 +129,7 @@ function AddUsuario () {
                             <div className="bg-white border border-yellow-400 p-3 rounded-md break-words">
                             <p className="mb-2 font-medium">Enlace de invitación:</p>
                             <a
-                                href={`${process.env.NEXT_PUBLIC_URL}personal/create?m=${encodeURIComponent(handleEmail)}&r=${handleRol}&o=${session?.user?.idOrganizacion}`}
+                                href={link}
                                 className="text-blue-700 underline break-words"
                                 target="_blank"
                                 rel="noopener noreferrer"

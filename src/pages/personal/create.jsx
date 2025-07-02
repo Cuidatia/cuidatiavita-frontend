@@ -25,7 +25,7 @@ export default function CrearUsuario () {
     const pathName = usePathname()
     const searchParams = useSearchParams()
 
-    const [rol, setRol] = useState()
+    const [rol, setRol] = useState([])
     const [email, setEmail] = useState()
     const [nombre, setNombre] = useState()
     const [password, setPassword] = useState()
@@ -35,14 +35,33 @@ export default function CrearUsuario () {
     const [error, setError] = useState()
     
     useEffect(()=>{
-        const paramMail = searchParams.get("m")
-        const paramRol = searchParams.get("r")
-        const paramOrg = searchParams.get("o")
-        getOrganizacion(paramOrg) 
+        // const paramMail = searchParams.get("m")
+        // const paramRol = searchParams.get("r")
+        // const paramOrg = searchParams.get("o")
+        // getOrganizacion(paramOrg) 
 
-        setEmail(paramMail)
-        setRol(paramRol)
+        // setEmail(paramMail)
+        // setRol(paramRol)
+
+        let token = searchParams.get("token")
+
+        async function getData(token) {
+            const res = await fetch(process.env.NEXT_PUBLIC_API_URL + 'api/decoded',{
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token }),
+            })
+
+            if(res.ok){
+                let data = await res.json()
+                
+                getOrganizacion(data.decoded.organizacion)
+                setEmail(data.decoded.email)
+                setRol(data.decoded.roles?.split(','))
+            }
+        }
         
+        getData(token)
     },[searchParams, pathName])
 
     const getOrganizacion = async (org) => {

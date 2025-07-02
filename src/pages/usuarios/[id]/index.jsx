@@ -114,7 +114,7 @@ function PerfilPaciente () {
                         title={'Datos Personales'}
                         link={`/usuarios/${mostrarPaciente.id}/personalData`}
                     />
-                    {session?.user?.roles === 'administrador' && (
+                    {session?.user?.roles.split(',').includes('administrador') && (
                         <Card
                             color={"linear-gradient(to right, #70dcff 0%, #a4e9ff 100%)"}
                             icon={"personality"}
@@ -122,7 +122,7 @@ function PerfilPaciente () {
                             link={`/usuarios/${mostrarPaciente.id}/personality/`}
                         />
                     )}
-                    {(session?.user?.roles === 'auxiliar' || session?.user?.roles === 'administrador') && (
+                    {(session?.user?.roles.split(',').includes('auxiliar') || session?.user?.roles.split(',').includes('administrador')) && (
                         <Card
                         color={"linear-gradient(to left, #ffd495 0%, #ffbf62 100%)"}
                         icon={"lifeStory"}
@@ -146,7 +146,7 @@ function PerfilPaciente () {
                 </div>
 
                 {/* Bloque: Historial Clínico */}
-                {(session?.user?.roles === 'medico/enfermero' || session?.user?.roles === 'administrador' || session?.user?.roles === 'trabajador social' || session?.user?.roles === 'educador social/terapeuta ocupacional') && (
+                {(session?.user?.roles.split(',').includes('medico/enfermero') || session?.user?.roles.split(',').includes('administrador') || session?.user?.roles.split(',').includes('trabajador social') || session?.user?.roles.split(',').includes('educador social/terapeuta ocupacional')) && (
                     <div>
                     <h2 className="text-xl font-semibold text-gray-800 mb-4">Historial Sanitario</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -197,7 +197,7 @@ function PerfilPaciente () {
                 </div>
             </div>
             {
-                session?.user?.roles === 'administrador' &&
+                session?.user?.roles.split(',').includes('administrador') &&
                 <div className="flex py-2">
                     <select name="personal" id="personal"  className="block p-2.5 text-sm max-h-fit text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                         onChange={(e)=>setUsuarioSeleccionado(e.target.value)}

@@ -5,6 +5,7 @@ import withAuth from '@/components/withAuth';
 import Alerts from "@/components/alerts/alerts";
 import PopUp from '@/components/popUps/popUp';
 import { useSession } from "next-auth/react";
+import Select from "react-select";
 
 function PerfilPaciente () {
     const {data: session, status} = useSession()
@@ -14,10 +15,13 @@ function PerfilPaciente () {
     const [openPopUp, setOpenPopUp] = useState(false)
     const [error, setError] = useState()
     const [roles, setRoles] = useState()
+    const [rolesOpciones, setRolesOpciones] = useState()
+    const rolesSeleccionados = new Set();
+
     const router = useRouter()
     const {id} = router.query
 
-    const getUsuario = async () => {
+    const getUsuario = async (options) => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getUsuario?id='+ id, {
             method: 'GET',
             headers: {
@@ -28,7 +32,9 @@ function PerfilPaciente () {
 
         if (response.ok){
             const data = await response.json()
-            setMostrarUsuario(data.usuario)
+            const selectedRoles = options?.filter(rol => data.usuario?.roles?.split(',').includes(rol.label)).map(rol => rol.value)
+            setMostrarUsuario({...data.usuario, roles:selectedRoles})
+            setRoles(options?.filter(rol => data.usuario?.roles?.split(',').includes(rol.label)))
         }
 
     }
@@ -43,15 +49,32 @@ function PerfilPaciente () {
         })
         if(response.ok){
             const data = await response.json()
-            setRoles(data.roles)
+            const options = data.roles.map((rol) => ({
+                label: rol.nombre,
+                value: rol.id
+            }))
+            setRolesOpciones(options)
+            return options;
         }
+    }
+
+    const handleRoles = (options) =>{
+        const selectedRoles = options ? options.map(option => option.value) : []
+        setRoles(options)
+        setMostrarUsuario(prev => ({
+            ...prev,
+            roles: selectedRoles // IDs para enviar al backend
+        }))
     }
 
     useEffect(()=>{
         if (status === 'authenticated') {
-            getUsuario()
-            getRoles()
-        }
+            const fetchData = async () => {
+            const opciones = await getRoles();     // espera a que rolesOpciones esté listo
+            await getUsuario(opciones);   // luego ya puede usar rolesOpciones correctamente
+        };
+        fetchData();
+    }
     },[session, status])
 
     const modificarDatosUsuario = async () => {
@@ -136,7 +159,7 @@ function PerfilPaciente () {
                             </div> */}
                             <div>
                                 <label htmlFor="roles" className="block mb-2 text-sm font-medium text-gray-900">Roles</label>
-                                <select name="roles" id="roles" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                                {/* <select name="roles" id="roles" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                                     onChange={(e) => setMostrarUsuario({ ...mostrarUsuario, roles: e.target.value })}
                                     disabled={!modificar}
                                 >
@@ -148,7 +171,16 @@ function PerfilPaciente () {
                                             :<option key={rol.id} value={rol.id}>{rol.nombre}</option>
                                         ))
                                     }
-                                </select>
+                                </select> */}
+                                <Select
+                                    isDisabled={!modificar}
+                                    options={rolesOpciones}
+                                    isMulti
+                                    isClearable={false}
+                                    placeholder={'Selecciona un rol'}
+                                    onChange={handleRoles}
+                                    value={roles}
+                                />
                             </div>
                             <div>
                                 <button className="cursor-pointer bg-zinc-100 border-1 border-zinc-200 hover:bg-zinc-300 me-1 rounded-lg text-sm px-3 py-2 text-center"
