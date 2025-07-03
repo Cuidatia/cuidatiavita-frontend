@@ -184,6 +184,12 @@ function DatosPersonales () {
                                 />
                                 <label htmlFor="divorciado" className="block ms-2  text-sm font-medium text-gray-900">Divorciado/a</label>
                             </div>
+                            <div className="flex items-center mb-4">
+                                <input type="radio" name="maritalStatus" id="parejahecho" className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
+                                    checked={mostrarPaciente?.maritalStatus === 'P'} value='P' onClick={handleInpustChange}
+                                />
+                                <label htmlFor="divorciado" className="block ms-2  text-sm font-medium text-gray-900">Pareja de hecho</label>
+                            </div>
                     </fieldset>
                 </div>
                 <div>

@@ -50,7 +50,7 @@ function CrearPaciente () {
                 message: 'Género no válido',
             }),
         address: z.string().min(1, 'Este campo es obligatorio'),
-        maritalStatus: z.string().min(1, 'Este campo es obligatorio').refine((val) => ['ST', 'C', 'V', 'S', 'D'].includes(val), {
+        maritalStatus: z.string().min(1, 'Este campo es obligatorio').refine((val) => ['ST', 'C', 'V', 'S', 'D', 'P'].includes(val), {
                 message: 'Estado civil no válido',
             }),
         language: z.string().min(1, 'Este campo es obligatorio'),
@@ -279,6 +279,12 @@ function CrearPaciente () {
                                             onClick={handleInpustChange} value='D'
                                         />
                                         <label htmlFor="divorciado" className="block ms-2  text-sm font-medium text-gray-900">Divorciado/a</label>
+                                    </div>
+                                    <div className="flex items-center mb-4 ps-1">
+                                        <input type="radio" name="maritalStatus" id="parejahecho" className={`w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 ${erroresFormulario?.gender && 'ring-2 ring-red-300'}`}
+                                            onClick={handleInpustChange} value='P'
+                                        />
+                                        <label htmlFor="divorciado" className="block ms-2  text-sm font-medium text-gray-900">Pareja de hecho</label>
                                     </div>
                             </fieldset>
                             {

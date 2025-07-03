@@ -1,10 +1,13 @@
+import clsx from 'clsx';
+
 export default function PopUp({ 
     open, 
     popTitle, 
     popContent, 
     popType, 
     confirmFunction, 
-    cancelFunction 
+    cancelFunction,
+    loading
   }) {
     if (!open) return null;
   
@@ -16,16 +19,24 @@ export default function PopUp({
           
           <div className="flex justify-end space-x-3">
             {popType === 'option' && (
-              <button
-                onClick={cancelFunction}
-                className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-sm hover:cursor-pointer"
+              <button 
+                onClick={cancelFunction} disabled={loading}
+                className={clsx("px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-sm hover:cursor-pointer", 
+                loading 
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                : 'bg-gray-200 hover:bg-gray-300'
+                )}
               >
                 Cancelar
               </button>
             )}
             <button
-              onClick={confirmFunction}
-              className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-sm hover:cursor-pointer"
+              onClick={confirmFunction} disabled={loading}
+              className={clsx("px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-sm hover:cursor-pointer", 
+                loading 
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                : 'bg-blue-500 hover:bg-blue-600'
+                )}
             >
               Confirmar
             </button>
