@@ -97,11 +97,13 @@ export default function Recuperar () {
                             <input type="password" name="nueva" id="nueva" placeholder="Nueva contraseña" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full block p-2.5"
                                 onChange={(e)=>setNewPassword(e.target.value)}
                             />
+                            <small className="text-xs italic text-gray-500">Debe tener un mínimo de 8 caracteres.</small>
                         </div>
                         <div>
                             <input type="password" name="confirmar" id="confirmar" placeholder="Confirmar contraseña" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full block p-2.5"
                                 onChange={(e)=>setConfirmPassword(e.target.value)}
                             />
+                            <small className="text-xs italic text-gray-500">Debe tener un mínimo de 8 caracteres.</small>
                         </div>
                         {
                             error &&

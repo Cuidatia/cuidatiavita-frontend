@@ -74,12 +74,12 @@ function Galeria () {
 
     return(
         <PacienteLayout mostrarPaciente={mostrarPaciente}>
-            {/*<div className="py-4 px-4">
+            <div className="py-4 px-4">
                 <h2 className='text-xl font-semibold'>Galería de imagenes</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
                     <div className="grid gap-4">
                         {
-                            galleryData.map((imagenes) => (
+                            imagenesPaciente?.map((imagenes) => (
                                 imagenes.images.map((imagen, index)=>(
                                     <div key={index}>
                                         <img src={imagen.src} alt={`Imagen ${index}`} className="h-auto max-w-full rounded-lg" />
@@ -89,8 +89,8 @@ function Galeria () {
                         }
                     </div>
                 </div>
-            </div>*/}
-            <div className="space-y-10 p-6">
+            </div>
+            {/* <div className="space-y-10 p-6">
                 {galleryData.map((section) => (
                     <div key={section.title}>
                     <h2 className="text-2xl font-semibold mb-4">{section.title}</h2>
@@ -111,7 +111,7 @@ function Galeria () {
                     </div>
                     </div>
                 ))}
-                </div>
+                </div> */}
         </PacienteLayout>
     )
 }

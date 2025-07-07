@@ -127,6 +127,7 @@ export default function CrearUsuario () {
                             <input type="password" name="password" id="password" placeholder="Escribir contraseña" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5" required
                                 onChange={(e)=>setPassword(e.target.value)}
                             />
+                            <small className="text-xs italic text-gray-500">Debe tener un mínimo de 8 caracteres.</small>
                         </div>
                         <div>
                             <label htmlFor="organizacion" className="block mb-2 text-sm font-medium text-gray-900">Organización</label>

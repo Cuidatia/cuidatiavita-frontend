@@ -1,6 +1,4 @@
-import { useSessionStore } from "@/hooks/useSessionStorage";
 import DashboardLayout from "../dashboard/layout";
-import { UsuarioContext } from "@/contexts/UsuarioContext";
 import { useEffect, useState } from "react";
 import withAuth from '@/components/withAuth';
 import Alerts from "@/components/alerts/alerts";
@@ -8,7 +6,6 @@ import { useSession } from "next-auth/react";
 
 function Perfil() {
     const { data: session, status } = useSession()
-    const [Usuario, setUsuario] = useSessionStore(UsuarioContext)
     const [mostrarUsuario, setMostrarUsuario] = useState([])
     const [modificarDatos, setModificarDatos] = useState(false)
     const [modificarPass, setModificarPass] = useState(false)
@@ -16,6 +13,7 @@ function Perfil() {
         'nuevaContraseña': '',
         'repetirContraseña': ''
     })
+    const [roles, setRoles] = useState()
 
     const [passError, setPassError] = useState()
     const [message, setMessage] = useState()
@@ -24,8 +22,38 @@ function Perfil() {
     useEffect(()=>{
         if (status === 'authenticated' && session?.user) {
             setMostrarUsuario(session.user)
+            getRoles()
         }
     },[session, status])
+
+    const getRoles = async () => {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getRoles', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${session.user.token}`
+            }
+        })
+        if(response.ok){
+            const data = await response.json()
+            console.log(data)
+            const rolesUsuario = Array.isArray(session.user.roles)
+                ? session.user.roles
+                : [session.user.roles]
+
+            const idsRolesUsuario = data.roles
+            .filter(rol => rolesUsuario.includes(rol.nombre))
+            .map(rol => rol.id)
+
+            setRoles(session.user.roles)
+
+            // actualizar mostrarUsuario con IDs
+            setMostrarUsuario(prev => ({
+            ...prev,
+            roles: idsRolesUsuario
+            }))
+        }
+    }
 
     const modificarDatosUsuario = async () => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'modificarUsuario', {
@@ -84,7 +112,7 @@ function Perfil() {
             mostrarUsuario &&
             <div >
                 <div className='flex items-center justify-between'>
-                    <h2 className='text-2xl font-semibold'>{mostrarUsuario.nombre}</h2>
+                    <h2 className='text-2xl font-semibold'>{mostrarUsuario.name}</h2>
                 </div> 
                 <div className="py-4 my-4 overflow-y-scroll h-[calc(100vh-220px)]">
                     <div className="space-y-4 md:space-y-6">
@@ -93,7 +121,7 @@ function Perfil() {
                             <input type="text" name="nombre" id="nombre" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full block p-2.5"
                                 value={mostrarUsuario.nombre}
                                 disabled={!modificarDatos}
-                                onChange={(e) => setMostrarUsuario({ ...mostrarUsuario, name: e.target.value })}
+                                onChange={(e) => setMostrarUsuario({ ...mostrarUsuario, nombre: e.target.value })}
                             />
                         </div>
                         <div>
@@ -131,6 +159,7 @@ function Perfil() {
                                 disabled={!modificarPass}
                                 onChange={(e) => setNewPassword({ ...newPassword, nuevaContraseña: e.target.value })}
                             />
+                            <small className="text-xs italic text-gray-500">Debe tener un mínimo de 8 caracteres.</small>
                         </div>
                         <div>
                             <label htmlFor="passsword" className="block mb-2 text-sm font-medium text-gray-900">Repetir contraseña</label>
@@ -138,6 +167,7 @@ function Perfil() {
                                 disabled={!modificarPass}
                                 onChange={(e) => setNewPassword({ ...newPassword, repetirContraseña: e.target.value })}
                             />
+                            <small className="text-xs italic text-gray-500">Debe tener un mínimo de 8 caracteres.</small>
                         </div>
                         {
                             passError &&
@@ -169,7 +199,7 @@ function Perfil() {
                         <div>
                             <label htmlFor="roles" className="block mb-2 text-sm font-medium text-gray-900">Roles</label>
                             <span className="border-1 border-zinc-200 p-1 rounded-sm bg-gray-100">
-                                {mostrarUsuario.roles}
+                                {roles}
                             </span>
                             {/* {
                                 mostrarUsuario.roles.map((rol, index) => (
