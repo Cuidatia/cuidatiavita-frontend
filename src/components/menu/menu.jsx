@@ -9,7 +9,8 @@ export default function Menu () {
     const pathname = router.pathname;
 
     const cerrarSesion = async () => {
-        signOut({ callbackUrl: '/login' })
+        signOut({ redirect: false })
+        .then(() => router.push('/login'))
     }
 
     const isActive = (route) => pathname === route || pathname.startsWith(route + '/');
