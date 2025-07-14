@@ -4,7 +4,7 @@ const items = [
   { label: "Datos personales", value: "1" },
   { label: "Personalidad", value: "2" },
   {
-    label: "Historia de vida",
+    label: "Etapas de vida",
     value: "16",
     children: [
       { label: "Infancia", value: "3" },

@@ -126,7 +126,7 @@ function PerfilPaciente () {
                         <Card
                         color={"linear-gradient(to left, #ffd495 0%, #ffbf62 100%)"}
                         icon={"lifeStory"}
-                        title={'Historia de vida'}
+                        title={'Etapas de vida'}
                         link={`/usuarios/${mostrarPaciente.id}/lifeStory`}
                         />
                     )}

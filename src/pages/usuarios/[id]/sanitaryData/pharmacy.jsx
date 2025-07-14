@@ -86,17 +86,140 @@ function Pharmacy () {
         }
     }
 
+    const [medicamentos, setMedicamentos] = useState([
+        { nombre: "", dosis: "", frecuencia: "" },
+    ]);
+
+    const actualizarMedicamentos = (nuevosMedicamentos) => {
+        setMedicamentos(nuevosMedicamentos);
+
+        // Convertir a string: "nombre;dosis;frecuencia\n..."
+        const tratamientoFormateado = nuevosMedicamentos
+            //.filter(med => med.nombre || med.dosis || med.frecuencia) // opcional: evita líneas vacías
+            .map(med => `${med.nombre};${med.dosis};${med.frecuencia}`)
+            .join('\n');
+
+        setPacienteFarmacia(prev => ({
+            ...prev,
+            treatment: tratamientoFormateado
+        }));
+    };
+
+    const handleChangeTreatment = (index, field, value) => {
+        const nuevos = [...medicamentos];
+        nuevos[index][field] = value;
+        actualizarMedicamentos(nuevos);
+    };
+
+    const agregarFila = () => {
+        const nuevaFila = { nombre: '', dosis: '', frecuencia: '' };
+        actualizarMedicamentos([...medicamentos, nuevaFila]);
+    };
+
+    const eliminarFila = (index) => {
+        const nuevos = medicamentos.filter((_, i) => i !== index);
+        actualizarMedicamentos(nuevos);
+    };
+
+    useEffect(()=>{
+        if (pacienteFarmacia?.treatment) {
+            const lineas = pacienteFarmacia.treatment.split('\n').filter(linea => linea.trim() !== '');
+            const medicamentosParseados = lineas.map(linea => {
+                const [nombre = '', dosis = '', frecuencia = ''] = linea.split(';');
+                return { nombre, dosis, frecuencia };
+            });
+            setMedicamentos(medicamentosParseados);
+        }else {
+            // Si no hay datos cargados, dejar al menos una fila vacía
+            setMedicamentos([{ nombre: '', dosis: '', frecuencia: '' }]);
+        }
+    },[pacienteFarmacia])
+
     return(
         mostrarPaciente &&
         <PacienteLayout mostrarPaciente={mostrarPaciente} page={"8"}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
-                <div>
-                    <label htmlFor="treatment" className="block mb-2 text-sm font-medium text-gray-900">¿Toma alguna medicación de forma habitual?</label>
-                    <input type="text" name="treatment" id="treatment" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                         disabled={!modificar}
-                         value={pacienteFarmacia?.treatment}
-                         onChange={(e)=>setPacienteFarmacia({...pacienteFarmacia, [e.target.name]:e.target.value})}
-                    />
+                <div className="space-y-4">
+                    <label className="block text-base font-semibold text-gray-800">
+                        ¿Toma alguna medicación de forma habitual?
+                    </label>
+
+                    <div className="overflow-x-auto rounded-xl border border-gray-200">
+                        <table className="min-w-full divide-y divide-gray-200 text-sm text-gray-800">
+                        <thead className="bg-blue-100 text-center text-sm font-medium text-blue-500">
+                            <tr>
+                                <th className="px-4 py-3">Medicamento</th>
+                                <th className="px-4 py-3">Dosis</th>
+                                <th className="px-4 py-3">Frecuencia</th>
+                                {modificar && <th className="px-4 py-3"></th>}
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-100 bg-white">
+                            {medicamentos.map((med, index) => (
+                            <tr key={index}>
+                                <td className="px-4 py-2">
+                                <input
+                                    type="text"
+                                    placeholder="Ej: Enalapril"
+                                    className="w-full text-center rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    value={med.nombre}
+                                    onChange={(e) =>
+                                    handleChangeTreatment(index, "nombre", e.target.value)
+                                    }
+                                    disabled={!modificar}
+                                />
+                                </td>
+                                <td className="px-4 py-2">
+                                <input
+                                    type="text"
+                                    placeholder="Ej: 10mg"
+                                    className="w-full text-center rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    value={med.dosis}
+                                    onChange={(e) =>
+                                    handleChangeTreatment(index, "dosis", e.target.value)
+                                    }
+                                    disabled={!modificar}
+                                />
+                                </td>
+                                <td className="px-4 py-2">
+                                <input
+                                    type="text"
+                                    placeholder="Ej: Diario"
+                                    className="w-full text-center rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    value={med.frecuencia}
+                                    onChange={(e) =>
+                                    handleChangeTreatment(index, "frecuencia", e.target.value)
+                                    }
+                                    disabled={!modificar}
+                                />
+                                </td>
+                                {modificar && (
+                                <td className="px-4 py-2 text-center">
+                                    <button
+                                    type="button"
+                                    onClick={() => eliminarFila(index)}
+                                    className="cursor-pointer text-sm text-gray-500  hover:text-red-500"
+                                    >
+                                    Eliminar
+                                    </button>
+                                </td>
+                                )}
+                            </tr>
+                            ))}
+                        </tbody>
+                        </table>
+                            {modificar && (
+                            <div className="bg-white px-4 py-2">
+                                <button
+                                    type="button"
+                                    onClick={agregarFila}
+                                    className="cursor-pointer text-sm text-gray-500  hover:text-green-400"
+                                >
+                                    + Añadir otro
+                                </button>
+                            </div>
+                        )}
+                    </div>
                 </div>
                 <div>
                     <label htmlFor="regularPharmacy" className="block mb-2 text-sm font-medium text-gray-900">¿Qué farmacia suele frecuentar para adquirir sus medicamentos?</label>
