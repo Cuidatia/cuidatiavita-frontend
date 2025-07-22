@@ -361,7 +361,7 @@ export default function PacienteLayout({ children, mostrarPaciente, page }) {
     return(
         <DashboardLayout>
             <div className='flex items-center justify-between'>
-                <h2 className='text-2xl font-semibold cursor-pointer hover:text-blue-400' onClick={()=>router.push("/usuarios/"+mostrarPaciente.id)}>{mostrarPaciente.name} {mostrarPaciente.firstSurname} {mostrarPaciente.secondSurname}</h2>            
+                <h2 className='text-2xl font-semibold cursor-pointer hover:text-blue-400' onClick={()=>router.push("/usuarios/"+mostrarPaciente?.id)}>{mostrarPaciente?.name} {mostrarPaciente?.firstSurname} {mostrarPaciente?.secondSurname}</h2>            
                 <div>
                     <button className="cursor-pointer text-red-700 hover:text-white border border-red-500 hover:bg-red-500 focus:ring-1 focus:outline-none focus:ring-red-300 me-1 rounded-lg text-sm px-3 py-2 text-center"
                         onClick={()=>{setOpenPopUp(!openPopUp);}}>
@@ -383,7 +383,7 @@ export default function PacienteLayout({ children, mostrarPaciente, page }) {
             <PopUp
                 open={openPopUp} 
                 popTitle="Eliminar usuario"
-                popContent={`¿Está seguro de que desea eliminar al usuario ${mostrarPaciente.name} ${mostrarPaciente.firstSurname} ${mostrarPaciente.secondSurname}?`}
+                popContent={`¿Está seguro de que desea eliminar al usuario ${mostrarPaciente?.name} ${mostrarPaciente?.firstSurname} ${mostrarPaciente?.secondSurname}?`}
                 popType="option"
                 confirmFunction={() => {
                     eliminarPaciente(mostrarPaciente.id);
