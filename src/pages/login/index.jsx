@@ -2,7 +2,7 @@ import LogInLayout from "./layout"
 import './styles.css'
 import {signIn} from 'next-auth/react'
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Alerts from "@/components/alerts/alerts";
 
 export default function Login(){
@@ -12,6 +12,10 @@ export default function Login(){
     const [ message, setMessage ] = useState()
     const [ errorMessage, setErrorMessage ] = useState()
 
+    useEffect(() => {
+        console.log("NEXTAUTH_SECRET:", process.env.NEXTAUTH_SECRET)
+    }, []);
+
     async function handleSubmit(){
         const result = await signIn('credentials', {
             email: email,
@@ -19,7 +23,7 @@ export default function Login(){
             redirect: false,
         })
 
-        console.log("NEXTAUTH_SECRET:", process.env.NEXTAUTH_SECRET)
+        
 
 
         if (result?.error) {
