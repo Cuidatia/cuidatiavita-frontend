@@ -12,9 +12,7 @@ export default function Login(){
     const [ message, setMessage ] = useState()
     const [ errorMessage, setErrorMessage ] = useState()
 
-    useEffect(() => {
-        console.log("NEXTAUTH_SECRET:", process.env.NEXTAUTH_SECRET)
-    }, []);
+
 
     async function handleSubmit(){
         const result = await signIn('credentials', {
