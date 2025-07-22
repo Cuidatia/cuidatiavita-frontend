@@ -19,6 +19,9 @@ export default function Login(){
             redirect: false,
         })
 
+        console.log("NEXTAUTH_SECRET:", process.env.NEXTAUTH_SECRET)
+
+
         if (result?.error) {
             setErrorMessage(result.error)
         } else {
