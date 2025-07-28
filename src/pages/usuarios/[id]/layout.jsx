@@ -360,25 +360,37 @@ export default function PacienteLayout({ children, mostrarPaciente, page }) {
  
     return(
         <DashboardLayout>
-            <div className='flex items-center justify-between'>
-                <h2 className='text-2xl font-semibold cursor-pointer hover:text-blue-400' onClick={()=>router.push("/usuarios/"+mostrarPaciente.id)}>{mostrarPaciente.name} {mostrarPaciente.firstSurname} {mostrarPaciente.secondSurname}</h2>            
-                <div>
-                    <button className="cursor-pointer text-red-700 hover:text-white border border-red-500 hover:bg-red-500 focus:ring-1 focus:outline-none focus:ring-red-300 me-1 rounded-lg text-sm px-3 py-2 text-center"
-                        onClick={()=>{setOpenPopUp(!openPopUp);}}>
-                        Eliminar usuario
-                    </button>
-                    
-                    <button disabled={loadingExport} className="cursor-pointer text-green-700 hover:text-white border border-green-500 hover:bg-green-500 focus:ring-1 focus:outline-none focus:ring-green-300 me-1 rounded-lg text-sm px-3 py-2 text-center"
-                        onClick={()=>setShowPopUpExportar(!showPopUpExportar)}
+            <div className="flex items-center bg-white justify-between px-4 py-4">
+                <h2
+                    className="text-xl font-medium text-gray-800 hover:text-blue-400 transition-colors cursor-pointer"
+                    onClick={() => router.push("/usuarios/" + mostrarPaciente.id)}
+                >
+                    {mostrarPaciente.name} {mostrarPaciente.firstSurname} {mostrarPaciente.secondSurname}
+                </h2>
+
+                <div className="flex gap-2">
+                    <button
+                    onClick={() => setOpenPopUp(!openPopUp)}
+                    className="text-red-600 border border-red-500 hover:bg-red-500 hover:text-white transition-all px-4 py-1.5 text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-red-300 cursor-pointer"
                     >
-                        Exportar
+                    Eliminar
+                    </button>
+
+                    <button
+                    onClick={() => setShowPopUpExportar(!showPopUpExportar)}
+                    disabled={loadingExport}
+                    className="text-green-600 border border-green-500 hover:bg-green-500 hover:text-white transition-all px-4 py-1.5 text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-green-300 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
+                    >
+                    Exportar
                     </button>
                 </div>
             </div>
-            <div className="relative flex py-2 items-center">
-                <div className="flex-grow border-t mt-2 border-gray-300"></div>
+
+            <div className="border-t border-gray-200 mb-4"></div>
+
+            <div className="px-4 py-2 space-y-8">
+                {children}
             </div>
-            {children}
 
             <PopUp
                 open={openPopUp} 

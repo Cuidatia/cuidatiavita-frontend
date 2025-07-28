@@ -6,7 +6,7 @@ import withAuth from '@/components/withAuth';
 import PopUp from '@/components/popUps/popUp';
 import Alerts from '@/components/alerts/alerts';
 import { useSession } from 'next-auth/react';
-import { GoogleGenAI } from "@google/genai";
+import { Trash, FilePenLine, FileDown } from 'lucide-react';
 
 import { 
     getAdultez,
@@ -23,8 +23,6 @@ import {
     getSocialEdu,
     getSocialWork} from '@/api/exportar';
 import CheckboxAccordion from '@/components/chekboxAcordeon/checkboxAcordeon';
-
-const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY });
 
 function Pacientes() {
     const {data: session, status} = useSession()
@@ -431,106 +429,146 @@ function Pacientes() {
 
     return (
         <DashboardLayout>
-            <div className='flex items-center justify-end'>
-                <input type="text" placeholder='Buscar usuario...' className="bg-white border border-gray-300 text-gray-900 rounded-lg block w-64 p-2.5"
+            <div className="flex items-center justify-end px-8 pt-6">
+                <input
+                    type="text"
+                    placeholder="Buscar usuario..."
+                    className="border border-gray-300 rounded-xl px-4 py-2 text-sm w-64 text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-200 transition"
                     value={buscarPaciente}
-                    onChange={(e)=>{
-                        setBuscarPaciente(e.target.value)
-                        getPaciente(e.target.value) 
+                    onChange={(e) => {
+                    setBuscarPaciente(e.target.value);
+                    getPaciente(e.target.value);
                     }}
                 />
-            </div>
-            <div className="relative flex py-2 items-center">
-                <div className="flex-grow border-t border-gray-300"></div>
-            </div>
-            <div className='flex flex-grow flex-col'>
-                <div className='flex items-center justify-between'>
-                    <h2 className='text-2xl font-semibold'>Usuarios</h2>
-                    <div className='w-18 flex items-center justify-between text-gray-500 cursor-pointer hover:text-green-400'
-                        onClick={()=>{router.push('usuarios/create')}}
-                    >
-                        Añadir
-                        <svg className="shrink-0 w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                        <path fillRule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4.243a1 1 0 1 0-2 0V11H7.757a1 1 0 1 0 0 2H11v3.243a1 1 0 1 0 2 0V13h3.243a1 1 0 1 0 0-2H13V7.757Z" clipRule="evenodd"/>
-                        </svg>
-                    </div>
                 </div>
+
+                <div className="relative flex py-2 items-center">
+                <div className="flex-grow border-t border-gray-200"></div>
+                </div>
+
+                <div className="flex flex-col px-8">
+                <div className="flex items-center justify-between mb-2">
+                    <h2 className="text-xl font-semibold text-gray-800">Usuarios</h2>
+                    <button
+                    onClick={() => router.push("usuarios/create")}
+                    className="cursor-pointer flex items-center gap-1 text-sm text-gray-600 hover:text-green-500 transition"
+                    >
+                    Añadir
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4.243a1 1 0 1 0-2 0V11H7.757a1 1 0 1 0 0 2H11v3.243a1 1 0 1 0 2 0V13h3.243a1 1 0 1 0 0-2H13V7.757Z"
+                        />
+                    </svg>
+                    </button>
+                </div>
+
                 <div className="py-4">
-                    {
-                        pacientes.length > 0 ?
-                         pacientes.filter(paciente => paciente.name.toLowerCase().includes(buscarPaciente.toLowerCase())).map((paciente, index) => (
-                            <div className='border-b border-gray-100 transition-all duration-[1000ms] ease-[cubic-bezier(0.15,0.83,0.66,1)] hover:scale-[1.01]' key={index}>
-                                <div className='bg-white hover:bg-gradient-to-r from-blue-300 to-blue-200 shadow-sm p-4 flex items-center justify-between rounded-sm my-0.5 cursor-pointer'
-                                    onClick={()=>router.push('usuarios/'+paciente.id)}>
-                                    <div className='flex items-center'>
-                                        {/* <img src={paciente.imgPerfil} alt={paciente.nombre} className='rounded-full w-16 h-auto max-w-16 mr-2'/> */}
-                                        <p className='text-lg font-semibold'>{paciente.name} {paciente.firstSurname} {paciente.secondSurname}</p>
-                                    </div>
-                                    
-                                    <div className='w-18 flex items-center justify-between'>
-                                            <div title='Exportar' className='cursor-pointer' onClick={(e)=> {e.stopPropagation(); setOpenPopUpExportar(!openPopUpExportar); setSeleccionarPaciente(paciente)}}>
-                                                <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 hover:text-green-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 17v-5h1.5a1.5 1.5 0 1 1 0 3H5m12 2v-5h2m-2 3h2M5 10V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1v6M5 19v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1M10 3v4a1 1 0 0 1-1 1H5m6 4v5h1.375A1.627 1.627 0 0 0 14 15.375v-1.75A1.627 1.627 0 0 0 12.375 12H11Z"/>
-                                                </svg>
-                                            </div>
-                                        <div className='cursor-pointer' onClick={(e)=> {e.stopPropagation(); router.push('usuarios/'+paciente.id)}}>
-                                            <svg className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 hover:text-yellow-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" strokeWidth="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"/>
-                                            <path stroke="currentColor" strokeWidth="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                                            </svg>
-                                        </div>
-                                        <div data-tooltip-target="tooltip-default" className='cursor-pointer' onClick={(e)=> {e.stopPropagation(); setOpenPopUp(!openPopUp); setSeleccionarPaciente(paciente)}}>
-                                            <svg className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 hover:text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                            </svg>
-                                        </div>
-                                    </div>
+                    {pacientes.length > 0 ? (
+                    pacientes
+                        .filter((p) =>
+                        p.name.toLowerCase().includes(buscarPaciente.toLowerCase())
+                        )
+                        .map((paciente, index) => (
+                        <div
+                            key={index}
+                            className="border-b border-gray-200 transition-transform hover:scale-[1.005]"
+                            >
+                            <div
+                                className="bg-white hover:bg-blue-100 transition-colors duration-200 p-4 flex items-center justify-between rounded-md cursor-pointer"
+                                onClick={() => router.push(`usuarios/${paciente.id}`)}
+                            >
+                                <p className="text-base font-medium text-gray-800 truncate">
+                                {paciente.name} {paciente.firstSurname} {paciente.secondSurname}
+                                </p>
+
+                                <div className="flex items-center gap-3">
+                                <button
+                                    title="Exportar"
+                                    onClick={(e) => {
+                                    e.stopPropagation();
+                                    setOpenPopUpExportar(!openPopUpExportar);
+                                    setSeleccionarPaciente(paciente);
+                                    }}
+                                    className="text-gray-500 hover:text-green-500 transition-colors cursor-pointer"
+                                >
+                                    <FileDown className="w-5 h-5" />
+                                </button>
+
+                                <button
+                                    title="Editar"
+                                    onClick={(e) => {
+                                    e.stopPropagation();
+                                    router.push(`usuarios/${paciente.id}`);
+                                    }}
+                                    className="cursor-pointer text-gray-500 hover:text-yellow-500 transition-colors"
+                                >
+                                    <FilePenLine className="w-5 h-5" />
+                                </button>
+
+                                <button
+                                    title="Eliminar"
+                                    onClick={(e) => {
+                                    e.stopPropagation();
+                                    setOpenPopUp(!openPopUp);
+                                    setSeleccionarPaciente(paciente);
+                                    }}
+                                    className="text-gray-500 hover:text-red-500 transition-colors cursor-pointer"
+                                >
+                                    <Trash className="w-5 h-5" />
+                                </button>
                                 </div>
+                            </div>
                             </div>
                         ))
-                        :
-                            <div className='border-b border-gray-100'>
-                                <div role="status" className='bg-white shadow-sm p-4 flex items-center justify-between animate-pulse'>
-                                    <div className='h-2.5 ms-2 bg-gray-300 rounded-full w-64'></div>
-                                    
-                                    <div className='w-12 flex items-center justify-between'>
-                                        <div className='h-2.5 ms-2 bg-gray-200 rounded-full w-24'></div>
-                                        <div className='h-2.5 ms-2 bg-gray-200 rounded-full w-24'></div>
-                                    </div>
-                                </div>
-                            </div>
-                    }
+                    ) : (
+                    <div className="border border-gray-200 rounded-md">
+                        <div
+                        role="status"
+                        className="bg-white p-4 animate-pulse flex justify-between items-center"
+                        >
+                        <div className="h-2.5 bg-gray-300 rounded w-64"></div>
+                        <div className="h-2.5 bg-gray-200 rounded w-24"></div>
+                        </div>
+                    </div>
+                    )}
                 </div>
-                {buscarPaciente === '' && (
-                <div className="flex justify-center mt-4">
+
+                {buscarPaciente === "" && (
+                    <div className="flex justify-center mt-6">
                     <button
-                        className="px-4 py-2 mx-2 bg-gray-200 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-300"
+                        className="px-4 py-2 mx-2 bg-gray-100 hover:bg-gray-200 text-sm rounded-md disabled:opacity-50"
                         onClick={() => {
-                            const nuevaPagina = paginaActual - 1
-                            setPaginaActual(nuevaPagina)
-                            getPacientes(session?.user?.idOrganizacion, nuevaPagina)
+                        const nuevaPagina = paginaActual - 1;
+                        setPaginaActual(nuevaPagina);
+                        getPacientes(session?.user?.idOrganizacion, nuevaPagina);
                         }}
                         disabled={paginaActual === 1}
                     >
                         Anterior
                     </button>
-                    <span className="px-4 py-2 mx-2">
-                        Página {paginaActual} de {Math.ceil(totalPacientes / pacientesPorPagina)}
+                    <span className="px-4 py-2 text-sm text-gray-700">
+                        Página {paginaActual} de{" "}
+                        {Math.ceil(totalPacientes / pacientesPorPagina)}
                     </span>
                     <button
-                        className="px-4 py-2 mx-2 bg-gray-200 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-300"
+                        className="px-4 py-2 mx-2 bg-gray-100 hover:bg-gray-200 text-sm rounded-md disabled:opacity-50"
                         onClick={() => {
-                            const nuevaPagina = paginaActual + 1
-                            setPaginaActual(nuevaPagina)
-                            getPacientes(session?.user?.idOrganizacion, nuevaPagina)
+                        const nuevaPagina = paginaActual + 1;
+                        setPaginaActual(nuevaPagina);
+                        getPacientes(session?.user?.idOrganizacion, nuevaPagina);
                         }}
-                        disabled={paginaActual >= Math.ceil(totalPacientes / pacientesPorPagina)}
+                        disabled={
+                        paginaActual >= Math.ceil(totalPacientes / pacientesPorPagina)
+                        }
                     >
                         Siguiente
                     </button>
-                </div>
+                    </div>
                 )}
-            </div>
+                </div>
+
             {
                 showAlert &&
                 <Alerts alertContent={showAlert} alertType={'success'}/>

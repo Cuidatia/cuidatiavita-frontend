@@ -28,6 +28,37 @@ function ContactData () {
 
     const [saveData, setSaveData] = useState(false)
 
+    const [isFormDirty, setIsFormDirty] = useState(false)
+
+    useEffect(() => {
+        // Interceptar cierre/recarga
+        const handleBeforeUnload = (e) => {
+            if (modificar && isFormDirty) {
+                e.preventDefault()
+                e.returnValue = ''
+            }
+        }
+
+        // Interceptar navegación interna
+        const handleRouteChangeStart = (url) => {
+            if (modificar && isFormDirty) {
+                const confirmExit = window.confirm("Tienes cambios sin guardar. ¿Estás seguro de salir?")
+                if (!confirmExit) {
+                    router.events.emit("routeChangeError")
+                    throw "Abortar navegación"
+                }
+            }
+        }
+
+        window.addEventListener('beforeunload', handleBeforeUnload)
+        router.events.on("routeChangeStart", handleRouteChangeStart)
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload)
+            router.events.off("routeChangeStart", handleRouteChangeStart)
+        }
+    }, [modificar, isFormDirty])
+
     const getPaciente = async () => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPaciente?id='+ id, {
             method: 'GET',
@@ -84,6 +115,7 @@ function ContactData () {
             const data = await response.json()
             setMessage(data.message)
             setSaveData(false)
+            setIsFormDirty(false)
         }else {
             const data = await response.json()
             setError(data.error)
@@ -99,10 +131,12 @@ function ContactData () {
                     <input type="text" name="contactName" id="contactName" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteDatosContacto.contactName}
-                         onChange={(e)=> setPacienteDatosContacto({
+                         onChange={(e)=> {
+                            setIsFormDirty(true);
+                            setPacienteDatosContacto({
                             ...pacienteDatosContacto,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -110,10 +144,12 @@ function ContactData () {
                     <input type="text" name="contactFirstSurname" id="contactFirstSurname" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteDatosContacto.contactFirstSurname}
-                         onChange={(e)=> setPacienteDatosContacto({
+                         onChange={(e)=> {
+                            setIsFormDirty(true);
+                            setPacienteDatosContacto({
                             ...pacienteDatosContacto,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -121,10 +157,12 @@ function ContactData () {
                     <input type="text" name="contactSecondSurname" id="contactSecondSurname" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteDatosContacto.contactSecondSurname}
-                         onChange={(e)=> setPacienteDatosContacto({
+                         onChange={(e)=> {
+                            setIsFormDirty(true);
+                            setPacienteDatosContacto({
                             ...pacienteDatosContacto,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -132,10 +170,12 @@ function ContactData () {
                     <input type="text" name="contactAddress" id="contactAddress" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteDatosContacto.contactAddress}
-                         onChange={(e)=> setPacienteDatosContacto({
+                         onChange={(e)=> {
+                            setIsFormDirty(true);
+                            setPacienteDatosContacto({
                             ...pacienteDatosContacto,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -143,10 +183,12 @@ function ContactData () {
                     <input type="email" name="contactEmail" id="contactEmail" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteDatosContacto.contactEmail}
-                         onChange={(e)=> setPacienteDatosContacto({
+                         onChange={(e)=> {
+                            setIsFormDirty(true);
+                            setPacienteDatosContacto({
                             ...pacienteDatosContacto,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -154,10 +196,12 @@ function ContactData () {
                     <input type="text" name="contactTelecom" id="contactTelecom" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteDatosContacto.contactTelecom}
-                         onChange={(e)=> setPacienteDatosContacto({
+                         onChange={(e)=> {
+                            setIsFormDirty(true);
+                            setPacienteDatosContacto({
                             ...pacienteDatosContacto,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -165,10 +209,12 @@ function ContactData () {
                     <input type="text" name="curatela" id="curatela" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteDatosContacto.curatela}
-                         onChange={(e)=> setPacienteDatosContacto({
+                         onChange={(e)=> {
+                            setIsFormDirty(true);
+                            setPacienteDatosContacto({
                             ...pacienteDatosContacto,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -176,10 +222,12 @@ function ContactData () {
                     <input type="text" name="deFactoGuardian" id="deFactoGuardian" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteDatosContacto.deFactoGuardian}
-                         onChange={(e)=> setPacienteDatosContacto({
+                         onChange={(e)=> {
+                            setIsFormDirty(true);
+                            setPacienteDatosContacto({
                             ...pacienteDatosContacto,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
             </div>

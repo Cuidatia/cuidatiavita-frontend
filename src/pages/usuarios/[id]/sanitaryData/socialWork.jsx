@@ -5,6 +5,7 @@ import withAuth from '@/components/withAuth';
 import { useSession } from "next-auth/react";
 import PopUp from "@/components/popUps/popUp";
 import Alerts from "@/components/alerts/alerts";
+import { set } from "zod";
 
 function SocialWork () {
     const [mostrarPaciente, setMostrarPaciente] = useState([])
@@ -23,6 +24,38 @@ function SocialWork () {
         resources: '',
         legalSupport: ''
     })
+
+    
+    const [isFormDirty, setIsFormDirty] = useState(false);
+
+    useEffect(() => {
+        // Interceptar cierre/recarga
+        const handleBeforeUnload = (e) => {
+            if (modificar && isFormDirty) {
+                e.preventDefault()
+                e.returnValue = ''
+            }
+        }
+
+        // Interceptar navegación interna
+        const handleRouteChangeStart = (url) => {
+            if (modificar && isFormDirty) {
+                const confirmExit = window.confirm("Tienes cambios sin guardar. ¿Estás seguro de salir?")
+                if (!confirmExit) {
+                    router.events.emit("routeChangeError")
+                    throw "Abortar navegación"
+                }
+            }
+        }
+
+        window.addEventListener('beforeunload', handleBeforeUnload)
+        router.events.on("routeChangeStart", handleRouteChangeStart)
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload)
+            router.events.off("routeChangeStart", handleRouteChangeStart)
+        }
+    }, [modificar, isFormDirty])
 
 
     const getPaciente = async () => {
@@ -81,6 +114,7 @@ function SocialWork () {
             setMessage(data.message)
             setModificar(false)
             setSaveData(false)
+            setIsFormDirty(false);
         }else {
             const data = await response.json()
             setError(data.error)
@@ -97,10 +131,12 @@ function SocialWork () {
                     <input type="text" name="residentAndRelationship" id="residentAndRelationship" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteTrabajoSocial?.residentAndRelationship}
-                         onChange={(e)=>setPacienteTrabajoSocial({
+                         onChange={(e)=>{
+                            setIsFormDirty(true);
+                            setPacienteTrabajoSocial({
                             ...pacienteTrabajoSocial,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -108,10 +144,12 @@ function SocialWork () {
                     <input type="text" name="petNameAndBreedPet" id="petNameAndBreedPet" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteTrabajoSocial?.petNameAndBreedPet}
-                         onChange={(e)=>setPacienteTrabajoSocial({
+                         onChange={(e)=>{
+                            setIsFormDirty(true);
+                            setPacienteTrabajoSocial({
                             ...pacienteTrabajoSocial,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -119,10 +157,12 @@ function SocialWork () {
                     <input type="text" name="resources" id="resources" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteTrabajoSocial?.resources}
-                         onChange={(e)=>setPacienteTrabajoSocial({
+                         onChange={(e)=>{
+                            setIsFormDirty(true);
+                            setPacienteTrabajoSocial({
                             ...pacienteTrabajoSocial,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -130,10 +170,12 @@ function SocialWork () {
                     <input type="text" name="legalSupport" id="legalSupport" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteTrabajoSocial?.legalSupport}
-                         onChange={(e)=>setPacienteTrabajoSocial({
+                         onChange={(e)=>{
+                            setIsFormDirty(true);
+                            setPacienteTrabajoSocial({
                             ...pacienteTrabajoSocial,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
             </div>

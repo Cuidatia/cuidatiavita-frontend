@@ -127,9 +127,8 @@ function CrearPaciente () {
 
     return(
         <DashboardLayout>
-            <div>
-                <h2 className='text-2xl font-semibold'>Añadir nuevo paciente</h2>
-            </div>
+            <div className=" py-4 px-6">
+                <h2 className='text-2xl font-semibold'>Añadir nuevo usuario</h2>
                 <div className="space-y-4 md:space-y-6">
                     <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)] flex flex-col">
                         <div>
@@ -352,6 +351,8 @@ function CrearPaciente () {
                         Añadir usuario
                     </button>
                 </div>
+                
+            </div>
 
             {
                 message ?

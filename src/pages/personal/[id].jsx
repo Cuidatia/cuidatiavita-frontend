@@ -124,7 +124,7 @@ function PerfilPaciente () {
         <DashboardLayout>
             {
                 mostrarUsuario &&
-                <div>
+                <div className="px-8 py-4 space-y-8">
                     <div className='flex items-center justify-between'>
                         <h2 className='text-2xl font-bold'>{mostrarUsuario.nombre}</h2>
                         <button className="cursor-pointer text-red-700 hover:text-white border border-red-500 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"

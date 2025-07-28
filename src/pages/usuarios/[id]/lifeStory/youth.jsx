@@ -43,6 +43,38 @@ function Youth () {
 
     const [saveData, setSaveData] = useState(false)
 
+    
+    const [isFormDirty, setIsFormDirty] = useState(false)
+
+    useEffect(() => {
+        // Interceptar cierre/recarga
+        const handleBeforeUnload = (e) => {
+            if (modificar && isFormDirty) {
+                e.preventDefault()
+                e.returnValue = ''
+            }
+        }
+
+        // Interceptar navegación interna
+        const handleRouteChangeStart = (url) => {
+            if (modificar && isFormDirty) {
+                const confirmExit = window.confirm("Tienes cambios sin guardar. ¿Estás seguro de salir?")
+                if (!confirmExit) {
+                    router.events.emit("routeChangeError")
+                    throw "Abortar navegación"
+                }
+            }
+        }
+
+        window.addEventListener('beforeunload', handleBeforeUnload)
+        router.events.on("routeChangeStart", handleRouteChangeStart)
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload)
+            router.events.off("routeChangeStart", handleRouteChangeStart)
+        }
+    }, [modificar, isFormDirty])
+
     const getPaciente = async () => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPaciente?id='+ id, {
             method: 'GET',
@@ -102,6 +134,7 @@ function Youth () {
             const data = await response.json()
             setMessage(data.message)
             setSaveData(false)
+            setIsFormDirty(false)
         }else {
             const data = await response.json()
             setError(data.error)
@@ -117,10 +150,12 @@ function Youth () {
                     <input type="text" name="youthStudies" id="youthStudies" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthStudies}
-                            onChange={(e)=> setPacienteJuventud({
+                            onChange={(e)=> {
+                                setIsFormDirty(true);
+                                setPacienteJuventud({
                                 ...pacienteJuventud,[e.target.name]:
                                 e.target.value
-                            })}
+                            })}}
                     />
                 </div>
                 <div>
@@ -128,10 +163,12 @@ function Youth () {
                     <input type="text" name="youthSchool" id="youthSchool" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthSchool}
-                            onChange={(e)=> setPacienteJuventud({
+                            onChange={(e)=> {
+                                setIsFormDirty(true);
+                                setPacienteJuventud({
                                 ...pacienteJuventud,
                                 [e.target.name]: e.target.value
-                            })}
+                            })}}
                     />
                 </div>
                 <div>
@@ -139,10 +176,12 @@ function Youth () {
                     <input type="text" name="youthWorkPlace" id="youthWorkPlace" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthWorkPlace}
-                            onChange={(e)=> setPacienteJuventud({
+                            onChange={(e)=> {
+                                setIsFormDirty(true);
+                                setPacienteJuventud({
                                 ...pacienteJuventud,
                                 [e.target.name]: e.target.value
-                            })}
+                            })}}
                     />
                 </div>
                 <div>
@@ -150,10 +189,12 @@ function Youth () {
                     <input type="text" name="youthWorkRol" id="youthWorkRol" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthWorkRol}
-                            onChange={(e)=> setPacienteJuventud({
+                            onChange={(e)=> {
+                                setIsFormDirty(true);
+                                setPacienteJuventud({
                                 ...pacienteJuventud,
                                 [e.target.name]: e.target.value
-                            })}
+                            })}}
                     />
                 </div>
                 <div>
@@ -161,10 +202,12 @@ function Youth () {
                     <input type="textarea" name="youthFamilyCore" id="youthFamilyCore" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthFamilyCore}
-                            onChange={(e)=> setPacienteJuventud({
+                            onChange={(e)=> {
+                                setIsFormDirty(true);
+                                setPacienteJuventud({
                                 ...pacienteJuventud,
                                 [e.target.name]: e.target.value
-                            })}
+                            })}}
                     />
                 </div>
                 <div>
@@ -172,10 +215,12 @@ function Youth () {
                     <input type="textarea" name="youthFriendsGroup" id="youthFriendsGroup" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthFriendsGroup}
-                            onChange={(e)=> setPacienteJuventud({
+                            onChange={(e)=> {
+                                setIsFormDirty(true);
+                                setPacienteJuventud({
                                 ...pacienteJuventud,
                                 [e.target.name]: e.target.value
-                            })}
+                            })}}
                     />
                 </div>
                 <div>
@@ -183,10 +228,12 @@ function Youth () {
                     <input type="textarea" name="youthImportantPerson" id="youthImportantPerson" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteJuventud.youthImportantPerson}
-                         onChange={(e) => setPacienteJuventud({
+                         onChange={(e) => {
+                            setIsFormDirty(true);
+                            setPacienteJuventud({
                             ...pacienteJuventud,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -194,10 +241,12 @@ function Youth () {
                     <input type="text" name="youthTravels" id="youthTravels" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthTravels}
-                            onChange={(e)=> setPacienteJuventud({
+                            onChange={(e)=> {
+                                setIsFormDirty(true);
+                                setPacienteJuventud({
                                 ...pacienteJuventud,
                                 [e.target.name]: e.target.value
-                            })}
+                            })}}
                     />
                 </div>
                 <div>
@@ -205,9 +254,11 @@ function Youth () {
                     <input type="text" name="youthFavouritePlace" id="youthFavouritePlace" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthFavouritePlace}
-                            onChange={(e)=> setPacienteJuventud({
+                            onChange={(e)=> {
+                                setIsFormDirty(true);
+                                setPacienteJuventud({
                                 ...pacienteJuventud,[e.target.name]: e.target.value
-                            })}
+                            })}}
                     />
                 </div>
                 <div>
@@ -215,10 +266,12 @@ function Youth () {
                     <input type="textarea" name="youthRoutine" id="youthRoutine" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthRoutine}
-                            onChange={(e)=> setPacienteJuventud({
+                            onChange={(e)=> {
+                                setIsFormDirty(true);
+                                setPacienteJuventud({
                                 ...pacienteJuventud,
                                 [e.target.name]: e.target.value
-                            })}
+                            })}}
                     />
                 </div>
                 <div>
@@ -226,10 +279,12 @@ function Youth () {
                     <input type="textarea" name="youthPositiveExperiences" id="youthPositiveExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthPositiveExperiences}
-                            onChange={(e)=> setPacienteJuventud({
+                            onChange={(e)=> {
+                                setIsFormDirty(true);
+                                setPacienteJuventud({
                                 ...pacienteJuventud,
                                 [e.target.name]: e.target.value
-                            })}
+                            })}}
                     />
                 </div>
                 <div>
@@ -237,10 +292,12 @@ function Youth () {
                     <input type="text" name="youthNegativeExperiences" id="youthNegativeExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthNegativeExperiences}
-                            onChange={(e)=> setPacienteJuventud({
+                            onChange={(e)=> {
+                                setIsFormDirty(true);
+                                setPacienteJuventud({
                                 ...pacienteJuventud,
                                 [e.target.name]: e.target.value
-                            })}
+                            })}}
                     />
                 </div>
                 <div>
@@ -248,10 +305,12 @@ function Youth () {
                     <input type="textarea" name="youthResponsabilities" id="youthResponsabilities" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteJuventud.youthResponsabilities}
-                         onChange={(e) => setPacienteJuventud({
+                         onChange={(e) => {
+                            setIsFormDirty(true);
+                            setPacienteJuventud({
                             ...pacienteJuventud,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -259,10 +318,12 @@ function Youth () {
                     <input type="textarea" name="youthAddress" id="youthAddress" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthAddress}
-                            onChange={(e)=> setPacienteJuventud({
+                            onChange={(e)=> {
+                                setIsFormDirty(true);
+                                setPacienteJuventud({
                                 ...pacienteJuventud,
                                 [e.target.name]: e.target.value
-                            })}
+                            })}}
                     />
                 </div>
                 <div>
@@ -270,10 +331,12 @@ function Youth () {
                     <input type="textarea" name="youthLikes" id="youthLikes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthLikes}
-                            onChange={(e)=> setPacienteJuventud({
+                            onChange={(e)=> {
+                                setIsFormDirty(true);
+                                setPacienteJuventud({
                                 ...pacienteJuventud,
                                 [e.target.name]: e.target.value
-                            })}
+                            })}}
                     />
                 </div>
                 <div>
@@ -281,10 +344,12 @@ function Youth () {
                     <input type="textarea" name="youthHobbies" id="youthHobbies" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthHobbies}
-                            onChange={(e)=> setPacienteJuventud({
+                            onChange={(e)=> {
+                                setIsFormDirty(true);
+                                setPacienteJuventud({
                                 ...pacienteJuventud,
                                 [e.target.name]: e.target.value
-                            })}
+                            })}}
                     />
                 </div>
                 <div>
@@ -292,10 +357,12 @@ function Youth () {
                     <input type="textarea" name="youthAfraids" id="youthAfraids" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthAfraids}
-                            onChange={(e)=> setPacienteJuventud({
+                            onChange={(e)=> {
+                                setIsFormDirty(true);
+                                setPacienteJuventud({
                                 ...pacienteJuventud,
                                 [e.target.name]: e.target.value
-                            })}
+                            })}}
                     />
                 </div>
                 <div>
@@ -303,10 +370,12 @@ function Youth () {
                     <input type="textarea" name="youthSentimentalCouple" id="youthSentimentalCouple" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthSentimentalCouple}
-                            onChange={(e)=> setPacienteJuventud({
+                            onChange={(e)=> {
+                                setIsFormDirty(true);
+                                setPacienteJuventud({
                                 ...pacienteJuventud,
                                 [e.target.name]: e.target.value
-                            })}
+                            })}}
                     />
                 </div>
                 <div>
@@ -314,10 +383,12 @@ function Youth () {
                     <input type="textarea" name="youthProjects" id="youthProjects" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthProjects}
-                            onChange={(e)=> setPacienteJuventud({
+                            onChange={(e)=> {
+                                setIsFormDirty(true);
+                                setPacienteJuventud({
                                 ...pacienteJuventud,
                                 [e.target.name]: e.target.value
-                            })}
+                            })}}
                     />
                 </div>
                 <div>
@@ -325,10 +396,12 @@ function Youth () {
                     <input type="textarea" name="youthUncompletedProjects" id="youthUncompletedProjects" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthUncompletedProjects}
-                            onChange={(e)=> setPacienteJuventud({
+                            onChange={(e)=> {
+                                setIsFormDirty(true);
+                                setPacienteJuventud({
                                 ...pacienteJuventud,
                                 [e.target.name]: e.target.value
-                            })}
+                            })}}
                     />
                 </div>
                 <div>
@@ -336,10 +409,12 @@ function Youth () {
                     <input type="textarea" name="youthIllness" id="youthIllness" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthIllness}
-                            onChange={(e)=> setPacienteJuventud({
+                            onChange={(e)=> {
+                                setIsFormDirty(true);
+                                setPacienteJuventud({
                                 ...pacienteJuventud,
                                 [e.target.name]: e.target.value
-                            })}
+                            })}}
                     />
                 </div>
                 <div>
@@ -347,10 +422,12 @@ function Youth () {
                     <input type="textarea" name="youthPersonalCrisis" id="youthPersonalCrisis" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthPersonalCrisis}
-                            onChange={(e)=>setPacienteJuventud({
+                            onChange={(e)=>{
+                                setIsFormDirty(true);
+                                setPacienteJuventud({
                                 ...pacienteJuventud,
                                 [e.target.name]: e.target.value
-                            })}
+                            })}}
                     />
                 </div>
             </div>

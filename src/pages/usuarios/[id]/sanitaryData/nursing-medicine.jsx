@@ -5,6 +5,7 @@ import withAuth from '@/components/withAuth';
 import { useSession } from "next-auth/react";
 import PopUp from "@/components/popUps/popUp";
 import Alerts from "@/components/alerts/alerts";
+import { set } from "zod";
 
 function NursingMedicine () {
     const [mostrarPaciente, setMostrarPaciente] = useState([])
@@ -23,6 +24,38 @@ function NursingMedicine () {
         mobilityNeeds: '',
         healthPreferences: ''
     })
+
+    
+    const [isFormDirty, setIsFormDirty] = useState(false);
+
+    useEffect(() => {
+        // Interceptar cierre/recarga
+        const handleBeforeUnload = (e) => {
+            if (modificar && isFormDirty) {
+                e.preventDefault()
+                e.returnValue = ''
+            }
+        }
+
+        // Interceptar navegación interna
+        const handleRouteChangeStart = (url) => {
+            if (modificar && isFormDirty) {
+                const confirmExit = window.confirm("Tienes cambios sin guardar. ¿Estás seguro de salir?")
+                if (!confirmExit) {
+                    router.events.emit("routeChangeError")
+                    throw "Abortar navegación"
+                }
+            }
+        }
+
+        window.addEventListener('beforeunload', handleBeforeUnload)
+        router.events.on("routeChangeStart", handleRouteChangeStart)
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload)
+            router.events.off("routeChangeStart", handleRouteChangeStart)
+        }
+    }, [modificar, isFormDirty])
 
     const getPaciente = async () => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPaciente?id='+ id, {
@@ -80,6 +113,7 @@ function NursingMedicine () {
             setMessage(data.message)
             setModificar(false)
             setSaveData(false)
+            setIsFormDirty(false);
         }else {
             const data = await response.json()
             setError(data.error)
@@ -95,7 +129,9 @@ function NursingMedicine () {
                     <input type="text" name="nutritionalSituation" id="nutritionalSituation" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteMedicinaEnfermeria?.nutritionalSituation}
-                         onChange={(e)=>setPacienteMedicinaEnfermeria({...pacienteMedicinaEnfermeria, [e.target.name]:e.target.value})}
+                         onChange={(e)=>{
+                            setIsFormDirty(true);
+                            setPacienteMedicinaEnfermeria({...pacienteMedicinaEnfermeria, [e.target.name]:e.target.value})}}
                     />
                 </div>
                 <div>
@@ -103,7 +139,9 @@ function NursingMedicine () {
                     <input type="text" name="sleepQuality" id="sleepQuality" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteMedicinaEnfermeria?.sleepQuality}
-                         onChange={(e)=>setPacienteMedicinaEnfermeria({...pacienteMedicinaEnfermeria, [e.target.name]:e.target.value})}
+                         onChange={(e)=>{
+                            setIsFormDirty(true);
+                            setPacienteMedicinaEnfermeria({...pacienteMedicinaEnfermeria, [e.target.name]:e.target.value})}}
                     />
                 </div>
                 <div>
@@ -111,7 +149,9 @@ function NursingMedicine () {
                     <input type="text" name="fallRisks" id="fallRisks" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteMedicinaEnfermeria?.fallRisks}
-                         onChange={(e)=>setPacienteMedicinaEnfermeria({...pacienteMedicinaEnfermeria, [e.target.name]:e.target.value})}
+                         onChange={(e)=>{
+                            setIsFormDirty(true);
+                            setPacienteMedicinaEnfermeria({...pacienteMedicinaEnfermeria, [e.target.name]:e.target.value})}}
                     />
                 </div>
                 <div>
@@ -119,7 +159,9 @@ function NursingMedicine () {
                     <input type="textarea" name="mobilityNeeds" id="mobilityNeeds" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteMedicinaEnfermeria?.mobilityNeeds}
-                         onChange={(e)=>setPacienteMedicinaEnfermeria({...pacienteMedicinaEnfermeria, [e.target.name]:e.target.value})}
+                         onChange={(e)=>{
+                            setIsFormDirty(true);
+                            setPacienteMedicinaEnfermeria({...pacienteMedicinaEnfermeria, [e.target.name]:e.target.value})}}
                     />
                 </div>
                 <div>
@@ -127,7 +169,9 @@ function NursingMedicine () {
                     <input type="textarea" name="healthPreferences" id="healthPreferences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteMedicinaEnfermeria?.healthPreferences}
-                         onChange={(e)=>setPacienteMedicinaEnfermeria({...pacienteMedicinaEnfermeria, [e.target.name]:e.target.value})}
+                         onChange={(e)=>{
+                            setIsFormDirty(true);
+                            setPacienteMedicinaEnfermeria({...pacienteMedicinaEnfermeria, [e.target.name]:e.target.value})}}
                     />
                 </div>
             </div>

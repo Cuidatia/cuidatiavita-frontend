@@ -110,108 +110,118 @@ function Perfil() {
         <DashboardLayout>
         {
             mostrarUsuario &&
-            <div >
-                <div className='flex items-center justify-between'>
-                    <h2 className='text-2xl font-semibold'>{mostrarUsuario.name}</h2>
-                </div> 
-                <div className="py-4 my-4 overflow-y-scroll h-[calc(100vh-220px)]">
-                    <div className="space-y-4 md:space-y-6">
-                        <div>
-                            <label htmlFor="nombre" className="block mb-2 text-sm font-medium text-gray-900">Nombre</label>
-                            <input type="text" name="nombre" id="nombre" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full block p-2.5"
-                                value={mostrarUsuario.nombre}
-                                disabled={!modificarDatos}
-                                onChange={(e) => setMostrarUsuario({ ...mostrarUsuario, nombre: e.target.value })}
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                            <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full block p-2.5"
-                                value={mostrarUsuario.email}
-                                disabled={!modificarDatos}
-                                onChange={(e) => setMostrarUsuario({ ...mostrarUsuario, email: e.target.value })}
-                            />
-                        </div>
-                        <div>
-                            <button className="cursor-pointer bg-zinc-100 border-1 border-zinc-200 hover:bg-zinc-300 me-1 rounded-lg text-sm px-3 py-2 text-center"
-                                onClick={()=>{setModificarDatos(!modificarDatos)}}
-                            >
-                                {!modificarDatos ? 'Modificar' : 'Cancelar'}
-                            </button>
-                            {
-                                modificarDatos &&
-                                <button className="cursor-pointer text-white bg-blue-400 hover:text-white border-1 border-zinc-200 hover:bg-blue-600 rounded-lg text-sm px-3 py-2 text-center"
-                                    onClick={()=>{modificarDatosUsuario()}}
-                                >
-                                    Guardar
-                                </button>
-                            }
-                        </div>
-                    </div>
-                    <div className="relative flex py-2 my-4 items-center">
-                        <div className="flex-grow border-t border-gray-300"></div>
-                    </div>
-                    <div className="py-4 md:space-y-6">
-                        <h3 className="text-xl font-semibold">Establecer nueva contraseña</h3>
-                        <div>
-                            <label htmlFor="passsword" className="block mb-2 text-sm font-medium text-gray-900">Nueva contraseña</label>
-                            <input type="password" name="newpassword" id="newpassword" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full block p-2.5" 
-                                disabled={!modificarPass}
-                                onChange={(e) => setNewPassword({ ...newPassword, nuevaContraseña: e.target.value })}
-                            />
-                            <small className="text-xs italic text-gray-500">Debe tener un mínimo de 8 caracteres.</small>
-                        </div>
-                        <div>
-                            <label htmlFor="passsword" className="block mb-2 text-sm font-medium text-gray-900">Repetir contraseña</label>
-                            <input type="password" name="password" id="password" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full block p-2.5" 
-                                disabled={!modificarPass}
-                                onChange={(e) => setNewPassword({ ...newPassword, repetirContraseña: e.target.value })}
-                            />
-                            <small className="text-xs italic text-gray-500">Debe tener un mínimo de 8 caracteres.</small>
-                        </div>
-                        {
-                            passError &&
-                            <div class="py-1 mb-4 text-sm text-red-600 rounded-lg" role="alert">
-                                Las contraseñas no coinciden.
-                            </div>
-                        }
-                        <div>
-                            <button className="cursor-pointer bg-zinc-100 border-1 border-zinc-200 hover:bg-zinc-300 me-1 rounded-lg text-sm px-3 py-2 text-center"
-                                onClick={()=>{setModificarPass(!modificarPass)}}
-                            >
-                                {!modificarPass ? 'Modificar' : 'Cancelar'}
-                            </button>
-
-                            {
-                                modificarPass &&
-                                <button className="cursor-pointer text-white bg-blue-400 hover:text-white border-1 border-zinc-200 hover:bg-blue-600 rounded-lg text-sm px-3 py-2 text-center"
-                                onClick={()=>{modificarPassUsuario(mostrarUsuario.id)}}
-                                >
-                                    Guardar
-                                </button>
-                            }
-                        </div>
-                    </div>
-                    <div className="relative flex py-2 my-4 items-center">
-                        <div className="flex-grow border-t border-gray-300"></div>
-                    </div>
-                    <div className="py-4">
-                        <div>
-                            <label htmlFor="roles" className="block mb-2 text-sm font-medium text-gray-900">Roles</label>
-                            <span className="border-1 border-zinc-200 p-1 rounded-sm bg-gray-100">
-                                {roles}
-                            </span>
-                            {/* {
-                                mostrarUsuario.roles.map((rol, index) => (
-                                    <span key={index} className="border-1 border-zinc-200 p-1 rounded-sm bg-gray-100 mr-2">
-                                        {rol}
-                                    </span>
-                                ))
-                            } */}
-                        </div>
-                    </div>
+            <div className="p-6 bg-white h-full">
+                <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-2xl font-semibold text-gray-800">{mostrarUsuario.name}</h2>
                 </div>
-            </div>
+
+                <div className="space-y-6 max-h-[calc(100vh-220px)] overflow-y-auto">
+                    {/* Datos usuario */}
+                    <div className="space-y-4">
+                    <div>
+                        <label htmlFor="nombre" className="block mb-1 text-sm font-medium text-gray-700">Nombre</label>
+                        <input
+                        type="text"
+                        name="nombre"
+                        id="nombre"
+                        className="w-full p-2.5 border border-gray-300 rounded-md bg-gray-50 text-gray-900 focus:ring-2 focus:ring-blue-400 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-100"
+                        value={mostrarUsuario.nombre}
+                        disabled={!modificarDatos}
+                        onChange={(e) => setMostrarUsuario({ ...mostrarUsuario, nombre: e.target.value })}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-700">Email</label>
+                        <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        className="w-full p-2.5 border border-gray-300 rounded-md bg-gray-50 text-gray-900 focus:ring-2 focus:ring-blue-400 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-100"
+                        value={mostrarUsuario.email}
+                        disabled={!modificarDatos}
+                        onChange={(e) => setMostrarUsuario({ ...mostrarUsuario, email: e.target.value })}
+                        />
+                    </div>
+                    <div className="flex space-x-3">
+                        <button className="cursor-pointer bg-zinc-100 border-1 border-zinc-200 hover:bg-zinc-300 me-1 rounded-lg text-sm px-3 py-2 text-center"
+                            onClick={()=>{setModificarDatos(!modificarDatos)}}
+                        >
+                            {!modificarDatos ? 'Modificar' : 'Cancelar'}
+                        </button>
+                        {modificarDatos && (
+                        <button className="cursor-pointer text-white bg-blue-400 hover:text-white border-1 border-zinc-200 hover:bg-blue-600 rounded-lg text-sm px-3 py-2 text-center"
+                            onClick={()=>{modificarDatosUsuario()}}
+                        >
+                            Guardar
+                        </button>
+                        )}
+                    </div>
+                    </div>
+
+                    <hr className="border-gray-300" />
+
+                    {/* Cambio de contraseña */}
+                    <div className="space-y-5">
+                    <h3 className="text-xl font-semibold text-gray-800">Establecer nueva contraseña</h3>
+                    <div>
+                        <label htmlFor="newpassword" className="block mb-1 text-sm font-medium text-gray-700">Nueva contraseña</label>
+                        <input
+                        type="password"
+                        name="newpassword"
+                        id="newpassword"
+                        className="w-full p-2.5 border border-gray-300 rounded-md bg-gray-50 text-gray-900 focus:ring-2 focus:ring-blue-400 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-100"
+                        disabled={!modificarPass}
+                        onChange={(e) => setNewPassword({ ...newPassword, nuevaContraseña: e.target.value })}
+                        />
+                        <small className="text-xs italic text-gray-500">Debe tener un mínimo de 8 caracteres.</small>
+                    </div>
+                    <div>
+                        <label htmlFor="password" className="block mb-1 text-sm font-medium text-gray-700">Repetir contraseña</label>
+                        <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        className="w-full p-2.5 border border-gray-300 rounded-md bg-gray-50 text-gray-900 focus:ring-2 focus:ring-blue-400 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-100"
+                        disabled={!modificarPass}
+                        onChange={(e) => setNewPassword({ ...newPassword, repetirContraseña: e.target.value })}
+                        />
+                        <small className="text-xs italic text-gray-500">Debe tener un mínimo de 8 caracteres.</small>
+                    </div>
+
+                    {passError && (
+                        <div className="text-sm text-red-600 rounded-md p-2 bg-red-100" role="alert">
+                        Las contraseñas no coinciden.
+                        </div>
+                    )}
+
+                    <div className="flex space-x-3">
+                        <button className="cursor-pointer bg-zinc-100 border-1 border-zinc-200 hover:bg-zinc-300 me-1 rounded-lg text-sm px-3 py-2 text-center"
+                            onClick={()=>{setModificarPass(!modificarPass)}}
+                        >
+                            {!modificarPass ? 'Modificar' : 'Cancelar'}
+                        </button>
+                        {modificarPass && (
+                        <button className="cursor-pointer text-white bg-blue-400 hover:text-white border-1 border-zinc-200 hover:bg-blue-600 rounded-lg text-sm px-3 py-2 text-center"
+                        onClick={()=>{modificarPassUsuario(mostrarUsuario.id)}}
+                        >
+                            Guardar
+                        </button>
+                        )}
+                    </div>
+                    </div>
+
+                    {/* <hr className="border-gray-300" /> */}
+
+                    {/* Roles */}
+                    {/* <div>
+                        <label htmlFor="roles" className="block mb-2 text-sm font-medium text-gray-700">Roles</label>
+                        <span className="inline-block bg-gray-100 border border-gray-300 rounded px-2 py-1 text-gray-700">
+                            {roles}
+                        </span>
+                    </div> */}
+                </div>
+                </div>
+
         }
         {
             message ? 

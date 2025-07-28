@@ -5,6 +5,7 @@ import withAuth from '@/components/withAuth';
 import { useSession } from "next-auth/react";
 import PopUp from "@/components/popUps/popUp";
 import Alerts from "@/components/alerts/alerts";
+import { set } from "zod";
 
 function Pharmacy () {
     const {data: session, status} = useSession()
@@ -20,6 +21,37 @@ function Pharmacy () {
         visitFrequency: '',
         paymentMethod: ''
     })
+
+    const [isFormDirty, setIsFormDirty] = useState(false);
+
+    useEffect(() => {
+        // Interceptar cierre/recarga
+        const handleBeforeUnload = (e) => {
+            if (modificar && isFormDirty) {
+                e.preventDefault()
+                e.returnValue = ''
+            }
+        }
+
+        // Interceptar navegación interna
+        const handleRouteChangeStart = (url) => {
+            if (modificar && isFormDirty) {
+                const confirmExit = window.confirm("Tienes cambios sin guardar. ¿Estás seguro de salir?")
+                if (!confirmExit) {
+                    router.events.emit("routeChangeError")
+                    throw "Abortar navegación"
+                }
+            }
+        }
+
+        window.addEventListener('beforeunload', handleBeforeUnload)
+        router.events.on("routeChangeStart", handleRouteChangeStart)
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload)
+            router.events.off("routeChangeStart", handleRouteChangeStart)
+        }
+    }, [modificar, isFormDirty])
 
     const router = useRouter()
     const {id} = router.query
@@ -80,6 +112,7 @@ function Pharmacy () {
             setMessage(data.message)
             setModificar(false)
             setSaveData(false)
+            setIsFormDirty(false);
         }else{
             const data = await response.json()
             setError(data.error)
@@ -109,6 +142,7 @@ function Pharmacy () {
         const nuevos = [...medicamentos];
         nuevos[index][field] = value;
         actualizarMedicamentos(nuevos);
+        setIsFormDirty(true); // Marcar el formulario como sucio
     };
 
     const agregarFila = () => {
@@ -226,7 +260,9 @@ function Pharmacy () {
                     <input type="text" name="regularPharmacy" id="regularPharmacy" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteFarmacia?.regularPharmacy}
-                         onChange={(e)=>setPacienteFarmacia({...pacienteFarmacia, [e.target.name]:e.target.value})}
+                         onChange={(e)=>{
+                            setIsFormDirty(true);
+                            setPacienteFarmacia({...pacienteFarmacia, [e.target.name]:e.target.value})}}
                     />
                 </div>
                 <div>
@@ -234,7 +270,9 @@ function Pharmacy () {
                     <input type="text" name="visitFrequency" id="visitFrequency" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteFarmacia?.visitFrequency}
-                         onChange={(e)=>setPacienteFarmacia({...pacienteFarmacia, [e.target.name]:e.target.value})}
+                         onChange={(e)=>{
+                            setIsFormDirty(true);
+                            setPacienteFarmacia({...pacienteFarmacia, [e.target.name]:e.target.value})}}
                     />
                 </div>
                 <div>
@@ -242,19 +280,25 @@ function Pharmacy () {
                             <legend className="block mb-4 text-sm font-medium text-gray-900">¿Qué método de pago suele utilizar para adquirir sus medicamentos?</legend>
                             <div className="flex items-center mb-4">
                                 <input type="radio" name="paymentMethod" id="Seguros" className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-                                    checked={pacienteFarmacia?.paymentMethod === 'S'} value='S' onClick={(e)=>setPacienteFarmacia({...pacienteFarmacia, [e.target.name]:e.target.value})}
+                                    checked={pacienteFarmacia?.paymentMethod === 'S'} value='S' onClick={(e)=>{
+                                        setIsFormDirty(true);
+                                        setPacienteFarmacia({...pacienteFarmacia, [e.target.name]:e.target.value})}}
                                 />
                                 <label htmlFor="Seguros" className="block ms-2  text-sm font-medium text-gray-900">Seguros de salud</label>
                             </div>
                             <div className="flex items-center mb-4">
                                 <input type="radio" name="paymentMethod" id="Particulares" className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-                                    checked={pacienteFarmacia?.paymentMethod === 'P'} value='P' onClick={(e)=>setPacienteFarmacia({...pacienteFarmacia, [e.target.name]:e.target.value})}
+                                    checked={pacienteFarmacia?.paymentMethod === 'P'} value='P' onClick={(e)=>{
+                                        setIsFormDirty(true);
+                                        setPacienteFarmacia({...pacienteFarmacia, [e.target.name]:e.target.value})}}
                                 />
                                 <label htmlFor="Particulares" className="block ms-2  text-sm font-medium text-gray-900">Pagos particulares</label>
                             </div>
                             <div className="flex items-center mb-4">
                                 <input type="radio" name="paymentMethod" id="Descuentos" className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
-                                    checked={pacienteFarmacia?.paymentMethod === 'D'} value='D' onClick={(e)=>setPacienteFarmacia({...pacienteFarmacia, [e.target.name]:e.target.value})}
+                                    checked={pacienteFarmacia?.paymentMethod === 'D'} value='D' onClick={(e)=>{
+                                        setIsFormDirty(true);
+                                        setPacienteFarmacia({...pacienteFarmacia, [e.target.name]:e.target.value})}}
                                 />
                                 <label htmlFor="Descuentos" className="block ms-2  text-sm font-medium text-gray-900">Programas de descuentos</label>
                             </div>

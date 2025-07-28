@@ -85,6 +85,7 @@ function AddUsuario () {
 
     return(
         <DashboardLayout>
+        <div className="px-8 py-6">
             <div className='flex items-center justify-between'>
                 <h2 className='text-2xl font-bold'>Añadir personal</h2>
             </div>
@@ -154,6 +155,7 @@ function AddUsuario () {
                         />
                 }
             </div>
+        </div>
         </DashboardLayout>
     )
 }

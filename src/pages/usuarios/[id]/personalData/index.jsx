@@ -16,10 +16,43 @@ function DatosPersonales () {
     const {id} = router.query
 
     const [saveData, setSaveData] = useState(false)
+    
+    
+    const [isFormDirty, setIsFormDirty] = useState(false)
+
+    useEffect(() => {
+        // Interceptar cierre/recarga
+        const handleBeforeUnload = (e) => {
+            if (modificar && isFormDirty) {
+                e.preventDefault()
+                e.returnValue = ''
+            }
+        }
+
+        // Interceptar navegación interna
+        const handleRouteChangeStart = (url) => {
+            if (modificar && isFormDirty) {
+                const confirmExit = window.confirm("Tienes cambios sin guardar. ¿Estás seguro de salir?")
+                if (!confirmExit) {
+                    router.events.emit("routeChangeError")
+                    throw "Abortar navegación"
+                }
+            }
+        }
+
+        window.addEventListener('beforeunload', handleBeforeUnload)
+        router.events.on("routeChangeStart", handleRouteChangeStart)
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload)
+            router.events.off("routeChangeStart", handleRouteChangeStart)
+        }
+    }, [modificar, isFormDirty])
 
 
     const handleInpustChange = (e) => {
         const {name, value} = e.target
+        setIsFormDirty(true);
         setMostrarPaciente((prevState) => ({
             ...prevState,
             [name]: value
@@ -63,6 +96,7 @@ function DatosPersonales () {
             setError(null)
             setSaveData(false)
             setModificar(false)
+            setIsFormDirty(false)
         } else {
             const errorData = await response.json()
             setError(errorData.message || 'Error al actualizar los datos')

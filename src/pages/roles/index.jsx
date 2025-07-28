@@ -29,36 +29,41 @@ function Roles () {
 
     return (
         <DashboardLayout>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between py-4 px-6">
                 <h2 className="text-2xl font-semibold">Roles</h2>
             </div>
             <div className="relative flex py-2 items-center">
                 <div className="flex-grow border-t mt-2 border-gray-300"></div>
             </div>
-            <div className="py-4 px-4">
-                {
-                    roles &&
-                    <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                        {
-                            roles.filter((rol)=> rol.nombre !== 'superadmin').map((rol, index) => (
-                                <div className="bg-white overflow-hidden shadow rounded-lg">
-                                    <div className="p-4 sm:p-6 bg-gradient-to-r from-blue-500 to-blue-900">
-                                        <h3 className="text-lg leading-6 font-medium text-white">{rol.nombre}</h3>
-                                    </div>
-                                    <div className="p-4 sm:p-6">
-                                        <p className="text-gray-700 text-sm">
-                                            {
-                                                rol.description.split(';').filter(line => line.trim() !== '').map((line, index) => (
-                                                    <li key={index}>{line}</li>
-                                                ))
-                                            }
-                                        </p>
-                                    </div>
-                                </div>
-                            ))
-                        }  
+            <div className="px-6 bg-white text-gray-800">
+                {roles && (
+                    <div className="divide-y divide-gray-300">
+                    {roles
+                        .filter((rol) => rol.nombre !== "superadmin")
+                        .map((rol, index) => (
+                        <section
+                            key={index}
+                            aria-labelledby={`role-title-${index}`}
+                            className="py-4"
+                        >
+                            <h2
+                            id={`role-title-${index}`}
+                            className="text-lg font-semibold text-blue-400 mb-2"
+                            >
+                            {rol.nombre}
+                            </h2>
+                            <ul className="list-disc list-inside text-gray-700 text-sm leading-relaxed pl-2">
+                            {rol.description
+                                .split(";")
+                                .filter((line) => line.trim())
+                                .map((line, i) => (
+                                <li key={i}>{line.trim()}</li>
+                                ))}
+                            </ul>
+                        </section>
+                        ))}
                     </div>
-                }
+                )}
             </div>
         </DashboardLayout>
     );

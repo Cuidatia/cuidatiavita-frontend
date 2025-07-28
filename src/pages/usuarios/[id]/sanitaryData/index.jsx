@@ -24,6 +24,38 @@ function sanitaryData () {
         otherIllness: ''
     })
 
+      
+    const [isFormDirty, setIsFormDirty] = useState(false)
+
+    useEffect(() => {
+        // Interceptar cierre/recarga
+        const handleBeforeUnload = (e) => {
+            if (modificar && isFormDirty) {
+                e.preventDefault()
+                e.returnValue = ''
+            }
+        }
+
+        // Interceptar navegación interna
+        const handleRouteChangeStart = (url) => {
+            if (modificar && isFormDirty) {
+                const confirmExit = window.confirm("Tienes cambios sin guardar. ¿Estás seguro de salir?")
+                if (!confirmExit) {
+                    router.events.emit("routeChangeError")
+                    throw "Abortar navegación"
+                }
+            }
+        }
+
+        window.addEventListener('beforeunload', handleBeforeUnload)
+        router.events.on("routeChangeStart", handleRouteChangeStart)
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload)
+            router.events.off("routeChangeStart", handleRouteChangeStart)
+        }
+    }, [modificar, isFormDirty])
+
     const getPaciente = async () => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPaciente?id='+ id, {
             method: 'GET',
@@ -81,6 +113,7 @@ function sanitaryData () {
             setMessage(data.message)
             setModificar(false)
             setSaveData(false)
+            setIsFormDirty(false);
         } else{
             const data = await response.json()
             setError(data.error)
@@ -119,7 +152,9 @@ function sanitaryData () {
                         <textarea name="mainIllness" id="mainIllness" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5" 
                             disabled={!modificar}
                             value={mainSanitaryData?.mainIllness}
-                            onChange={(e)=>{setMainSanitaryData({...mainSanitaryData, [e.target.name]:e.target.value})}}
+                            onChange={(e)=>{
+                                setIsFormDirty(true);
+                                setMainSanitaryData({...mainSanitaryData, [e.target.name]:e.target.value})}}
                         />
                     </div>
                     <div>
@@ -127,7 +162,9 @@ function sanitaryData () {
                         <textarea name="allergies" id="allergies" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5" 
                             disabled={!modificar}
                             value={mainSanitaryData?.allergies}
-                            onChange={(e)=>{setMainSanitaryData({...mainSanitaryData, [e.target.name]:e.target.value})}}
+                            onChange={(e)=>{
+                                setIsFormDirty(true);
+                                setMainSanitaryData({...mainSanitaryData, [e.target.name]:e.target.value})}}
                         />
                     </div>
                     <div>
@@ -135,7 +172,9 @@ function sanitaryData () {
                         <textarea name="otherIllness" id="otherIllness" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5" 
                             disabled={!modificar}
                             value={mainSanitaryData?.otherIllness}
-                            onChange={(e)=>{setMainSanitaryData({...mainSanitaryData, [e.target.name]:e.target.value})}}
+                            onChange={(e)=>{
+                                setIsFormDirty(true);
+                                setMainSanitaryData({...mainSanitaryData, [e.target.name]:e.target.value})}}
                         />
                     </div>
                 </div>

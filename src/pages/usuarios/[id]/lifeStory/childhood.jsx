@@ -33,6 +33,37 @@ function Childhood () {
     })
 
     const [saveData, setSaveData] = useState(false)
+    
+    const [isFormDirty, setIsFormDirty] = useState(false)
+
+    useEffect(() => {
+        // Interceptar cierre/recarga
+        const handleBeforeUnload = (e) => {
+            if (modificar && isFormDirty) {
+                e.preventDefault()
+                e.returnValue = ''
+            }
+        }
+
+        // Interceptar navegación interna
+        const handleRouteChangeStart = (url) => {
+            if (modificar && isFormDirty) {
+                const confirmExit = window.confirm("Tienes cambios sin guardar. ¿Estás seguro de salir?")
+                if (!confirmExit) {
+                    router.events.emit("routeChangeError")
+                    throw "Abortar navegación"
+                }
+            }
+        }
+
+        window.addEventListener('beforeunload', handleBeforeUnload)
+        router.events.on("routeChangeStart", handleRouteChangeStart)
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload)
+            router.events.off("routeChangeStart", handleRouteChangeStart)
+        }
+    }, [modificar, isFormDirty])
 
 
     const getPaciente = async () => {
@@ -90,6 +121,7 @@ function Childhood () {
             const data = await response.json()
             setMessage(data.message)
             setSaveData(false)
+            setIsFormDirty(false)
         }else {
             const data = await response.json()
             setError(data.error)
@@ -105,10 +137,12 @@ function Childhood () {
                     <input type="text" name="childhoodStudies" id="childhoodStudies" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia.childhoodStudies}
-                         onChange={(e) => setPacienteInfancia({
+                         onChange={(e) => {
+                            setIsFormDirty(true);
+                            setPacienteInfancia({
                             ...pacienteInfancia,
                             [e.target.name]: e.target.value
-                          })}
+                          })}}
                     />
                 </div>
                 <div>
@@ -116,10 +150,12 @@ function Childhood () {
                     <input type="text" name="childhoodSchool" id="childhoodSchool" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia.childhoodSchool}
-                         onChange={(e) => setPacienteInfancia({
+                         onChange={(e) => {
+                            setIsFormDirty(true);
+                            setPacienteInfancia({
                             ...pacienteInfancia,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -127,10 +163,12 @@ function Childhood () {
                     <input type="textarea" name="childhoodMotivations" id="childhoodMotivations" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia.childhoodMotivations}
-                         onChange={(e) => setPacienteInfancia({
+                         onChange={(e) => {
+                            setIsFormDirty(true);
+                            setPacienteInfancia({
                             ...pacienteInfancia,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -138,10 +176,12 @@ function Childhood () {
                     <input type="textarea" name="childhoodFamilyCore" id="childhoodFamilyCore" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia.childhoodFamilyCore}
-                         onChange={(e) => setPacienteInfancia({
+                         onChange={(e) => {
+                            setIsFormDirty(true);
+                            setPacienteInfancia({
                             ...pacienteInfancia,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -149,10 +189,12 @@ function Childhood () {
                     <input type="textarea" name="childhoodFriendsGroup" id="childhoodFriendsGroup" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia.childhoodFriendsGroup}
-                         onChange={(e) => setPacienteInfancia({
+                         onChange={(e) => {
+                            setIsFormDirty(true);
+                            setPacienteInfancia({
                             ...pacienteInfancia,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -160,10 +202,12 @@ function Childhood () {
                     <input type="textarea" name="childhoodImportantPerson" id="childhoodImportantPerson" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia.childhoodImportantPerson}
-                         onChange={(e) => setPacienteInfancia({
+                         onChange={(e) => {
+                            setIsFormDirty(true);
+                            setPacienteInfancia({
                             ...pacienteInfancia,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -171,10 +215,12 @@ function Childhood () {
                     <input type="textarea" name="childhoodTravels" id="childhoodTravels" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia.childhoodTravels}
-                         onChange={(e) => setPacienteInfancia({
+                         onChange={(e) => {
+                            setIsFormDirty(true);
+                            setPacienteInfancia({
                             ...pacienteInfancia,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -182,10 +228,12 @@ function Childhood () {
                     <input type="text" name="childhoodFavouritePlace" id="childhoodFavouritePlace" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                         value={pacienteInfancia.childhoodFavouritePlace}
-                        onChange={(e) => setPacienteInfancia({
+                        onChange={(e) => {
+                            setIsFormDirty(true);
+                            setPacienteInfancia({
                             ...pacienteInfancia,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -193,10 +241,12 @@ function Childhood () {
                     <input type="textarea" name="childhoodPositiveExperiences" id="childhoodPositiveExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                         value={pacienteInfancia.childhoodPositiveExperiences}
-                        onChange={(e) => setPacienteInfancia({
+                        onChange={(e) => {
+                            setIsFormDirty(true);
+                            setPacienteInfancia({
                             ...pacienteInfancia,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -204,10 +254,12 @@ function Childhood () {
                     <input type="textarea" name="childhoodNegativeExperiences" id="childhoodNegativeExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                         value={pacienteInfancia.childhoodNegativeExperiences}
-                        onChange={(e) => setPacienteInfancia({
+                        onChange={(e) => {
+                            setIsFormDirty(true);
+                            setPacienteInfancia({
                             ...pacienteInfancia,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -215,10 +267,12 @@ function Childhood () {
                     <input type="textarea" name="childhoodResponsabilities" id="childhoodResponsabilities" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia.childhoodResponsabilities}
-                         onChange={(e) => setPacienteInfancia({
+                         onChange={(e) => {
+                            setIsFormDirty(true);
+                            setPacienteInfancia({
                             ...pacienteInfancia,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -226,10 +280,12 @@ function Childhood () {
                     <input type="textarea" name="childhoodAddress" id="childhoodAddress" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                         value={pacienteInfancia.childhoodAddress}
-                        onChange={(e) => setPacienteInfancia({
+                        onChange={(e) => {
+                            setIsFormDirty(true);
+                            setPacienteInfancia({
                             ...pacienteInfancia,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -237,10 +293,12 @@ function Childhood () {
                     <input type="textarea" name="childhoodLikes" id="childhoodLikes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                         value={pacienteInfancia.childhoodLikes}
-                        onChange={(e) => setPacienteInfancia({
+                        onChange={(e) => {
+                            setIsFormDirty(true);
+                            setPacienteInfancia({
                             ...pacienteInfancia,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
                 <div>
@@ -248,10 +306,12 @@ function Childhood () {
                     <input type="textarea" name="childhoodAfraids" id="childhoodAfraids" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                         value={pacienteInfancia.childhoodAfraids}
-                        onChange={(e) => setPacienteInfancia({
+                        onChange={(e) => {
+                            setIsFormDirty(true);
+                            setPacienteInfancia({
                             ...pacienteInfancia,
                             [e.target.name]:e.target.value
-                        })}
+                        })}}
                     />
                 </div>
             </div>

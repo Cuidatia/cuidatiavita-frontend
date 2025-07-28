@@ -103,7 +103,7 @@ function PerfilPaciente () {
 
     return(
         <PacienteLayout mostrarPaciente={mostrarPaciente} page={"0"}>
-            <div className="py-4 px-4 space-y-8">
+            <div className="py-2 space-y-8">
                 {/* Bloque: Historial de Vida */}
                 <div>
                     <h2 className="text-xl font-semibold text-gray-800 mb-4">Historial de Vida</h2>

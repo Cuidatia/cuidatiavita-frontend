@@ -6,11 +6,15 @@ import withAuth from '@/components/withAuth';
 import PopUp from '@/components/popUps/popUp';
 import Alerts from '@/components/alerts/alerts';
 import { useSession } from 'next-auth/react';
+import { Trash, FilePenLine } from 'lucide-react';
 
 function Usuarios () {
     const {data: session, status} = useSession()
     const [usuarios, setUsuarios] = useState([])
+    const [roles, setRoles] = useState([])
     const [buscarUsuario, setBuscarUsuario] = useState('')
+
+    const [filtro, setFiltro] = useState("")
 
     const [usuarioSeleccionado, setUsuarioSeleccionado] = useState()
     const [openPopUp, setOpenPopUp] = useState(false)
@@ -43,6 +47,7 @@ function Usuarios () {
     useEffect(()=>{
         if (status === 'authenticated' && session?.user?.idOrganizacion) {
             getUsuarios(session?.user?.idOrganizacion);
+            getRoles();
         }
     },[session, status, paginaActual])
 
@@ -87,110 +92,179 @@ function Usuarios () {
         }
     }
 
+    const getRoles = async () => {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getRoles', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${session?.user?.token}`
+            }
+        })
+        if(response.ok){
+            const data = await response.json()
+            setRoles(data.roles)
+        }
+    }
+
     return(
         <DashboardLayout>
-            <div className='flex items-center justify-end'>
-                <input type="text" placeholder='Buscar personal...' className="bg-white border border-gray-300 text-gray-900 rounded-lg block w-64 p-2.5"
+            <div className="flex items-center justify-between px-8 pt-6">
+                <select
+                    name="filtro"
+                    className="border border-gray-300 rounded-xl px-4 py-2 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-200 transition"
+                    defaultValue=""
+                    onChange={(e) => setFiltro(e.target.value)}
+                >
+                    <option value="">Todos</option>
+                    {roles &&
+                    roles.map((rol, index) => (
+                        <option key={index} value={rol.nombre}>
+                        {rol.nombre}
+                        </option>
+                    ))}
+                </select>
+
+                <input
+                    type="text"
+                    placeholder="Buscar personal..."
+                    className="border border-gray-300 rounded-xl px-4 py-2 text-sm w-64 text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-200 transition"
                     value={buscarUsuario}
-                    onChange={(e)=>{
-                        setBuscarUsuario(e.target.value)
-                        getUsuario(e.target.value) 
+                    onChange={(e) => {
+                    setBuscarUsuario(e.target.value);
+                    getUsuario(e.target.value);
                     }}
                 />
-            </div>
-            <div className="relative flex py-2 items-center">
-                <div className="flex-grow border-t border-gray-300"></div>
-            </div>
-            <div>
-                <div className='flex items-center justify-between'>
-                    <h2 className='text-2xl font-semibold'>Personal</h2>
-                    <div className='w-18 flex items-center justify-between cursor-pointer rounded-2xl hover:text-green-400 text-gray-500'
-                        onClick={()=>{router.push('personal/add')}}
-                    >
-                        Añadir
-                        <svg className="shrink-0 w-5 h-5 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                        <path fillRule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4.243a1 1 0 1 0-2 0V11H7.757a1 1 0 1 0 0 2H11v3.243a1 1 0 1 0 2 0V13h3.243a1 1 0 1 0 0-2H13V7.757Z" clipRule="evenodd"/>
-                        </svg>
+                </div>
+
+                <div className="border-t border-gray-200 my-4 mx-8" />
+
+                <div className="px-8">
+                    <div className="flex items-center justify-between mb-6">
+                        <h2 className="text-2xl font-semibold text-gray-800">Personal</h2>
+                        <button
+                            className="cursor-pointer flex items-center gap-1 text-sm text-gray-600 hover:text-green-500 transition"
+                            onClick={() => router.push("personal/add")}
+                        >
+                            Añadir
+                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4.243a1 1 0 1 0-2 0V11H7.757a1 1 0 1 0 0 2H11v3.243a1 1 0 1 0 2 0V13h3.243a1 1 0 1 0 0-2H13V7.757Z"
+                                />
+                            </svg>
+                        </button>
                     </div>
-                </div>
-                <div className="py-4">
-                {
-                        usuarios.length > 0 ?
-                        usuarios.filter((usuario)=> usuario.nombre.toLowerCase().includes(buscarUsuario.toLowerCase())).map((usuario, index) => (
-                            usuario.id !== session.user.id &&
-                            <div className='border-b border-gray-100 transition-all duration-[1000ms] ease-[cubic-bezier(0.15,0.83,0.66,1)] hover:scale-[1.01]'>
-                                <div className='bg-white hover:bg-gradient-to-r from-blue-200 to-blue-100 shadow-sm p-4 flex items-center justify-between rounded-sm my-0.5 cursor-pointer'
-                                    onClick={()=>router.push('personal/'+usuario.id)}>
-                                    <div className='text-lg font-semibold'>
-                                            {usuario.nombre}
+
+                    {usuarios.length > 0 ? (
+                        usuarios
+                        .filter(
+                            (usuario) =>
+                            usuario.nombre.toLowerCase().includes(buscarUsuario.toLowerCase()) &&
+                            usuario.roles.includes(filtro)
+                        )
+                        .map(
+                            (usuario, index) =>
+                            usuario.id !== session.user.id && (
+                            <div
+                                key={index}
+                                className="border-b border-gray-200 transition-transform hover:scale-[1.005]"
+                                onClick={() => router.push(`personal/${usuario.id}`)}
+                            >
+                                <div className="bg-white hover:bg-blue-100 transition-colors duration-200 p-4 flex items-center justify-between rounded-md cursor-pointer">
+                                    <div className="text-base font-medium text-gray-800">
+                                    {usuario.nombre}
                                     </div>
-                                    <div className='flex justify-between w-fit max-w-50'>
-                                        <div title={usuario.roles} className='mr-8 p-1 text-xs text-gray-600 bg-gray-100 border-gray-300 border-1 rounded-md whitespace-nowrap overflow-hidden text-ellipsis'>
+                                    <div className="flex items-center gap-6">
+                                        <span
+                                            title={usuario.roles}
+                                            className="text-xs text-gray-600 bg-gray-100 px-3 py-1 rounded-full border border-gray-200 max-w-[150px] truncate"
+                                        >
                                             {usuario.roles}
-                                        </div>
-                                        <div className='w-12 flex items-center justify-between min-w-12'>
-                                            <div title='Ver' className='cursor-pointer' onClick={(e)=> {e.stopPropagation(); router.push('personal/'+usuario.id)}}>
-                                                <svg className="shrink-0 w-5 h-5 text-gray-600 transition duration-75 group-hover:text-gray-900 hover:text-yellow-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                <path stroke="currentColor" strokeWidth="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"/>
-                                                <path stroke="currentColor" strokeWidth="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                        </span>
+
+                                        <div className="flex gap-3 items-center">
+                                            <button
+                                                title="Ver"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    router.push(`personal/${usuario.id}`);
+                                                }}
+                                                className="text-gray-500 hover:text-yellow-500 transition cursor-pointer"
+                                            >
+                                                <svg
+                                                    className="w-5 h-5"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                    strokeWidth="2"
+                                                >
+                                                    <FilePenLine className="w-5 h-5" />
                                                 </svg>
-                                            </div>
-                                            <div title='Eliminar' className='cursor-pointer' onClick={(e)=> {e.stopPropagation(); setOpenPopUp(!openPopUp); setUsuarioSeleccionado(usuario)}}>
-                                                <svg className="shrink-0 w-5 h-5 text-gray-600 transition duration-75 group-hover:text-gray-900 hover:text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                            </button>
+                                            <button
+                                                title="Eliminar"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setOpenPopUp(!openPopUp);
+                                                    setUsuarioSeleccionado(usuario);
+                                                }}
+                                                className="text-gray-500 hover:text-red-500 transition cursor-pointer"
+                                            >
+                                                <svg
+                                                    className="w-5 h-5"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                    strokeWidth="2"
+                                                >
+                                                    <Trash className="w-5 h-5" />
                                                 </svg>
-                                            </div>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        ))
-                        :
-                        <div className='border-b border-gray-100'>
-                            <div role="status" className='bg-white shadow-sm p-4 flex items-center justify-between animate-pulse'>
-                                <div className='h-2.5 ms-2 bg-gray-300 rounded-full w-64'></div>
-                                <div className='flex justify-between w-50'>
-                                    <div className=' h-2.5 ms-2 bg-gray-200 rounded-full w-24'></div>
-                                    <div className='w-12 flex items-center justify-between'>
-                                        <div className='h-2.5 ms-2 bg-gray-200 rounded-full w-24'></div>
-                                        <div className='h-2.5 ms-2 bg-gray-200 rounded-full w-24'></div>
-                                    </div>
-                                </div>
-                            </div>
+                            )
+                        )
+                    ) : (
+                        <div className="animate-pulse bg-white p-4 rounded-xl border border-gray-100">
+                        <div className="h-4 bg-gray-200 rounded w-1/3 mb-2"></div>
+                        <div className="h-3 bg-gray-100 rounded w-1/4"></div>
                         </div>
-                    }
-                </div>
-                {buscarUsuario === '' && (
-                <div className="flex justify-center mt-4">
-                    <button
-                        className="px-4 py-2 mx-2 bg-gray-200 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-300"
-                        onClick={() => {
-                            const nuevaPagina = paginaActual - 1
-                            setPaginaActual(nuevaPagina)
-                            getUsuarios(session?.user?.idOrganizacion, nuevaPagina)
-                        }}
-                        disabled={paginaActual === 1}
-                    >
-                        Anterior
-                    </button>
-                    <span className="px-4 py-2 mx-2">
-                        Página {paginaActual} de {Math.ceil(totalUsuarios / usuariosPorPagina)}
-                    </span>
-                    <button
-                        className="px-4 py-2 mx-2 bg-gray-200 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-300"
-                        onClick={() => {
-                            const nuevaPagina = paginaActual + 1
-                            setPaginaActual(nuevaPagina)
-                            getUsuarios(session?.user?.idOrganizacion, nuevaPagina)
-                        }}
-                        disabled={paginaActual >= Math.ceil(totalUsuarios / usuariosPorPagina)}
-                    >
-                        Siguiente
-                    </button>
-                </div>   
-                )}
-            </div>
-            
+                    )}
+
+                    {buscarUsuario === "" && filtro === "" && (
+                        <div className="flex justify-center mt-6">
+                        <button
+                            className="px-4 py-2 mx-2 text-sm bg-gray-100 rounded-lg hover:bg-gray-200 disabled:opacity-50 transition"
+                            onClick={() => {
+                            const nuevaPagina = paginaActual - 1;
+                            setPaginaActual(nuevaPagina);
+                            getUsuarios(session?.user?.idOrganizacion, nuevaPagina);
+                            }}
+                            disabled={paginaActual === 1}
+                        >
+                            Anterior
+                        </button>
+                        <span className="px-4 py-2 text-sm text-gray-700">
+                            Página {paginaActual} de{" "}
+                            {Math.ceil(totalUsuarios / usuariosPorPagina)}
+                        </span>
+                        <button
+                            className="px-4 py-2 mx-2 text-sm bg-gray-100 rounded-lg hover:bg-gray-200 disabled:opacity-50 transition"
+                            onClick={() => {
+                            const nuevaPagina = paginaActual + 1;
+                            setPaginaActual(nuevaPagina);
+                            getUsuarios(session?.user?.idOrganizacion, nuevaPagina);
+                            }}
+                            disabled={paginaActual >= Math.ceil(totalUsuarios / usuariosPorPagina)}
+                        >
+                            Siguiente
+                        </button>
+                        </div>
+                    )}
+                </div>           
 
             {
                 message ? 

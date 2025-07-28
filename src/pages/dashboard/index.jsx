@@ -5,11 +5,13 @@ import { useSession } from 'next-auth/react';
 import withAuth from '@/components/withAuth';
 import CardPacientes from '@/components/cards/cardsPacientes';
 import { useRouter } from 'next/router';
-import { Pie, Bar, Doughnut } from 'react-chartjs-2'
+import { Pie, Bar, Doughnut, Line } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
+  LineElement,
+  PointElement,
   BarElement,
   Title,
   ArcElement,
@@ -17,7 +19,7 @@ import {
   Legend
 } from 'chart.js'
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, ArcElement, Tooltip, Legend)
+ChartJS.register(CategoryScale, LineElement, PointElement, LinearScale, BarElement, Title, ArcElement, Tooltip, Legend)
 
 function Dashboard() {
     const {data: session, status} = useSession()
@@ -69,6 +71,20 @@ function Dashboard() {
         }
     };
 
+    const chartDataLinear = {
+        labels: [''],
+        datasets: [
+        {
+            label: "Últimos 30 días",
+            data: [resumenOrganizacion?.usuarios_30_dias[0] || [0]],
+            borderColor: "rgba(75,192,192,1)",
+            backgroundColor: "rgba(75,192,192,0.2)",
+            tension: 0.4,
+            fill: true,
+        },
+        ],
+    };
+
     const chartDataRoles = {
         labels: resumenOrganizacion?.total_roles.map(rol => {
             return rol.rol
@@ -103,16 +119,16 @@ function Dashboard() {
             getResumenOrganizacion()
         }
 
-        if (session?.user?.roles === 'familiar' || session?.user?.roles === 'personal de referencia') {
+        if (session?.user?.roles.split(',').includes('familiar') || session?.user?.roles.split(',').includes('personal de referencia')) {
             getPersonasReferencia()
         }
     }, [session, status]);
 
     return (
         <DashboardLayout>
-            <div className='font-bold'>
+            <div className='font-bold py-6 px-8 bg-white h-full'>
                 {
-                    session?.user?.roles === 'familiar' || session?.user?.roles === 'profesional de referencia' ?
+                    session?.user?.roles.split(',').includes('familiar') || session?.user?.roles.split(',').includes('personal de referencia') ?
                         personasReferencia &&
                         personasReferencia.map((persona, index) => (
                             <div key={index} className="p-4">
@@ -128,46 +144,8 @@ function Dashboard() {
                 resumenOrganizacion && 
                 <div className="mt-2 py-6 max-w-5xl mx-auto">
                     <h2 className="text-2xl font-semibold text-gray-800 mb-6">Resumen General</h2>
-                    {/* <table className="mx-auto w-full sm:w-[80%] border-collapse border border-gray-300 text-[10px] sm:text-[12px] md:text-sm">
-                        <thead className="bg-blue-300">
-                            <tr>
-                                <th className="border px-1 py-1 sm:px-2 sm:py-2 text-center">Usuarios Totales</th>
-                                <th className="border px-1 py-1 sm:px-2 sm:py-2 text-center">Profesionales Totales</th>
-                                <th className="border px-1 py-1 sm:px-2 sm:py-2 text-center">Roles Ocupados</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td className="border px-1 py-1 sm:px-2 sm:py-2 text-center">
-                                    <p>Total: {resumenOrganizacion.total_usuarios.M + resumenOrganizacion.total_usuarios.F + resumenOrganizacion.total_usuarios.O}</p>
-                                    <p>Hombres: {resumenOrganizacion.total_usuarios.M}</p>
-                                    <p>Mujeres: {resumenOrganizacion.total_usuarios.F}</p>
-                                    <p>Otro: {resumenOrganizacion.total_usuarios.O}</p>
-                                </td>
-                                <td className="border px-1 py-1 sm:px-2 sm:py-2 text-center">
-                                    <p>Total: {resumenOrganizacion.total_profesionales}</p>
-                                </td>
-                                <td className="border px-1 py-1 sm:px-2 sm:py-2 text-center">
-                                    {resumenOrganizacion.total_roles.map((rol, index) => {
-                                        let nombreRol = '';
-                                        switch (rol.rol) {
-                                        case 'medico/enfermero':
-                                            nombreRol = 'médico';
-                                            break;
-                                        case 'educador social/terapeuta ocupacional':
-                                            nombreRol = 'educador';
-                                            break;
-                                        default:
-                                            nombreRol = rol.rol;
-                                        }
-
-                                        return ( <p key={index}> {nombreRol}: {rol.cantidad} </p> );
-                                    })}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table> */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+                        
                         {/* Tarjeta: Total Usuarios + Gráfico Género */}
                         <div className="flex flex-col md:flex-row items-center bg-white rounded-2xl shadow-md p-6">
                             <div className="flex-1 text-center md:text-left">
@@ -191,6 +169,19 @@ function Dashboard() {
                             </div>
                             <div className="w-full md:w-1/2 max-w-xs mt-4 md:mt-0 md:ml-6">
                                 <Pie data={chartDataRoles} />
+                            </div>
+                        </div>
+
+                        {/* Tarjeta: Usuarios 30 días + Gráfico */}
+                        <div className="flex flex-col md:flex-row items-center bg-white rounded-2xl shadow-md p-6">
+                            <div className="flex-1 text-center md:text-left">
+                                <p className="text-gray-500 text-sm uppercase tracking-wider">Usuarios añadidos en el último mes</p>
+                                <p className="text-4xl font-bold text-blue-600 mt-2">
+                                    {resumenOrganizacion.usuarios_30_dias}
+                                </p>
+                            </div>
+                            <div className="w-full md:w-1/2 max-w-xs mt-4 md:mt-0 md:ml-6">
+                                <Line data={chartDataLinear} />
                             </div>
                         </div>
                     </div>

@@ -24,6 +24,38 @@ function KitchenHygiene () {
         carePlan: ''
     })
 
+    
+    const [isFormDirty, setIsFormDirty] = useState(false);
+
+    useEffect(() => {
+        // Interceptar cierre/recarga
+        const handleBeforeUnload = (e) => {
+            if (modificar && isFormDirty) {
+                e.preventDefault()
+                e.returnValue = ''
+            }
+        }
+
+        // Interceptar navegación interna
+        const handleRouteChangeStart = (url) => {
+            if (modificar && isFormDirty) {
+                const confirmExit = window.confirm("Tienes cambios sin guardar. ¿Estás seguro de salir?")
+                if (!confirmExit) {
+                    router.events.emit("routeChangeError")
+                    throw "Abortar navegación"
+                }
+            }
+        }
+
+        window.addEventListener('beforeunload', handleBeforeUnload)
+        router.events.on("routeChangeStart", handleRouteChangeStart)
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload)
+            router.events.off("routeChangeStart", handleRouteChangeStart)
+        }
+    }, [modificar, isFormDirty])
+
     const getPacienteCocinaHigiene = async () =>{
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'pacienteCocinaHigiene?id='+ id, {
             method: 'GET',
@@ -81,6 +113,7 @@ function KitchenHygiene () {
             setMessage(data.message)
             setModificar(false)
             setSaveData(false)
+            setIsFormDirty(true);
         } else{
             const data = await response.json()
             setError(data.error)
@@ -96,7 +129,9 @@ function KitchenHygiene () {
                     <input type="text" name="favouriteFood" id="favouriteFood" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteCocinaHigiene?.favouriteFood}
-                         onChange={(e)=>setPacienteCocinaHigiene({...pacienteCocinaHigiene, [e.target.name]:e.target.value})}
+                         onChange={(e)=>{
+                            setIsFormDirty(true);
+                            setPacienteCocinaHigiene({...pacienteCocinaHigiene, [e.target.name]:e.target.value})}}
                     />
                 </div>
                 <div>
@@ -104,7 +139,9 @@ function KitchenHygiene () {
                     <input type="text" name="dietaryRestrictions" id="dietaryRestrictions" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteCocinaHigiene?.dietaryRestrictions}
-                         onChange={(e)=>setPacienteCocinaHigiene({...pacienteCocinaHigiene, [e.target.name]:e.target.value})}
+                         onChange={(e)=>{
+                            setIsFormDirty(true);
+                            setPacienteCocinaHigiene({...pacienteCocinaHigiene, [e.target.name]:e.target.value})}}
                     />
                 </div>
                 <div>
@@ -112,7 +149,9 @@ function KitchenHygiene () {
                     <input type="textarea" name="confortAdvices" id="confortAdvices" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteCocinaHigiene?.confortAdvices}
-                         onChange={(e)=>setPacienteCocinaHigiene({...pacienteCocinaHigiene, [e.target.name]:e.target.value})}
+                         onChange={(e)=>{
+                            setIsFormDirty(true);
+                            setPacienteCocinaHigiene({...pacienteCocinaHigiene, [e.target.name]:e.target.value})}}
                     />
                 </div>
                 <div>
@@ -120,7 +159,9 @@ function KitchenHygiene () {
                     <input type="textarea" name="routine" id="routine" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteCocinaHigiene?.routine}
-                         onChange={(e)=>setPacienteCocinaHigiene({...pacienteCocinaHigiene, [e.target.name]:e.target.value})}
+                         onChange={(e)=>{
+                            setIsFormDirty(true);
+                            setPacienteCocinaHigiene({...pacienteCocinaHigiene, [e.target.name]:e.target.value})}}
                     />
                 </div>
                 <div>
@@ -128,7 +169,9 @@ function KitchenHygiene () {
                     <input type="textarea" name="carePlan" id="carePlan" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteCocinaHigiene?.carePlan}
-                         onChange={(e)=>setPacienteCocinaHigiene({...pacienteCocinaHigiene, [e.target.name]:e.target.value})}
+                         onChange={(e)=>{
+                            setIsFormDirty(true);
+                            setPacienteCocinaHigiene({...pacienteCocinaHigiene, [e.target.name]:e.target.value})}}
                     />
                 </div>
             </div>
