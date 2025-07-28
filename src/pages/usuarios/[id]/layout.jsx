@@ -365,7 +365,7 @@ export default function PacienteLayout({ children, mostrarPaciente, page }) {
                     className="text-xl font-medium text-gray-800 hover:text-blue-400 transition-colors cursor-pointer"
                     onClick={() => router.push("/usuarios/" + mostrarPaciente.id)}
                 >
-                    {mostrarPaciente.name} {mostrarPaciente.firstSurname} {mostrarPaciente.secondSurname}
+                    {mostrarPaciente?.name} {mostrarPaciente?.firstSurname} {mostrarPaciente?.secondSurname}
                 </h2>
 
                 <div className="flex gap-2">

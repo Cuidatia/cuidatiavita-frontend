@@ -185,7 +185,7 @@ function Usuarios () {
 
                                         <div className="flex gap-3 items-center">
                                             <button
-                                                title="Ver"
+                                                title="Editar"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     router.push(`personal/${usuario.id}`);
