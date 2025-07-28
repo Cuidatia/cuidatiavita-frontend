@@ -2,7 +2,7 @@ import LogInLayout from "./layout"
 import './styles.css'
 import {signIn} from 'next-auth/react'
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Alerts from "@/components/alerts/alerts";
 
 export default function Login(){
@@ -12,12 +12,17 @@ export default function Login(){
     const [ message, setMessage ] = useState()
     const [ errorMessage, setErrorMessage ] = useState()
 
+
+
     async function handleSubmit(){
         const result = await signIn('credentials', {
             email: email,
             password: password,
             redirect: false,
         })
+
+        
+
 
         if (result?.error) {
             setErrorMessage(result.error)

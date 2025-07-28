@@ -395,7 +395,7 @@ export default function PacienteLayout({ children, mostrarPaciente, page }) {
             <PopUp
                 open={openPopUp} 
                 popTitle="Eliminar usuario"
-                popContent={`¿Está seguro de que desea eliminar al usuario ${mostrarPaciente.name} ${mostrarPaciente.firstSurname} ${mostrarPaciente.secondSurname}?`}
+                popContent={`¿Está seguro de que desea eliminar al usuario ${mostrarPaciente?.name} ${mostrarPaciente?.firstSurname} ${mostrarPaciente?.secondSurname}?`}
                 popType="option"
                 confirmFunction={() => {
                     eliminarPaciente(mostrarPaciente.id);
