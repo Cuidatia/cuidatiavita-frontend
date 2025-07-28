@@ -172,7 +172,7 @@ function Dashboard() {
                             </div>
                         </div>
 
-                        {/* Tarjeta: Usuarios 30 días + Gráfico */}
+                        {/* Tarjeta: Usuarios 30 días + Gráfico
                         <div className="flex flex-col md:flex-row items-center bg-white rounded-2xl shadow-md p-6">
                             <div className="flex-1 text-center md:text-left">
                                 <p className="text-gray-500 text-sm uppercase tracking-wider">Usuarios añadidos en el último mes</p>
@@ -183,7 +183,7 @@ function Dashboard() {
                             <div className="w-full md:w-1/2 max-w-xs mt-4 md:mt-0 md:ml-6">
                                 <Line data={chartDataLinear} />
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             }
