@@ -211,7 +211,7 @@ function CrearPaciente () {
                         </div>
                         <div>
                             <fieldset>
-                                <legend className="block mb-2 text-sm font-medium text-gray-900 after:content-['*'] after:ml-1 after:text-red-500">¿Cuál es su género?</legend>
+                                <legend className="block mb-2 text-sm font-medium text-gray-900 after:content-['*'] after:ml-1 after:text-red-500">¿Con qué género se identifica?</legend>
                                 <div className="flex items-center mb-4 ps-1">
                                     <input type="radio" name="gender" id="Masculino" className={`w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 ${erroresFormulario?.gender && 'ring-2 ring-red-300'}`}
                                         onClick={handleInpustChange} value='M' 
@@ -308,7 +308,7 @@ function CrearPaciente () {
                             }
                         </div>
                         <div>
-                            <label htmlFor="otherLanguages" className="block mb-2 text-sm font-medium text-gray-900">¿Qué otros idiomas conoce?</label>
+                            <label htmlFor="otherLanguages" className="block mb-2 text-sm font-medium text-gray-900">¿Conoce algún otro idioma?¿Cúal o cuáles son?</label>
                             <textarea name="otherLanguages" id="otherLanguages" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                                 onChange={handleInpustChange}
                             />

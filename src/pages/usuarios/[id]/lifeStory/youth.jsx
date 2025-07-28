@@ -146,7 +146,7 @@ function Youth () {
         <PacienteLayout mostrarPaciente={mostrarPaciente} page={"4"}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
-                    <label htmlFor="youthStudies" className="block mb-2 text-sm font-medium text-gray-900">¿Qué estudios realizó?</label>
+                    <label htmlFor="youthStudies" className="block mb-2 text-sm font-medium text-gray-900">¿Qué estudios realizó? ¿Qué le gustaba? ¿Pudo estudiar lo que quería?</label>
                     <input type="text" name="youthStudies" id="youthStudies" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthStudies}
@@ -159,7 +159,7 @@ function Youth () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthSchool" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde realizó sus estudios?</label>
+                    <label htmlFor="youthSchool" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde realizó sus estudios? ¿A qué centro formativo asistió?</label>
                     <input type="text" name="youthSchool" id="youthSchool" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthSchool}
@@ -185,7 +185,7 @@ function Youth () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthWorkRol" className="block mb-2 text-sm font-medium text-gray-900">Si trabajaba, ¿Qué rol desempeñaba?</label>
+                    <label htmlFor="youthWorkRol" className="block mb-2 text-sm font-medium text-gray-900">Si trabajaba, ¿Qué rol desempeñaba? ¿Disfrutaba de ese trabajo?</label>
                     <input type="text" name="youthWorkRol" id="youthWorkRol" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthWorkRol}
@@ -250,7 +250,7 @@ function Youth () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthFavouritePlace" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál era su lugar favorito?</label>
+                    <label htmlFor="youthFavouritePlace" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál era su lugar favorito? ¿Cómo describiría este lugar?</label>
                     <input type="text" name="youthFavouritePlace" id="youthFavouritePlace" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthFavouritePlace}
@@ -327,7 +327,7 @@ function Youth () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthLikes" className="block mb-2 text-sm font-medium text-gray-900">¿Qué gustos tenía en esta etapa de vida?</label>
+                    <label htmlFor="youthLikes" className="block mb-2 text-sm font-medium text-gray-900">¿Qué gustos tenía en esta etapa de vida? ¿Eran los mismos que tenía en la infancia?</label>
                     <input type="textarea" name="youthLikes" id="youthLikes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthLikes}
@@ -366,7 +366,7 @@ function Youth () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="youthSentimentalCouple" className="block mb-2 text-sm font-medium text-gray-900">¿Tuvo parejas sentimentales o relaciones amorosas durante su juventud?</label>
+                    <label htmlFor="youthSentimentalCouple" className="block mb-2 text-sm font-medium text-gray-900">¿Tuvo parejas sentimentales o relaciones amorosas? ¿Qué recuerdos tiene de esas personas?</label>
                     <input type="textarea" name="youthSentimentalCouple" id="youthSentimentalCouple" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthSentimentalCouple}

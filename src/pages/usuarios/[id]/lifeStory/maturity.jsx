@@ -138,7 +138,7 @@ function Maturity () {
         <PacienteLayout mostrarPaciente={mostrarPaciente} page={"6"}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
-                    <label htmlFor="maturityGrandchildren" className="block mb-2 text-sm font-medium text-gray-900">¿Cuántos nietos tuvo? ¿Cómo se llaman sus nietos?</label>
+                    <label htmlFor="maturityGrandchildren" className="block mb-2 text-sm font-medium text-gray-900">¿Tuvo nietos? Si es así, ¿Cuántos nietos tuvo? ¿Cómo se llaman sus nietos? ¿Puede verlos con frecuencia?</label>
                     <input type="textarea" name="maturityGrandchildren" id="maturityGrandchildren" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteMadurez?.maturityGrandchildren}
@@ -151,7 +151,7 @@ function Maturity () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="maturityWorkPlace" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde trabajaba?</label>
+                    <label htmlFor="maturityWorkPlace" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde trabajaba? ¿Disfrutaba de su trabajo?</label>
                     <input type="text" name="maturityWorkPlace" id="maturityWorkPlace" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteMadurez?.maturityWorkPlace}
@@ -164,7 +164,7 @@ function Maturity () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="maturityWorkRol" className="block mb-2 text-sm font-medium text-gray-900">¿Qué rol desempeñaba?</label>
+                    <label htmlFor="maturityWorkRol" className="block mb-2 text-sm font-medium text-gray-900">¿Qué rol desempeñaba? ¿Cambió a lo largo de los años?</label>
                     <input type="text" name="maturityWorkRol" id="maturityWorkRol" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteMadurez?.maturityWorkRol}
@@ -229,7 +229,7 @@ function Maturity () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="maturityTravels" className="block mb-2 text-sm font-medium text-gray-900">¿Qué lugares pudo visitar? ¿Dónde ha viajado?</label>
+                    <label htmlFor="maturityTravels" className="block mb-2 text-sm font-medium text-gray-900">¿Qué lugares pudo visitar? ¿Recuerda alguno con especial cariño?</label>
                     <input type="text" name="maturityTravels" id="maturityTravels" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteMadurez?.maturityTravels}
@@ -242,7 +242,7 @@ function Maturity () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="maturityFavouritePlace" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál era su lugar favorito?</label>
+                    <label htmlFor="maturityFavouritePlace" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál era su lugar favorito? ¿Ha cambiado respecto a otras etapas?</label>
                     <input type="text" name="maturityFavouritePlace" id="maturityFavouritePlace" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteMadurez?.maturityFavouritePlace}

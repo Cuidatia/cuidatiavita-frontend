@@ -133,7 +133,7 @@ function Childhood () {
         <PacienteLayout mostrarPaciente={mostrarPaciente} page={"3"}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
-                    <label htmlFor="childhoodStudies" className="block mb-2 text-sm font-medium text-gray-900">¿Qué estudios realizó?</label>
+                    <label htmlFor="childhoodStudies" className="block mb-2 text-sm font-medium text-gray-900">¿Fue usted al colegio? ¿Qué estudios realizó?</label>
                     <input type="text" name="childhoodStudies" id="childhoodStudies" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia.childhoodStudies}
@@ -146,7 +146,7 @@ function Childhood () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="childhoodSchool" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde realizó sus estudios?</label>
+                    <label htmlFor="childhoodSchool" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde realizó sus estudios? ¿A qué centro formativo asistió?</label>
                     <input type="text" name="childhoodSchool" id="childhoodSchool" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia.childhoodSchool}
@@ -172,7 +172,7 @@ function Childhood () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="childhoodFamilyCore" className="block mb-2 text-sm font-medium text-gray-900">¿Qué personas formaban su núcleo familiar? ¿Cómo se llevaba con ellos?</label>
+                    <label htmlFor="childhoodFamilyCore" className="block mb-2 text-sm font-medium text-gray-900">¿Qué personas formaban su núcleo familiar? ¿Qué relación tenía con ellos?</label>
                     <input type="textarea" name="childhoodFamilyCore" id="childhoodFamilyCore" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia.childhoodFamilyCore}
@@ -211,7 +211,7 @@ function Childhood () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="childhoodTravels" className="block mb-2 text-sm font-medium text-gray-900">¿Qué lugares pudo visitar? ¿Dónde ha viajado?</label>
+                    <label htmlFor="childhoodTravels" className="block mb-2 text-sm font-medium text-gray-900">¿Pudo viajar en esta etapa de vida? ¿Qué lugares visitó?</label>
                     <input type="textarea" name="childhoodTravels" id="childhoodTravels" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia.childhoodTravels}
@@ -224,7 +224,7 @@ function Childhood () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="childhoodFavouritePlace" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál era su lugar favorito?</label>
+                    <label htmlFor="childhoodFavouritePlace" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál era su lugar favorito? ¿Recuerda cómo era?</label>
                     <input type="text" name="childhoodFavouritePlace" id="childhoodFavouritePlace" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                         value={pacienteInfancia.childhoodFavouritePlace}

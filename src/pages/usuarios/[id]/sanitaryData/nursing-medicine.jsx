@@ -145,7 +145,7 @@ function NursingMedicine () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="fallRisks" className="block mb-2 text-sm font-medium text-gray-900">¿Se ha caído con frecuencia? ¿Cuántas veces ha llegado a caerse?</label>
+                    <label htmlFor="fallRisks" className="block mb-2 text-sm font-medium text-gray-900">¿Se ha caído con frecuencia? ¿Cuántas veces ha llegado a caerse en el último año?</label>
                     <input type="text" name="fallRisks" id="fallRisks" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteMedicinaEnfermeria?.fallRisks}

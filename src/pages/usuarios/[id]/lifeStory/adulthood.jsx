@@ -139,7 +139,7 @@ function Adulthood () {
         <PacienteLayout mostrarPaciente={mostrarPaciente} page={"5"}>
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
-                    <label htmlFor="adulthoodSentimentalCouple" className="block mb-2 text-sm font-medium text-gray-900">¿Quién es su pareja sentimental o persona íntima de convivencia?</label>
+                    <label htmlFor="adulthoodSentimentalCouple" className="block mb-2 text-sm font-medium text-gray-900">¿Quién es su pareja sentimental o persona íntima de convivencia? ¿Qué momentos significativos vivieron juntos?</label>
                     <input type="text" name="adulthoodSentimentalCouple" id="adulthoodSentimentalCouple" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteAdultez.adulthoodSentimentalCouple}
@@ -165,7 +165,7 @@ function Adulthood () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulthoodStudies" className="block mb-2 text-sm font-medium text-gray-900">¿Qué estudios realizó?</label>
+                    <label htmlFor="adulthoodStudies" className="block mb-2 text-sm font-medium text-gray-900">¿Siguió estudiando en esta etapa de vida? Si es así, ¿Qué estudios realizó?</label>
                     <input type="text" name="adulthoodStudies" id="adulthoodStudies" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteAdultez.adulthoodStudies}
@@ -191,7 +191,7 @@ function Adulthood () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulthoodWorkRol" className="block mb-2 text-sm font-medium text-gray-900">Si trabajaba, ¿Qué rol desempeñaba?</label>
+                    <label htmlFor="adulthoodWorkRol" className="block mb-2 text-sm font-medium text-gray-900">Si trabajaba, ¿En qué consistía su trabajo? ¿Qué rol desempeñaba?</label>
                     <input type="text" name="adulthoodWorkRol" id="adulthoodWorkRol" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteAdultez.adulthoodWorkRol}
@@ -269,7 +269,7 @@ function Adulthood () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulthoodFavouritePlace" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál era su lugar favorito?</label>
+                    <label htmlFor="adulthoodFavouritePlace" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál era su lugar favorito? ¿Tiene alguna anécdota o vivencia en ese lugar?</label>
                     <input type="text" name="adulthoodFavouritePlace" id="adulthoodFavouritePlace" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteAdultez.adulthoodFavouritePlace}
@@ -282,7 +282,7 @@ function Adulthood () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulthoodRoutine" className="block mb-2 text-sm font-medium text-gray-900">¿Qué rutina seguía en su día a día?</label>
+                    <label htmlFor="adulthoodRoutine" className="block mb-2 text-sm font-medium text-gray-900">¿Qué rutina seguía en su día a día? ¿Cómo organizaba la vida en el hogar?</label>
                     <input type="textarea" name="adulthoodRoutine" id="adulthoodRoutine" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteAdultez.adulthoodRoutine}
@@ -347,7 +347,7 @@ function Adulthood () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="adulthoodEconomicSituation" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo era su situación económica?</label>
+                    <label htmlFor="adulthoodEconomicSituation" className="block mb-2 text-sm font-medium text-gray-900">¿Cómo era su situación económica? ¿Cómo compaginaba su vida laboral con su vida familiar?</label>
                     <input type="text" name="adulthoodEconomicSituation" id="adulthoodEconomicSituation" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteAdultez.adulthoodEconomicSituation}
