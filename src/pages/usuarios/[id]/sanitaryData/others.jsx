@@ -179,4 +179,4 @@ function Others () {
     )
 }
 
-export default withAuth(Others, ['administrador', 'medico/enfermero', 'educador social/terapeuta ocupacional', 'trabajador social', 'auxiliar'])
+export default withAuth(Others, ['superadmin','administrador', 'medico/enfermero', 'educador social/terapeuta ocupacional', 'trabajador social', 'auxiliar'])

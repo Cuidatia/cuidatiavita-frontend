@@ -220,4 +220,4 @@ function SocialWork () {
     )
 }
 
-export default withAuth(SocialWork, ['administrador', 'trabajador social'])
+export default withAuth(SocialWork, ['superadmin','administrador', 'trabajador social'])

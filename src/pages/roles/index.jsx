@@ -69,4 +69,4 @@ function Roles () {
     );
 }
 
-export default withAuth(Roles, ['administrador']);
+export default withAuth(Roles, ['superadmin','administrador']);

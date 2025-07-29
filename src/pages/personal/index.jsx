@@ -26,10 +26,14 @@ function Usuarios () {
 
     const [paginaActual, setPaginaActual] = useState(1)
     const [totalUsuarios, setTotalUsuarios] = useState(0)
-    const usuariosPorPagina = 5 //4 por página, ya que admin se elimina
+    const usuariosPorPagina = 20
 
     const getUsuarios = async (organizacion) => {
-        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getUsuarios?org=' + organizacion + '&page=' + paginaActual + '&limit=' + usuariosPorPagina,{
+        const isSuperAdmin = session?.user?.roles.split(',').includes('superadmin')
+        const endpoint = isSuperAdmin
+        ? 'getAllUsuarios?page=' + paginaActual + '&limit=' + usuariosPorPagina
+        : 'getUsuarios?org=' + organizacion + '&page=' + paginaActual + '&limit=' + usuariosPorPagina
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + endpoint,{
             method:'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -295,4 +299,4 @@ function Usuarios () {
     )
 }
 
-export default withAuth(Usuarios, ['administrador'])
+export default withAuth(Usuarios, ['superadmin','administrador'])

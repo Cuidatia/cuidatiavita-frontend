@@ -21,7 +21,7 @@ export default function Menu() {
     { href: "/usuarios", label: "Usuarios", roles: ["administrador", "superadmin", "trabajador social", "medico/enfermero", "educador social/terapeuta ocupacional", "auxiliar" ], icon: UsersIcon },
     { href: "/personal", label: "Personal", roles: ["administrador", "superadmin"], icon: StaffIcon },
     { href: "/roles", label: "Roles", roles: ["administrador", "superadmin"], icon: RoleIcon },
-    { href: "#", label: "Organizaciones", roles: ["superadmin", "superadmin"], icon: OrgIcon },
+    { href: "/organizaciones", label: "Organizaciones", roles: ["superadmin", "superadmin"], icon: OrgIcon },
   ];
 
   function HomeIcon() {

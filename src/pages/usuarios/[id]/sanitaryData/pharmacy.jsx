@@ -346,4 +346,4 @@ function Pharmacy () {
     )
 }
 
-export default withAuth(Pharmacy, ['administrador'])
+export default withAuth(Pharmacy, ['superadmin','administrador'])

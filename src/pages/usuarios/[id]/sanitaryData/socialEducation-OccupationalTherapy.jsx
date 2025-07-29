@@ -236,4 +236,4 @@ function SocialEducationOccupationalTherapy () {
     )
 }
 
-export default withAuth(SocialEducationOccupationalTherapy, ['administrador', 'educador social/terapeuta ocupacional'])
+export default withAuth(SocialEducationOccupationalTherapy, ['superadmin','administrador', 'educador social/terapeuta ocupacional'])

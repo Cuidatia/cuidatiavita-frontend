@@ -216,4 +216,4 @@ function NursingMedicine () {
     )
 }
 
-export default withAuth(NursingMedicine, ['administrador', 'medico/enfermero'])
+export default withAuth(NursingMedicine, ['superadmin','administrador', 'medico/enfermero'])

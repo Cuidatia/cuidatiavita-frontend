@@ -39,10 +39,14 @@ function Pacientes() {
     const [loadingExport, setLoadingExport] = useState(false);
     const [paginaActual, setPaginaActual] = useState(1)
     const [totalPacientes, setTotalPacientes] = useState(0)
-    const pacientesPorPagina = 5
+    const pacientesPorPagina = 25
 
     const getPacientes = async (organizacion) => {
-        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPacientes?idOrganizacion='+ organizacion + '&page=' + paginaActual + '&limit=' + pacientesPorPagina, {
+        const isSuperAdmin = session?.user?.roles.split(',').includes('superadmin')
+        const endpoint = isSuperAdmin
+        ? 'getAllPacientes?page=' + paginaActual + '&limit=' + pacientesPorPagina
+        : 'getPacientes?idOrganizacion='+ organizacion + '&page=' + paginaActual + '&limit=' + pacientesPorPagina
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + endpoint, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -185,14 +189,14 @@ function Pacientes() {
                         break;
                     case '3':
                         result = await getInfancia(id, session.user.token);
-                        result_json = {  "¿Qué estudios realizó?": result.childhoodStudies, 
-                                    "¿Dónde realizó sus estudios?": result.childhoodSchool,
+                        result_json = {  "¿Fue usted al colegio? ¿Qué estudios realizó?": result.childhoodStudies, 
+                                    "¿Dónde realizó sus estudios? ¿A qué centro formativo asistió?": result.childhoodSchool,
                                     "¿Qué motivaciones tenía?": result.childhoodMotivations,
-                                    "¿Qué personas formaban su núcleo familiar? ¿Cómo se llevaba con ellos?": result.childhoodFamilyCore,
+                                    "¿Qué personas formaban su núcleo familiar? ¿Qué relación tenía con ellos?": result.childhoodFamilyCore,
                                     "¿Quiénes formaban su grupo de amigos? ¿Cómo se llevaba con ellos?": result.childhoodFriendsGroup,
                                     "¿Quién fue su persona más importante durante esta etapa?": result.childhoodImportantPerson,
-                                    "¿Qué lugares pudo visitar? ¿Dónde ha viajado?": result.childhoodTravels,
-                                    "¿Cuál era su lugar favorito?": result.childhoodFavouritePlace,
+                                    "¿Pudo viajar en esta etapa de vida? ¿Qué lugares visitó?": result.childhoodTravels,
+                                    "¿Cuál era su lugar favorito? ¿Recuerda cómo era?": result.childhoodFavouritePlace,
                                     "¿Qué experiencias positivas tuvo?": result.childhoodPositiveExperiences,
                                     "¿Qué experiencias negativas tuvo?": result.childhoodNegativeExperiences,
                                     "¿Qué responsabilidades tenía durante esta etapa?": result.childhoodResponsabilities,
@@ -204,24 +208,24 @@ function Pacientes() {
                         break;
                     case '4':
                         result = await getJuventud(id, session.user.token);
-                        result_json = {  "¿Qué estudios realizó?": result.youthStudies, 
-                                    "¿Dónde realizó sus estudios?": result.youthSchool,
+                        result_json = {  "¿Qué estudios realizó? ¿Qué le gustaba? ¿Pudo estudiar lo que quería?": result.youthStudies, 
+                                    "¿Dónde realizó sus estudios? ¿A qué centro formativo asistió?": result.youthSchool,
                                     "En esta etapa de vida, ¿Comenzó a trabajar? ¿Dónde trabajaba?": result.youthWorkPlace,
-                                    "Si trabajaba, ¿Qué rol desempeñaba?": result.youthWorkRol,
+                                    "Si trabajaba, ¿Qué rol desempeñaba? ¿Disfrutaba de ese trabajo?": result.youthWorkRol,
                                     "¿Qué personas formaban su núcleo familiar? ¿Cómo se llevaba con ellos?": result.youthFamilyCore,
                                     "¿Quiénes formaban su grupo de amigos? ¿Cómo se llevaba con ellos?": result.youthFriendsGroup,
                                     "¿Quién fue su persona más importante durante esta etapa?": result.youthImportantPerson,
                                     "¿Qué lugares pudo visitar? ¿Dónde ha viajado?": result.youthTravels,
-                                    "¿Cuál era su lugar favorito?": result.youthFavouritePlace,
+                                    "¿Cuál era su lugar favorito? ¿Cómo describiría este lugar?": result.youthFavouritePlace,
                                     "¿Qué rutina seguía en su día a día?": result.youthRoutine,
                                     "¿Qué experiencias positivas tuvo?": result.youthPositiveExperiences,
                                     "¿Qué experiencias negativas tuvo?": result.youthNegativeExperiences,
                                     "¿Qué responsabilidades tenía durante esta etapa?": result.youthResponsabilities,
                                     "¿Dónde vivió? ¿Cómo era el lugar donde vivía?": result.youthAddress,
-                                    "¿Qué gustos tenía en esta etapa de vida?": result.youthLikes,
+                                    "¿Qué gustos tenía en esta etapa de vida? ¿Eran los mismos que tenía en la infancia?": result.youthLikes,
                                     "¿Qué hobbies o aficiones desarrolló?": result.youthHobbies,
                                     "¿Qué le daba miedo o provocaba temor?": result.youthAfraids,
-                                    "¿Tuvo parejas sentimentales o relaciones amorosas durante su juventud?": result.youthSentimentalCouple,
+                                    "¿Tuvo parejas sentimentales o relaciones amorosas? ¿Qué recuerdos tiene de esas personas?": result.youthSentimentalCouple,
                                     "¿Se propuso iniciar algún proyecto?": result.youthProjects,
                                     "¿Acabó algún proyecto que se propuso? ¿Le quedó alguna tarea por completar?": result.youthUncompletedProjects,
                                     "¿Sufrió alguna enfermedad que le marcase durante esta etapa de vida?": result.youthIllness,
@@ -231,23 +235,23 @@ function Pacientes() {
                         break;
                     case '5':
                         result = await getAdultez(id, session.user.token);
-                        result_json = {  "¿Quién es su pareja sentimental o persona íntima de convivencia?": result.adulthoodSentimentalCouple, 
+                        result_json = {  "¿Quién es su pareja sentimental o persona íntima de convivencia? ¿Qué momentos significativos vivieron juntos?": result.adulthoodSentimentalCouple, 
                                     "¿Cuántos hijos tuvo? ¿Cómo se llaman sus hijos?": result.adulthoodChildren,
-                                    "¿Qué estudios realizó?": result.adulthoodStudies,
+                                    "¿Siguió estudiando en esta etapa de vida? Si es así, ¿Qué estudios realizó?": result.adulthoodStudies,
                                     "En esta etapa de vida, ¿Comenzó a trabajar? ¿Dónde trabajaba?": result.adulthoodWorkPlace,
-                                    "Si trabajaba, ¿Qué rol desempeñaba?": result.adulthoodWorkRol,
+                                    "Si trabajaba, ¿En qué consistía su trabajo? ¿Qué rol desempeñaba?": result.adulthoodWorkRol,
                                     "¿Qué personas formaban su núcleo familiar? ¿Cómo se llevaba con ellos?": result.adulthoodFamilyCore,
                                     "¿Quiénes formaban su grupo de amigos? ¿Cómo se llevaba con ellos?": result.adulthoodFriendsGroup,
                                     "¿Qué relaciones mantenía en el entorno laboral? ¿Cómo se llevaba con ellos?": result.adulthoodWorkGroup,
                                     "¿Quién fue su persona más importante durante esta etapa?": result.adulthoodImportantPerson,
                                     "¿Qué lugares pudo visitar? ¿Dónde ha viajado?": result.adulthoodTravels,
-                                    "¿Cuál era su lugar favorito?": result.adulthoodFavouritePlace,
-                                    "¿Qué rutina seguía en su día a día?": result.adulthoodRoutine,
+                                    "¿Cuál era su lugar favorito? ¿Tiene alguna anécdota o vivencia en ese lugar?": result.adulthoodFavouritePlace,
+                                    "¿Qué rutina seguía en su día a día? ¿Cómo organizaba la vida en el hogar?": result.adulthoodRoutine,
                                     "¿Qué experiencias positivas tuvo?": result.adulthoodPositiveExperiences,
                                     "¿Qué experiencias negativas tuvo?": result.adulthoodNegativeExperiences,
                                     "¿Qué responsabilidades tenía durante esta etapa?": result.adulthoodResponsabilities,
                                     "¿Dónde vivió? ¿Cómo era el lugar donde vivía?": result.adulthoodAddress,
-                                    "¿Cómo era su situación económica?": result.adulthoodEconomicSituation,
+                                    "¿Cómo era su situación económica? ¿Cómo compaginaba su vida laboral con su vida familiar?": result.adulthoodEconomicSituation,
                                     "¿Se propuso iniciar algún proyecto?": result.adulthoodProjects,
                                     "¿Acabó algún proyecto que se propuso? ¿Le quedó alguna tarea por completar?": result.adulthoodUncompletedProjects,
                                     "¿Sufrió alguna enfermedad que le marcase durante esta etapa de vida?": result.adulthoodIllness,
@@ -257,15 +261,15 @@ function Pacientes() {
                         break;
                     case '6':
                         result = await getMadurez(id, session.user.token);
-                        result_json = {  "¿Cuántos nietos tuvo? ¿Cómo se llaman sus nietos?": result.maturityGrandchildren, 
-                                    "¿Dónde trabajaba?": result.maturityWorkPlace,
-                                    "¿Qué rol desempeñaba?": result.maturityWorkRol,
+                        result_json = {  "¿Tuvo nietos? Si es así, ¿Cuántos nietos tuvo? ¿Cómo se llaman sus nietos? ¿Puede verlos con frecuencia?": result.maturityGrandchildren, 
+                                    "¿Dónde trabajaba? ¿Disfrutaba de su trabajo?": result.maturityWorkPlace,
+                                    "¿Qué rol desempeñaba? ¿Cambió a lo largo de los años?": result.maturityWorkRol,
                                     "¿Qué personas formaban su núcleo familiar? ¿Cómo se llevaba con ellos?": result.maturityFamilyCore,
                                     "¿Quiénes formaban su grupo de amigos? ¿Cómo se llevaba con ellos?": result.maturityFriendsGroup,
                                     "¿Qué relaciones mantenía en el entorno laboral? ¿Cómo se llevaba con ellos?": result.maturityWorkGroup,
                                     "¿Quién fue su persona más importante durante esta etapa?": result.maturityImportantPerson,
-                                    "¿Qué lugares pudo visitar? ¿Dónde ha viajado?": result.maturityTravels,
-                                    "¿Cuál era su lugar favorito?": result.maturityFavouritePlace,
+                                    "¿Qué lugares pudo visitar? ¿Recuerda alguno con especial cariño?": result.maturityTravels,
+                                    "¿Cuál era su lugar favorito? ¿Ha cambiado respecto a otras etapas?": result.maturityFavouritePlace,
                                     "¿Qué rutina seguía en su día a día?": result.maturityRoutine,
                                     "¿Qué experiencias positivas tuvo?": result.maturityPositiveExperiences,
                                     "¿Qué experiencias negativas tuvo?": result.maturityNegativeExperiences,
@@ -311,7 +315,7 @@ function Pacientes() {
                         result = await getNursingMedicine(id, session.user.token);
                         result_json = {  "¿Qué tal come? ¿Cómo es su situación nutricional?": result.nutritionalSituation, 
                                     "¿Qué tal duerme? ¿Cómo es su calidad de sueño actual?": result.sleepQuality,
-                                    "¿Se ha caído con frecuencia? ¿Cuántas veces ha llegado a caerse?": result.fallRisks,
+                                    "¿Se ha caído con frecuencia? ¿Cuántas veces ha llegado a caerse en el último año?": result.fallRisks,
                                     "¿Tiene necesidades especiales de movilidad dentro o fuera de casa?": result.mobilityNeeds,
                                     "¿Tiene preferencias sanitarias? ¿Qué relación tiene con su médico?": result.healthPreferences
                                 }
@@ -610,4 +614,4 @@ function Pacientes() {
     )
 }
 
-export default withAuth(Pacientes, ['administrador', 'medico/enfermero', 'educador social/terapeuta ocupacional', 'auxiliar', 'trabajador social'])
+export default withAuth(Pacientes, ['superadmin','administrador', 'medico/enfermero', 'educador social/terapeuta ocupacional', 'auxiliar', 'trabajador social'])
