@@ -380,4 +380,4 @@ function CrearPaciente () {
     )
 }
 
-export default withAuth(CrearPaciente, ['superadmin','administrador', 'medico/enfermero', 'educador social/terapeuta ocupacional', 'trabajador social', 'auxiliar'])
+export default withAuth(CrearPaciente, ['administrador', 'medico/enfermero', 'educador social/terapeuta ocupacional', 'trabajador social', 'auxiliar'])

@@ -58,7 +58,9 @@ function Dashboard() {
     }
 
     const getResumenOrganizacion = async () => {
-        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getResumenOrganizacion?org=' + session.user.idOrganizacion, {
+        const isSuperAdmin = session?.user?.roles.split(',').includes('superadmin')
+        const endpoint = 'getResumenOrganizacion?org=' + session.user.idOrganizacion + '&rol=' + isSuperAdmin
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + endpoint, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

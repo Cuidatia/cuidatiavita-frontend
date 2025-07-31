@@ -70,8 +70,11 @@ function Pacientes() {
         if (!nombre) {getPacientes(session?.user?.idOrganizacion)
             return
         }
-
-        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'searchPaciente?nombre=' + nombre + '&idOrganizacion=' + session?.user?.idOrganizacion, {
+        const isSuperAdmin = session?.user?.roles.split(',').includes('superadmin')
+        const endpoint = isSuperAdmin
+        ? 'searchPaciente?nombre=' + nombre
+        : 'searchPaciente?nombre=' + nombre + '&idOrganizacion=' + session?.user?.idOrganizacion
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + endpoint, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -202,7 +205,8 @@ function Pacientes() {
                                     "¿Qué responsabilidades tenía durante esta etapa?": result.childhoodResponsabilities,
                                     "¿Dónde vivió? ¿Cómo era el lugar donde vivía?": result.childhoodAddress,
                                     "¿Qué gustos tenía en esta etapa de vida?": result.childhoodLikes,
-                                    "¿Qué le daba miedo o provocaba temor?": result.childhoodAfraids
+                                    "¿Qué le daba miedo o provocaba temor?": result.childhoodAfraids,
+                                    "¿Cantaba alguna canción en su infancia? ¿Recuerda cómo era?": result.childhoodMusic
                                 }
                         dataRecolectada["Infancia"] = result_json;
                         break;
@@ -229,7 +233,8 @@ function Pacientes() {
                                     "¿Se propuso iniciar algún proyecto?": result.youthProjects,
                                     "¿Acabó algún proyecto que se propuso? ¿Le quedó alguna tarea por completar?": result.youthUncompletedProjects,
                                     "¿Sufrió alguna enfermedad que le marcase durante esta etapa de vida?": result.youthIllness,
-                                    "¿Sufrió alguna crisis emocional que le marcase durante esta etapa de vida?": result.youthPersonalCrisis
+                                    "¿Sufrió alguna crisis emocional que le marcase durante esta etapa de vida?": result.youthPersonalCrisis,
+                                    "¿Qué tipo de música escuchaba?": result.youthMusic
                                 }
                         dataRecolectada["Juventud"] = result_json;
                         break;
@@ -255,7 +260,8 @@ function Pacientes() {
                                     "¿Se propuso iniciar algún proyecto?": result.adulthoodProjects,
                                     "¿Acabó algún proyecto que se propuso? ¿Le quedó alguna tarea por completar?": result.adulthoodUncompletedProjects,
                                     "¿Sufrió alguna enfermedad que le marcase durante esta etapa de vida?": result.adulthoodIllness,
-                                    "¿Sufrió alguna crisis emocional que le marcase durante esta etapa de vida?": result.adulthoodPersonalCrisis
+                                    "¿Sufrió alguna crisis emocional que le marcase durante esta etapa de vida?": result.adulthoodPersonalCrisis,
+                                    "¿Qué música sonaba en esta etapa de su vida? ¿Recuerda alguna canción?": result.adulthoodMusic
                                 }
                         dataRecolectada["Edad adulta"] = result_json;
                         break;
@@ -279,7 +285,8 @@ function Pacientes() {
                                     "¿Se propuso iniciar algún proyecto?": result.maturityProjects,
                                     "¿Acabó algún proyecto que se propuso? ¿Le quedó alguna tarea por completar?": result.maturityUncompletedProjects,
                                     "¿Sufrió alguna enfermedad que le marcase durante esta etapa de vida?": result.maturityIllness,
-                                    "¿Sufrió alguna crisis emocional que le marcase durante esta etapa de vida?": result.maturityPersonalCrisis
+                                    "¿Sufrió alguna crisis emocional que le marcase durante esta etapa de vida?": result.maturityPersonalCrisis,
+                                    "¿Cuáles son sus canciones favoritas?": result.maturityMusic
                                 }
                         dataRecolectada["Madurez"] = result_json;
                         break;
@@ -453,6 +460,7 @@ function Pacientes() {
                 <div className="flex flex-col px-8">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl font-semibold text-gray-800">Usuarios</h2>
+                    {!session?.user?.roles.split(',').includes('superadmin') && (
                     <button
                     onClick={() => router.push("usuarios/create")}
                     className="cursor-pointer flex items-center gap-1 text-sm text-gray-600 hover:text-green-500 transition"
@@ -466,6 +474,7 @@ function Pacientes() {
                         />
                     </svg>
                     </button>
+                    )}
                 </div>
 
                 <div className="py-4">

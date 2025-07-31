@@ -30,6 +30,7 @@ function Childhood () {
         childhoodAddress: "",
         childhoodLikes: "",
         childhoodAfraids: "",
+        childhoodMusic: "",
     })
 
     const [saveData, setSaveData] = useState(false)
@@ -306,6 +307,19 @@ function Childhood () {
                     <input type="textarea" name="childhoodAfraids" id="childhoodAfraids" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                         value={pacienteInfancia.childhoodAfraids}
+                        onChange={(e) => {
+                            setIsFormDirty(true);
+                            setPacienteInfancia({
+                            ...pacienteInfancia,
+                            [e.target.name]:e.target.value
+                        })}}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="childhoodMusic" className="block mb-2 text-sm font-medium text-gray-900">¿Cantaba alguna canción en su infancia? ¿Recuerda cómo era?</label>
+                    <input type="textarea" name="childhoodMusic" id="childhoodMusic" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                        value={pacienteInfancia.childhoodMusic}
                         onChange={(e) => {
                             setIsFormDirty(true);
                             setPacienteInfancia({

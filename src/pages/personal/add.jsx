@@ -160,4 +160,4 @@ function AddUsuario () {
     )
 }
 
-export default withAuth(AddUsuario, ['superadmin','administrador'])
+export default withAuth(AddUsuario, ['administrador'])

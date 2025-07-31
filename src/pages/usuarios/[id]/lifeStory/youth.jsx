@@ -38,7 +38,8 @@ function Youth () {
         youthProjects: '',
         youthUncompletedProjects: '',
         youthIllness: '',
-        youthPersonalCrisis: ''
+        youthPersonalCrisis: '',
+        youthMusic: ''
     })
 
     const [saveData, setSaveData] = useState(false)
@@ -422,6 +423,19 @@ function Youth () {
                     <input type="textarea" name="youthPersonalCrisis" id="youthPersonalCrisis" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteJuventud?.youthPersonalCrisis}
+                            onChange={(e)=>{
+                                setIsFormDirty(true);
+                                setPacienteJuventud({
+                                ...pacienteJuventud,
+                                [e.target.name]: e.target.value
+                            })}}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="youthMusic" className="block mb-2 text-sm font-medium text-gray-900">¿Qué tipo de música escuchaba?</label>
+                    <input type="textarea" name="youthMusic" id="youthMusic" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                            disabled={!modificar}
+                            value={pacienteJuventud?.youthMusic}
                             onChange={(e)=>{
                                 setIsFormDirty(true);
                                 setPacienteJuventud({

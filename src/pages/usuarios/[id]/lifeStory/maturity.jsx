@@ -36,6 +36,7 @@ function Maturity () {
         maturityUncompletedProjects: "",
         maturityIllness: "",
         maturityPersonalCrisis: "",
+        maturityMusic: "",
     })
 
     const [saveData, setSaveData] = useState(false)
@@ -376,6 +377,19 @@ function Maturity () {
                     <input type="textarea" name="maturityPersonalCrisis" id="maturityPersonalCrisis" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteMadurez?.maturityPersonalCrisis}
+                            onChange={(e)=> {
+                                setIsFormDirty(true);
+                                setPacienteMadurez({
+                                ...pacienteMadurez,
+                                [e.target.name]: e.target.value
+                            })}}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="maturityMusic" className="block mb-2 text-sm font-medium text-gray-900">¿Cuáles son sus canciones favoritas?</label>
+                    <input type="textarea" name="maturityMusic" id="maturityMusic" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                            disabled={!modificar}
+                            value={pacienteMadurez?.maturityMusic}
                             onChange={(e)=> {
                                 setIsFormDirty(true);
                                 setPacienteMadurez({

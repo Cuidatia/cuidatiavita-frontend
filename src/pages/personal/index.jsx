@@ -59,8 +59,11 @@ function Usuarios () {
         if (!nombre) {getUsuarios(session?.user?.idOrganizacion)
             return
         }
-
-        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'searchUsuario?nombre=' + nombre + '&idOrganizacion=' + session?.user?.idOrganizacion, {
+        const isSuperAdmin = session?.user?.roles.split(',').includes('superadmin')
+        const endpoint = isSuperAdmin
+        ? 'searchUsuario?nombre=' + nombre
+        : 'searchUsuario?nombre=' + nombre + '&idOrganizacion=' + session?.user?.idOrganizacion
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + endpoint, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -145,6 +148,7 @@ function Usuarios () {
                 <div className="px-8">
                     <div className="flex items-center justify-between mb-6">
                         <h2 className="text-2xl font-semibold text-gray-800">Personal</h2>
+                        {!session?.user?.roles.split(',').includes('superadmin') && (
                         <button
                             className="cursor-pointer flex items-center gap-1 text-sm text-gray-600 hover:text-green-500 transition"
                             onClick={() => router.push("personal/add")}
@@ -158,6 +162,7 @@ function Usuarios () {
                                 />
                             </svg>
                         </button>
+                        )}
                     </div>
 
                     {usuarios.length > 0 ? (

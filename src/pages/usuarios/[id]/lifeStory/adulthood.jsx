@@ -36,7 +36,8 @@ function Adulthood () {
         adulthoodProjects: '',
         adulthoodUncompletedProjects: '',
         adulthoodIllness: '',
-        adulthoodPersonalCrisis: ''
+        adulthoodPersonalCrisis: '',
+        adulthoodMusic: ''
     })
 
     const [saveData, setSaveData] = useState(false)
@@ -400,6 +401,19 @@ function Adulthood () {
                     <input type="textarea" name="adulthoodPersonalCrisis" id="adulthoodPersonalCrisis" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                             disabled={!modificar}
                             value={pacienteAdultez.adulthoodPersonalCrisis}
+                            onChange={(e) => {
+                                setIsFormDirty(true);
+                                setPacienteAdultez({
+                                ...pacienteAdultez,
+                                [e.target.name]:e.target.value
+                            })}}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="adulthoodMusic" className="block mb-2 text-sm font-medium text-gray-900">¿Qué música sonaba en esta etapa de su vida? ¿Recuerda alguna canción?</label>
+                    <input type="textarea" name="adulthoodMusic" id="adulthoodMusic" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                            disabled={!modificar}
+                            value={pacienteAdultez.adulthoodMusic}
                             onChange={(e) => {
                                 setIsFormDirty(true);
                                 setPacienteAdultez({
