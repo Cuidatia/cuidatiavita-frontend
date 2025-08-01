@@ -135,7 +135,7 @@ function Childhood () {
             <div className="py-4 space-y-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div>
                     <label htmlFor="childhoodStudies" className="block mb-2 text-sm font-medium text-gray-900">¿Fue usted al colegio? ¿Qué estudios realizó?</label>
-                    <input type="text" name="childhoodStudies" id="childhoodStudies" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <textarea name="childhoodStudies" id="childhoodStudies" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia.childhoodStudies}
                          onChange={(e) => {
@@ -148,7 +148,7 @@ function Childhood () {
                 </div>
                 <div>
                     <label htmlFor="childhoodSchool" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde realizó sus estudios? ¿A qué centro formativo asistió?</label>
-                    <input type="text" name="childhoodSchool" id="childhoodSchool" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <textarea name="childhoodSchool" id="childhoodSchool" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia.childhoodSchool}
                          onChange={(e) => {
@@ -161,7 +161,7 @@ function Childhood () {
                 </div>
                 <div>
                     <label htmlFor="childhoodMotivations" className="block mb-2 text-sm font-medium text-gray-900">¿Qué motivaciones tenía?</label>
-                    <input type="textarea" name="childhoodMotivations" id="childhoodMotivations" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <textarea name="childhoodMotivations" id="childhoodMotivations" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia.childhoodMotivations}
                          onChange={(e) => {
@@ -174,7 +174,7 @@ function Childhood () {
                 </div>
                 <div>
                     <label htmlFor="childhoodFamilyCore" className="block mb-2 text-sm font-medium text-gray-900">¿Qué personas formaban su núcleo familiar? ¿Qué relación tenía con ellos?</label>
-                    <input type="textarea" name="childhoodFamilyCore" id="childhoodFamilyCore" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <textarea name="childhoodFamilyCore" id="childhoodFamilyCore" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia.childhoodFamilyCore}
                          onChange={(e) => {
@@ -187,7 +187,7 @@ function Childhood () {
                 </div>
                 <div>
                     <label htmlFor="childhoodFriendsGroup" className="block mb-2 text-sm font-medium text-gray-900">¿Quiénes formaban su grupo de amigos? ¿Cómo se llevaba con ellos?</label>
-                    <input type="textarea" name="childhoodFriendsGroup" id="childhoodFriendsGroup" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <textarea name="childhoodFriendsGroup" id="childhoodFriendsGroup" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia.childhoodFriendsGroup}
                          onChange={(e) => {
@@ -200,7 +200,7 @@ function Childhood () {
                 </div>
                 <div>
                     <label htmlFor="childhoodImportantPerson" className="block mb-2 text-sm font-medium text-gray-900">¿Quién fue su persona más importante durante esta etapa?</label>
-                    <input type="textarea" name="childhoodImportantPerson" id="childhoodImportantPerson" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <textarea name="childhoodImportantPerson" id="childhoodImportantPerson" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia.childhoodImportantPerson}
                          onChange={(e) => {
@@ -213,7 +213,7 @@ function Childhood () {
                 </div>
                 <div>
                     <label htmlFor="childhoodTravels" className="block mb-2 text-sm font-medium text-gray-900">¿Pudo viajar en esta etapa de vida? ¿Qué lugares visitó?</label>
-                    <input type="textarea" name="childhoodTravels" id="childhoodTravels" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <textarea name="childhoodTravels" id="childhoodTravels" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia.childhoodTravels}
                          onChange={(e) => {
@@ -226,7 +226,7 @@ function Childhood () {
                 </div>
                 <div>
                     <label htmlFor="childhoodFavouritePlace" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál era su lugar favorito? ¿Recuerda cómo era?</label>
-                    <input type="text" name="childhoodFavouritePlace" id="childhoodFavouritePlace" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <textarea name="childhoodFavouritePlace" id="childhoodFavouritePlace" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                         value={pacienteInfancia.childhoodFavouritePlace}
                         onChange={(e) => {
@@ -239,7 +239,7 @@ function Childhood () {
                 </div>
                 <div>
                     <label htmlFor="childhoodPositiveExperiences" className="block mb-2 text-sm font-medium text-gray-900">¿Qué experiencias positivas tuvo?</label>
-                    <input type="textarea" name="childhoodPositiveExperiences" id="childhoodPositiveExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <textarea name="childhoodPositiveExperiences" id="childhoodPositiveExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                         value={pacienteInfancia.childhoodPositiveExperiences}
                         onChange={(e) => {
@@ -252,7 +252,7 @@ function Childhood () {
                 </div>
                 <div>
                     <label htmlFor="childhoodNegativeExperiences" className="block mb-2 text-sm font-medium text-gray-900">¿Qué experiencias negativas tuvo?</label>
-                    <input type="textarea" name="childhoodNegativeExperiences" id="childhoodNegativeExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <textarea name="childhoodNegativeExperiences" id="childhoodNegativeExperiences" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                         value={pacienteInfancia.childhoodNegativeExperiences}
                         onChange={(e) => {
@@ -265,7 +265,7 @@ function Childhood () {
                 </div>
                 <div>
                     <label htmlFor="childhoodResponsabilities" className="block mb-2 text-sm font-medium text-gray-900">¿Qué responsabilidades tenía durante esta etapa?</label>
-                    <input type="textarea" name="childhoodResponsabilities" id="childhoodResponsabilities" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <textarea name="childhoodResponsabilities" id="childhoodResponsabilities" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteInfancia.childhoodResponsabilities}
                          onChange={(e) => {
@@ -278,7 +278,7 @@ function Childhood () {
                 </div>
                 <div>
                     <label htmlFor="childhoodAddress" className="block mb-2 text-sm font-medium text-gray-900">¿Dónde vivió? ¿Cómo era el lugar donde vivía?</label>
-                    <input type="textarea" name="childhoodAddress" id="childhoodAddress" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <textarea name="childhoodAddress" id="childhoodAddress" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                         value={pacienteInfancia.childhoodAddress}
                         onChange={(e) => {
@@ -291,7 +291,7 @@ function Childhood () {
                 </div>
                 <div>
                     <label htmlFor="childhoodLikes" className="block mb-2 text-sm font-medium text-gray-900">¿Qué gustos tenía en esta etapa de vida?</label>
-                    <input type="textarea" name="childhoodLikes" id="childhoodLikes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <textarea name="childhoodLikes" id="childhoodLikes" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                         value={pacienteInfancia.childhoodLikes}
                         onChange={(e) => {
@@ -304,7 +304,7 @@ function Childhood () {
                 </div>
                 <div>
                     <label htmlFor="childhoodAfraids" className="block mb-2 text-sm font-medium text-gray-900">¿Qué le daba miedo o provocaba temor?</label>
-                    <input type="textarea" name="childhoodAfraids" id="childhoodAfraids" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <textarea name="childhoodAfraids" id="childhoodAfraids" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                         value={pacienteInfancia.childhoodAfraids}
                         onChange={(e) => {
@@ -317,7 +317,7 @@ function Childhood () {
                 </div>
                 <div>
                     <label htmlFor="childhoodMusic" className="block mb-2 text-sm font-medium text-gray-900">¿Cantaba alguna canción en su infancia? ¿Recuerda cómo era?</label>
-                    <input type="textarea" name="childhoodMusic" id="childhoodMusic" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                    <textarea name="childhoodMusic" id="childhoodMusic" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                         value={pacienteInfancia.childhoodMusic}
                         onChange={(e) => {
