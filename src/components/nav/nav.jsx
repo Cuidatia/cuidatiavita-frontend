@@ -14,11 +14,14 @@ useEffect(() => {
   if (status === 'authenticated') {pathSegments.forEach((segment, index) => {
       const isUserId = pathSegments[index - 1] === 'usuarios'
       const isPersonalId = pathSegments[index - 1] === 'personal'
+      const isOrganizacionId = pathSegments[index-1] === 'organizaciones'
 
-      if (/^\d+$/.test(segment) && !nameMap[segment] && (isUserId || isPersonalId)) {
+      if (/^\d+$/.test(segment) && !nameMap[segment] && (isUserId || isPersonalId || isOrganizacionId)) {
         const url = isUserId
           ? process.env.NEXT_PUBLIC_API_URL+'getPacienteName?id='+segment
-          : process.env.NEXT_PUBLIC_API_URL+'getPersonalName?id='+segment
+          : isPersonalId
+            ? process.env.NEXT_PUBLIC_API_URL+'getPersonalName?id='+segment
+            : process.env.NEXT_PUBLIC_API_URL+'getOrganizacionName?id='+segment
 
         fetch(url, {
           method: 'GET',
@@ -31,7 +34,9 @@ useEffect(() => {
           .then(data => {
             const nombre = isUserId
               ? data.pacienteNombreCompleto?.name || data.pacienteNombreCompleto
-              : data.personalNombreCompleto?.nombre || data.personalNombreCompleto
+              : isPersonalId
+                ? data.personalNombreCompleto?.nombre || data.personalNombreCompleto
+                : data.organizacionNombreCompleto?.nombre || data.organizacionNombreCompleto
 
             if (nombre) {
               setNameMap(prev => ({ ...prev, [segment]: nombre }))

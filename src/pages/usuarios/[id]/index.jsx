@@ -114,7 +114,7 @@ function PerfilPaciente () {
                         title={'Datos Personales'}
                         link={`/usuarios/${mostrarPaciente.id}/personalData`}
                     />
-                    {session?.user?.roles.split(',').includes('superadmin') || session?.user?.roles.split(',').includes('administrador') && (
+                    {(session?.user?.roles.split(',').includes('administrador') || session?.user?.roles.split(',').includes('superadmin')) && (
                         <Card
                             color={"linear-gradient(to right, #70dcff 0%, #a4e9ff 100%)"}
                             icon={"personality"}
@@ -164,7 +164,7 @@ function PerfilPaciente () {
                 <label htmlFor="personal" className="block mb-2 text-sm font-medium text-gray-900"><strong>Personal de referencia</strong> asignados:</label>
                 <div id="personal" className="block p-2.5 w-full text-sm max-h-fit text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">
                     {
-                        personalReferencia && personalReferencia.filter(persona => persona.roles?.includes('medico/enfermero','trabajador social','educador social/terapeuta ocupacional')).length > 0 ? 
+                        personalReferencia && personalReferencia.filter(persona => persona.roles?.split(',').includes('medico/enfermero','trabajador social','educador social/terapeuta ocupacional')).length > 0 ? 
                         personalReferencia.filter(persona => persona.roles !== 'auxiliar' && persona.roles !== 'familiar').map((persona, index) => (
                             <p>{persona.nombre}</p>
                         ))
@@ -176,7 +176,7 @@ function PerfilPaciente () {
                 <label htmlFor="personal" className="block mb-2 text-sm font-medium text-gray-900"><strong>Cuidadores</strong> asignados:</label>
                 <div id="personal" className="block p-2.5 w-full text-sm max-h-fit text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">
                     {
-                        personalReferencia && personalReferencia.filter(persona => persona.roles?.includes('auxiliar')).length > 0 ? 
+                        personalReferencia && personalReferencia.filter(persona => persona.roles?.split(',').includes('auxiliar')).length > 0 ? 
                         personalReferencia.filter(persona => persona.roles === 'auxiliar').map((persona, index) => (
                             <p>{persona.nombre}</p>
                         ))
@@ -188,7 +188,7 @@ function PerfilPaciente () {
                 <label htmlFor="personal" className="block mb-2 text-sm font-medium text-gray-900"><strong>Familiares</strong> asignados:</label>
                 <div id="personal" className="block p-2.5 w-full text-sm max-h-fit text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">
                     {
-                        personalReferencia && personalReferencia.filter(persona => persona.roles?.includes('familiar')).length > 0 ? 
+                        personalReferencia && personalReferencia.filter(persona => persona.roles?.split(',').includes('familiar')).length > 0 ? 
                         personalReferencia.filter(persona => persona.roles === 'familiar').map((persona, index) => (
                             <p>{persona.nombre}</p>
                         ))
