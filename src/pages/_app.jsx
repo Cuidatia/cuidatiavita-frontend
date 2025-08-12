@@ -16,7 +16,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
             console.error("Error cargando Clarity:", err);
         });
     } else {
-        console.log("Clarity l no se carga (no es producción o no está en navegador)");
+        console.log("Clarity no se carga (no es producción o no está en navegador)");
     }*/
     }, []);
 
