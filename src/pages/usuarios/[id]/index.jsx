@@ -156,6 +156,12 @@ function PerfilPaciente () {
                         title={'Datos Sanitarios'}
                         link={`/usuarios/${mostrarPaciente.id}/sanitaryData`}
                         />
+                        <Card
+                        color={"linear-gradient(to left, #f883daff 30%, #f666baff 80%)"}
+                        icon={"medico"}
+                        title={'Datos IoT'}
+                        link={`/usuarios/${mostrarPaciente.id}/IoTLogin?idPaciente=${mostrarPaciente.id}`}
+                        />
                     </div>
                     </div>
                 )}
