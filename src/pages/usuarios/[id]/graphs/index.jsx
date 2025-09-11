@@ -15,24 +15,44 @@ const DateFilter = ({ startDate, endDate, onDateChange }) => {
 
     async function fetchHealthData() {
       try {
-        // 1️⃣ Traemos datos de pasos
         const stepsData = await hg.fetchData(hg.endpoints.steps);
         const stepsProcessed = hg.prepareDatasetForLSTM("steps", stepsData);
         
-        // 2️⃣ Traemos datos de frecuencia cardíaca
         const heartRateData = await hg.fetchData(hg.endpoints.heartRate);
         const heartRateProcessed = hg.prepareDatasetForLSTM("heartRate", heartRateData);
 
-        // 3️⃣ Traemos datos de oxígeno
         const oxyData = await hg.fetchData(hg.endpoints.oxygenSaturation);
         const oxyProcessed = hg.prepareDatasetForLSTM("oxygenSaturation", oxyData);
 
-        // 4️⃣ Guardamos en el estado lo último
-        setHealthData({
-          steps: stepsProcessed?.values.at(-1) || "N/A",
-          heartRate: heartRateProcessed?.values.at(-1) || "N/A",
-          oxygenSaturation: oxyProcessed?.values.at(-1) || "N/A",
-        });
+        const sleepData = await hg.fetchData(hg.endpoints.sleepSession);
+        const sleepProcessed = hg.prepareDatasetForLSTM("sleepSession", sleepData);
+
+        const bmrData = await hg.fetchData(hg.endpoints.basalMetabolicRate);
+        const bmrProcessed = hg.prepareDatasetForLSTM("basalMetabolicRate", bmrData);
+
+        const bodyFatData = await hg.fetchData(hg.endpoints.bodyFat);
+        const bodyFatProcessed = hg.prepareDatasetForLSTM("bodyFat", bodyFatData);
+
+        const boneMassData = await hg.fetchData(hg.endpoints.boneMass);
+        const boneMassProcessed = hg.prepareDatasetForLSTM("boneMass", boneMassData);
+
+        const leanMassData = await hg.fetchData(hg.endpoints.leanBodyMass);
+        const leanMassProcessed = hg.prepareDatasetForLSTM("leanBodyMass", leanMassData);
+
+        const weightData = await hg.fetchData(hg.endpoints.weight);
+        const weightProcessed = hg.prepareDatasetForLSTM("weight", weightData);
+
+      setHealthData({
+        steps: stepsProcessed?.values.at(-1) || "N/A",
+        heartRate: heartRateProcessed?.values.at(-1) || "N/A",
+        oxygenSaturation: oxyProcessed?.values.at(-1) || "N/A",
+        sleepSession: sleepProcessed?.values.at(-1) || "N/A",
+        basalMetabolicRate: bmrProcessed?.values.at(-1) || "N/A",
+        bodyFat: bodyFatProcessed?.values.at(-1) || "N/A",
+        boneMass: boneMassProcessed?.values.at(-1) || "N/A",
+        leanBodyMass: leanMassProcessed?.values.at(-1) || "N/A",
+        weight: weightProcessed?.values.at(-1) || "N/A",
+      });
 
       } catch (err) {
         console.error("Error cargando datos de salud", err);
@@ -124,6 +144,12 @@ const DateFilter = ({ startDate, endDate, onDateChange }) => {
         - Pasos: ${healthData.steps || "N/A"}
         - Frecuencia cardíaca: ${healthData.heartRate || "N/A"} bpm
         - Saturación O₂: ${healthData.oxygenSaturation || "N/A"} %
+        - Sueño: ${healthData.sleepSession || "N/A"} h
+        - Metabolismo basal: ${healthData.basalMetabolicRate || "N/A"} kcal/día
+        - Grasa corporal: ${healthData.bodyFat || "N/A"} %
+        - Masa ósea: ${healthData.boneMass || "N/A"} kg
+        - Masa magra: ${healthData.leanBodyMass || "N/A"} kg
+        - Peso: ${healthData.weight || "N/A"} kg
             `;
 
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/sendTelegram", {
