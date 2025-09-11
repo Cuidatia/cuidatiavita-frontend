@@ -13,20 +13,34 @@ const DateFilter = ({ startDate, endDate, onDateChange }) => {
   useEffect(() => {
     const hg = new HealthGraphs(token);
 
-    // Simulación: supón que tienes un método que carga datos desde el backend
-    async function fetchData() {
-      // Aquí deberías llamar a tus endpoints /api/health-data/*
-      // y actualizar `hg.currentData`. Ejemplo mock:
-      hg.currentData = {
-        steps: 8200,
-        heartRate: 72,
-        oxygenSaturation: 98,
-      };
-      setHealthData(hg.currentData);
+    async function fetchHealthData() {
+      try {
+        // 1️⃣ Traemos datos de pasos
+        const stepsData = await hg.fetchData(hg.endpoints.steps);
+        const stepsProcessed = hg.prepareDatasetForLSTM("steps", stepsData);
+        
+        // 2️⃣ Traemos datos de frecuencia cardíaca
+        const heartRateData = await hg.fetchData(hg.endpoints.heartRate);
+        const heartRateProcessed = hg.prepareDatasetForLSTM("heartRate", heartRateData);
+
+        // 3️⃣ Traemos datos de oxígeno
+        const oxyData = await hg.fetchData(hg.endpoints.oxygenSaturation);
+        const oxyProcessed = hg.prepareDatasetForLSTM("oxygenSaturation", oxyData);
+
+        // 4️⃣ Guardamos en el estado lo último
+        setHealthData({
+          steps: stepsProcessed?.values.at(-1) || "N/A",
+          heartRate: heartRateProcessed?.values.at(-1) || "N/A",
+          oxygenSaturation: oxyProcessed?.values.at(-1) || "N/A",
+        });
+
+      } catch (err) {
+        console.error("Error cargando datos de salud", err);
+      }
     }
 
-    fetchData();
-    }, [token]);
+    fetchHealthData();
+  }, [token, startDate, endDate]);
 
     const handleEndDateChange = (e) => {
         onDateChange(startDate, e.target.value);
@@ -107,9 +121,9 @@ const DateFilter = ({ startDate, endDate, onDateChange }) => {
   try {
         const message = `
         📊 Datos de salud:
-- Pasos: ${healthData.steps || "N/A"}
-- Frecuencia cardíaca: ${healthData.heartRate || "N/A"} bpm
-- Saturación O₂: ${healthData.oxygenSaturation || "N/A"} %
+        - Pasos: ${healthData.steps || "N/A"}
+        - Frecuencia cardíaca: ${healthData.heartRate || "N/A"} bpm
+        - Saturación O₂: ${healthData.oxygenSaturation || "N/A"} %
             `;
 
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/sendTelegram", {
