@@ -60,12 +60,6 @@ export default function Login(){
                     
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between px-2 gap-2">
                         <div className="flex items-start">
-                            <div className="flex items-center h-5">
-                                <input id="remember" aria-describedby="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50"/>
-                            </div>
-                            <div className="ml-3 text-sm">
-                                <label for="remember" className="text-gray-800">Recuérdame</label>
-                            </div>
                         </div>
                         <a href="/recuperacion-contrasena" className="text-sm font-medium text-blue-800 hover:underline"> ¿Ha olvidado la contraseña?</a>
                     </div>

@@ -22,6 +22,7 @@ function ContactData () {
         contactAddress: '',
         contactEmail: '',
         contactTelecom: '',
+        contactTelegram: '',
         curatela: '',
         deFactoGuardian: ''
     })
@@ -196,6 +197,19 @@ function ContactData () {
                     <input type="text" name="contactTelecom" id="contactTelecom" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteDatosContacto.contactTelecom}
+                         onChange={(e)=> {
+                            setIsFormDirty(true);
+                            setPacienteDatosContacto({
+                            ...pacienteDatosContacto,
+                            [e.target.name]:e.target.value
+                        })}}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="contactTelegram" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál es su número de teléfono?</label>
+                    <input type="text" name="contactTelegram" id="contactTelegram" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                         disabled={!modificar}
+                         value={pacienteDatosContacto.contactTelegram}
                          onChange={(e)=> {
                             setIsFormDirty(true);
                             setPacienteDatosContacto({

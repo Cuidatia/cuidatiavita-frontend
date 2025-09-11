@@ -26,6 +26,8 @@ export default function login() {
       const data = await res.json();
       if (res.ok && data.token) {
         // Guarda el token en localStorage o en cookies según tu preferencia
+        localStorage.setItem('userEmail', username);
+        localStorage.setItem('idPaciente', idPaciente);
         localStorage.setItem('token', data.token);
         // Redirige o muestra mensaje de éxito
         router.push(`/usuarios/${idPaciente}/graphs`);

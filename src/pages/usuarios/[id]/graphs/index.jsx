@@ -1,7 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import Chart from 'chart.js/auto';
 
 const DateFilter = ({ startDate, endDate, onDateChange }) => {
+    const [email, setEmail] = useState("");
+    const token = localStorage.getItem("token");
+    const idPaciente = localStorage.getItem("idPaciente");
     const handleStartDateChange = (e) => {
         onDateChange(e.target.value, endDate);
     };
@@ -45,6 +48,61 @@ const DateFilter = ({ startDate, endDate, onDateChange }) => {
         );
     };
 
+  useEffect(() => {
+    const userEmail = localStorage.getItem("userEmail");
+    if (userEmail) {
+      setEmail(userEmail);
+    }
+  }, []);
+
+  const handleSendEmail = async () => {
+    if (!email) {
+      alert("No se encontró el correo del usuario");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/api/sendEmail", {
+        method: "POST",
+        headers: { "Content-Type": "application/json"},
+        body: JSON.stringify({
+          to: email,
+          subject: "Consulta desde la app",
+          text: "Hola, este es un correo enviado desde la aplicación.",
+        }),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        alert("Correo enviado con éxito");
+      } else {
+        alert("Error al enviar correo: " + result.error);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("No se pudo enviar el correo");
+    }
+  };
+
+    const handleSendTelegram = async () => {
+    try {
+        const response = await fetch("http://localhost:5000/api/sendTelegram", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+            idPaciente: idPaciente,
+            text: "Hola, este es un mensaje desde la app."
+        }),
+        });
+        const result = await response.json();
+        if (response.ok) alert("Mensaje enviado correctamente");
+        else alert("Error: " + result.error);
+    } catch (err) {
+        console.error(err);
+        alert("No se pudo enviar el mensaje");
+    }
+    };
+
     return (
         <div className="date-filter">
             <div className="date-filter-controls">
@@ -74,6 +132,8 @@ const DateFilter = ({ startDate, endDate, onDateChange }) => {
                     <button onClick={() => handlePresetChange('last90days')}>Últimos 90 días</button>
                     <button onClick={() => handlePresetChange('last6months')}>Últimos 6 meses</button>
                     <button onClick={() => handlePresetChange('lastyear')}>Último año</button>
+                    {/*<button onClick={handleSendEmail}>Enviar correo</button>*/}
+                    <button onClick={handleSendTelegram}>Enviar Telegram</button>
                 </div>
             </div>
         </div>
