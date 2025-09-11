@@ -206,7 +206,11 @@ function ContactData () {
                     />
                 </div>
                 <div>
-                    <label htmlFor="contactTelegram" className="block mb-2 text-sm font-medium text-gray-900">¿Cuál es su número de teléfono?</label>
+                    <label htmlFor="contactTelegram" className="block mb-2 text-sm font-medium text-gray-900"><p>
+                        ¿Cuál es su id de Telegram? (Para obtenerlo debe iniciar una conversación con el CuidatiaVita Bot)
+                        <br />
+                        Pase el enlace de CuidatiaVita Bot a la persona de contacto del usuario -{'>'} https://t.me/CuidatiaVitaBot
+                        </p></label>
                     <input type="text" name="contactTelegram" id="contactTelegram" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                          disabled={!modificar}
                          value={pacienteDatosContacto.contactTelegram}

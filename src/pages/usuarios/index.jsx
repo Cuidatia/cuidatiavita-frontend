@@ -359,8 +359,7 @@ function Pacientes() {
                         dataRecolectada["Cocina/higiene"] = result_json;
                         break;
                     case '13':
-                        // Si hay una función específica para "Otros", llámala aquí
-                        dataRecolectada["Otros"] = "No implementado"; // Ajusta si tienes función real
+                        dataRecolectada["Otros"] = "No implementado";
                         break;
                     case '14':
                         result = await getContactData(id, session.user.token);
@@ -370,6 +369,7 @@ function Pacientes() {
                                     "¿Dónde reside esa persona?": result.contactAddress,
                                     "¿Cuál es su correo electrónico?": result.contactEmail,
                                     "¿Cuál es su número de teléfono?": result.contactTelecom,
+                                    "¿Cuál es su id de Telegram?": result.contactTelegram,
                                     "¿Cuenta con curatela actualmente?": result.curatela,
                                     "¿Tiene alguna persona que le apoye habitualmente para tomar decisiones o cuidarla?": result.deFactoGuardian
                                 }

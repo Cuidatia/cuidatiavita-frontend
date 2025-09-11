@@ -4,10 +4,29 @@ import Chart from 'chart.js/auto';
 const DateFilter = ({ startDate, endDate, onDateChange }) => {
     const [email, setEmail] = useState("");
     const token = localStorage.getItem("token");
+    const [healthData, setHealthData] = useState({});
     const idPaciente = localStorage.getItem("idPaciente");
     const handleStartDateChange = (e) => {
         onDateChange(e.target.value, endDate);
     };
+
+  useEffect(() => {
+    const hg = new HealthGraphs(token);
+
+    // Simulación: supón que tienes un método que carga datos desde el backend
+    async function fetchData() {
+      // Aquí deberías llamar a tus endpoints /api/health-data/*
+      // y actualizar `hg.currentData`. Ejemplo mock:
+      hg.currentData = {
+        steps: 8200,
+        heartRate: 72,
+        oxygenSaturation: 98,
+      };
+      setHealthData(hg.currentData);
+    }
+
+    fetchData();
+    }, [token]);
 
     const handleEndDateChange = (e) => {
         onDateChange(startDate, e.target.value);
@@ -62,7 +81,7 @@ const DateFilter = ({ startDate, endDate, onDateChange }) => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/sendEmail", {
+      const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/sendEmail", {
         method: "POST",
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify({
@@ -85,13 +104,20 @@ const DateFilter = ({ startDate, endDate, onDateChange }) => {
   };
 
     const handleSendTelegram = async () => {
-    try {
-        const response = await fetch("http://localhost:5000/api/sendTelegram", {
+  try {
+        const message = `
+        📊 Datos de salud:
+- Pasos: ${healthData.steps || "N/A"}
+- Frecuencia cardíaca: ${healthData.heartRate || "N/A"} bpm
+- Saturación O₂: ${healthData.oxygenSaturation || "N/A"} %
+            `;
+
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/sendTelegram", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
             idPaciente: idPaciente,
-            text: "Hola, este es un mensaje desde la app."
+            text: message
         }),
         });
         const result = await response.json();
