@@ -199,7 +199,20 @@ const DateFilter = ({ startDate, endDate, onDateChange }) => {
                     <button onClick={() => handlePresetChange('last6months')}>Últimos 6 meses</button>
                     <button onClick={() => handlePresetChange('lastyear')}>Último año</button>
                     {/*<button onClick={handleSendEmail}>Enviar correo</button>*/}
-                    <button onClick={handleSendTelegram}>Enviar Telegram</button>
+                </div>
+                <div className="action-buttons mt-6 flex gap-4">
+                    <button
+                    onClick={handleSendTelegram}
+                    className="px-6 py-3 text-blue-600 font-semibold rounded-lg border-1 border-blue-600 bg-white hover:bg-blue-600 hover:text-white transition"
+                    >
+                    Enviar Telegram
+                    </button>
+                    <button
+                    onClick={handleSendEmail}
+                    className="px-6 py-3 text-green-700 font-semibold rounded-lg border-1 border-green-700 bg-white hover:bg-green-700 hover:text-white transition"
+                    >
+                    Llamar
+                    </button>
                 </div>
             </div>
         </div>
