@@ -43,9 +43,15 @@ function Pacientes() {
 
     const getPacientes = async (organizacion) => {
         const isSuperAdmin = session?.user?.roles.split(',').includes('superadmin')
+        const isAdmin = session?.user?.roles.split(',').includes('administrador')
+
         const endpoint = isSuperAdmin
-        ? 'getAllPacientes?page=' + paginaActual + '&limit=' + pacientesPorPagina
-        : 'getPacientes?idOrganizacion='+ organizacion + '&page=' + paginaActual + '&limit=' + pacientesPorPagina
+            ? `getAllPacientes?page=${paginaActual}&limit=${pacientesPorPagina}`
+            : isAdmin
+                ? `getPacientes?idOrganizacion=${organizacion}&page=${paginaActual}&limit=${pacientesPorPagina}`
+                : `getPacientesReferencia?user=${session.user.id}&page=${paginaActual}&limit=${pacientesPorPagina}`;
+
+
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + endpoint, {
             method: 'GET',
             headers: {

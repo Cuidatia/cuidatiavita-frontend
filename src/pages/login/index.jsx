@@ -37,7 +37,10 @@ export default function Login(){
         <LogInLayout>
             <div className="md:min-w-104 flex flex-col bg-white shadow-sm border border-slate-200 w-full max-w-sm sm:mx-auto rounded-lg my-4 px-4 pt-4">
                 <div class="relative m-2.5 items-center flex justify-center text-white h-24 rounded-md bg-gray-50 header-login"></div>
-                <form className="space-y-4 m-2 pt-4 pb-6" action={handleSubmit}>
+                <form className="space-y-4 m-2 pt-4 pb-6" onSubmit={(e) => { 
+                        e.preventDefault(); 
+                        handleSubmit(); 
+                    }}>
                     <h1 className="font-semibold text-2xl text-center text-gray-800">Iniciar Sesión</h1>
                     <div>
                         <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Correo</label>
@@ -63,7 +66,7 @@ export default function Login(){
                         </div>
                         <a href="/recuperacion-contrasena" className="text-sm font-medium text-blue-800 hover:underline"> ¿Ha olvidado la contraseña?</a>
                     </div>
-                    <button className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Iniciar sesión</button>
+                    <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Iniciar sesión</button>
                 </form>
                 {
                     message &&
