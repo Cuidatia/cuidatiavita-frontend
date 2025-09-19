@@ -35,13 +35,13 @@ export default function CrearUsuario () {
     const [error, setError] = useState()
     
     useEffect(()=>{
-        // const paramMail = searchParams.get("m")
-        // const paramRol = searchParams.get("r")
-        // const paramOrg = searchParams.get("o")
-        // getOrganizacion(paramOrg) 
+        const emailParam = searchParams.get("m");
+        const orgParam = searchParams.get("o");
+        const rolParam = searchParams.get("r");
 
-        // setEmail(paramMail)
-        // setRol(paramRol)
+        if(emailParam) setEmail(emailParam);
+        if(orgParam) setOrganizacion({ id: parseInt(orgParam), nombre: orgParam });
+        if(rolParam) setRol(rolParam.split(',').map(r => parseInt(r)));
 
         let token = searchParams.get("token")
 
@@ -84,7 +84,7 @@ export default function CrearUsuario () {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({nombre,email,password,organizacion,rol})
+            body: JSON.stringify({nombre,email,password,organizacion:organizacion.id,rol})
         })
 
         if(response.ok){
