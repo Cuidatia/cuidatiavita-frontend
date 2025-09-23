@@ -119,7 +119,7 @@ function AddUsuario () {
                     </div>
                     <button className="cursor-pointer bg-zinc-100 hover:text-white border-1 border-zinc-200 hover:bg-blue-500 rounded-lg text-sm px-3 py-2 text-center">Enviar invitación</button>
                 </form>
-                {
+                {/*{
                     showEmailSubstitute && (
                         <div className="mt-6 border border-yellow-300 bg-yellow-100 text-yellow-800 p-4 rounded-lg space-y-2">
                             <h3 className="text-lg font-bold text-red-600">¡IMPORTANTE!</h3>
@@ -141,7 +141,7 @@ function AddUsuario () {
                             <p className="text-sm italic text-yellow-700">Comparte este enlace directamente con la persona que deseas invitar.</p>
                         </div>
                     )
-                }
+                }*/}
                 {
                     message ?
                         <Alerts

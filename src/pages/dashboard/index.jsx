@@ -3,6 +3,7 @@ import DashboardLayout from './layout';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import withAuth from '@/components/withAuth';
+import Image from "next/image"
 import CardPacientes from '@/components/cards/cardsPacientes';
 import { useRouter } from 'next/router';
 import { Pie, Bar, Doughnut, Line } from 'react-chartjs-2'
@@ -129,21 +130,36 @@ function Dashboard() {
     return (
         <DashboardLayout>
             <div className='font-bold py-6 px-8 bg-white h-full'>
-                {
-                    session?.user?.roles.split(',').includes('familiar') || session?.user?.roles.split(',').includes('personal de referencia') ?
-                        personasReferencia &&
-                        personasReferencia.map((persona, index) => (
-                            <div key={index} className="p-4">
-                                <CardPacientes nombre={persona.name} primerApellido={persona.firstSurname} segundoApellido={persona.secondSurname} img={persona.imgPerfil} funcion={()=>router.replace('/usuarios/'+persona.id)} />
-                            </div>
-                        ))
-                    :
-                        organizacion &&
-                        <p className='text-3xl font-semibold text-gray-800'>{organizacion.nombre}</p>
-                        
-                }
+            {session?.user?.roles.split(',').includes('familiar') || session?.user?.roles.split(',').includes('personal de referencia') || session?.user?.roles.split(',').includes('paciente') ? ( 
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+                {personasReferencia &&
+                    personasReferencia.map((persona, index) => {
+                    return (
+                        <div key={index} className="bg-white shadow-md rounded-xl overflow-hidden transform transition duration-200 hover:shadow-xl hover:-translate-y-1 hover:bg-blue-200">
+                        <CardPacientes
+                            nombre={persona.name}
+                            primerApellido={persona.firstSurname}
+                            segundoApellido={persona.secondSurname}
+                            img={"/static/6073873.png"}
+                            funcion={() => router.replace('/usuarios/' + persona.id)}
+                        />
+                        </div>
+                    );
+                    })}
+                    {/* <a href="https://www.flaticon.es/iconos-gratis/perfil-del-usuario" title="perfil del usuario iconos">Perfil del usuario iconos creados por surang - Flaticon</a> */}
+                </div>
+                
+            ) : (
+                organizacion && (
+                <p className="text-3xl font-semibold text-gray-800">
+                    {organizacion.nombre}
+                </p>
+                )
+            )
+            }
                 {
                 resumenOrganizacion && 
+                !['familiar', 'personal de referencia', 'paciente'].some(r => session?.user?.roles.split(',').includes(r)) && (
                 <div className="mt-2 py-6 max-w-5xl mx-auto">
                     <h2 className="text-2xl font-semibold text-gray-800 mb-6">Resumen General</h2>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
@@ -188,6 +204,7 @@ function Dashboard() {
                         </div> */}
                     </div>
                 </div>
+                )
             }
             </div>
         </DashboardLayout>

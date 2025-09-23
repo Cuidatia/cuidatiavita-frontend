@@ -202,6 +202,18 @@ function PerfilPaciente () {
                     }
                 </div>
             </div>
+            <div className="py-2">
+                <label htmlFor="personal" className="block mb-2 text-sm font-medium text-gray-900"><strong>Usuario</strong> dentro de la plataforma:</label>
+                <div id="personal" className="block p-2.5 w-full text-sm max-h-fit text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">
+                    {
+                        personalReferencia && personalReferencia.filter(persona => persona.roles?.split(',').includes('paciente')).length > 0 ? 
+                        personalReferencia.filter(persona => persona.roles === 'paciente').map((persona, index) => (
+                            <p>{persona.nombre}</p>
+                        ))
+                        : <p>Este paciente no forma parte de la plataforma como <strong>usuario</strong>.</p>
+                    }
+                </div>
+            </div>
             {
                 session?.user?.roles.split(',').includes('superadmin') || session?.user?.roles.split(',').includes('administrador') &&
                 <div className="flex py-2">
@@ -239,4 +251,4 @@ function PerfilPaciente () {
     )
 }
 
-export default withAuth(PerfilPaciente, ['superadmin','administrador', 'medico/enfermero', 'educador social/terapeuta ocupacional', 'trabajador social', 'auxiliar', 'familiar'])
+export default withAuth(PerfilPaciente, ['superadmin','administrador', 'medico/enfermero', 'educador social/terapeuta ocupacional', 'trabajador social', 'auxiliar', 'familiar','paciente'])

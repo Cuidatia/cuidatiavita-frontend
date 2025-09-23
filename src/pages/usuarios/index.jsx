@@ -623,4 +623,4 @@ function Pacientes() {
     )
 }
 
-export default withAuth(Pacientes, ['superadmin','administrador', 'medico/enfermero', 'educador social/terapeuta ocupacional', 'auxiliar', 'trabajador social'])
+export default withAuth(Pacientes, ['superadmin','administrador', 'medico/enfermero', 'educador social/terapeuta ocupacional', 'auxiliar', 'trabajador social','familiar','paciente'])
