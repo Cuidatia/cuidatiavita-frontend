@@ -369,13 +369,14 @@ export default function PacienteLayout({ children, mostrarPaciente, page }) {
                 </h2>
 
                 <div className="flex gap-2">
+                    {session?.user?.roles.split(',').includes('superadmin') || session?.user?.roles.split(',').includes('administrador') &&
                     <button
-                    onClick={() => setOpenPopUp(!openPopUp)}
-                    className="text-red-600 border border-red-500 hover:bg-red-500 hover:text-white transition-all px-4 py-1.5 text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-red-300 cursor-pointer"
-                    >
-                    Eliminar
-                    </button>
-
+                        onClick={() => setOpenPopUp(!openPopUp)}
+                        className="text-red-600 border border-red-500 hover:bg-red-500 hover:text-white transition-all px-4 py-1.5 text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-red-300 cursor-pointer"
+                        >
+                        Eliminar
+                        </button>
+                    }
                     <button
                     onClick={() => setShowPopUpExportar(!showPopUpExportar)}
                     disabled={loadingExport}

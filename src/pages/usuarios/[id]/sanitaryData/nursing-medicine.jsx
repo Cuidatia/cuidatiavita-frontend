@@ -175,6 +175,7 @@ function NursingMedicine () {
                     />
                 </div>
             </div>
+            {!(session?.user?.roles.split(',').includes('familiar') || session?.user?.roles.split(',').includes('paciente')) && (
             <div className="border-t-1 border-gray-300">
                 <button className="cursor-pointer bg-zinc-100 border-1 border-zinc-200 hover:bg-zinc-300 me-1 rounded-lg text-sm px-3 py-2 text-center"
                     onClick={() => setModificar(!modificar)}
@@ -202,6 +203,7 @@ function NursingMedicine () {
                     />
             }
             </div>
+            )}
             {
                 <PopUp
                     open={saveData}
@@ -216,4 +218,4 @@ function NursingMedicine () {
     )
 }
 
-export default withAuth(NursingMedicine, ['superadmin','administrador', 'medico/enfermero'])
+export default withAuth(NursingMedicine, ['superadmin','administrador', 'medico/enfermero', 'familiar', 'paciente'])

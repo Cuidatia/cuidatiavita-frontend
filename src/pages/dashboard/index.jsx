@@ -1,12 +1,12 @@
+"use client"
 import './styles.css'
 import DashboardLayout from './layout';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import withAuth from '@/components/withAuth';
-import Image from "next/image"
 import CardPacientes from '@/components/cards/cardsPacientes';
-import { useRouter } from 'next/router';
-import { Pie, Bar, Doughnut, Line } from 'react-chartjs-2'
+import { useRouter } from 'next/navigation'; // 🔹 cambiamos a next/navigation
+import { Pie, Doughnut } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -29,6 +29,14 @@ function Dashboard() {
     const [resumenOrganizacion, setResumenOrganizacion] = useState(null);
 
     const router = useRouter()
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const channel = e.target.channel.value.trim()
+        if (channel) {
+            router.push(`/channel/${channel}`)
+        }
+    }
 
     const getPersonasReferencia = async () => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPacientesReferencia?user=' + session.user.id, {
@@ -74,24 +82,8 @@ function Dashboard() {
         }
     };
 
-    const chartDataLinear = {
-        labels: [''],
-        datasets: [
-        {
-            label: "Últimos 30 días",
-            data: [resumenOrganizacion?.usuarios_30_dias[0] || [0]],
-            borderColor: "rgba(75,192,192,1)",
-            backgroundColor: "rgba(75,192,192,0.2)",
-            tension: 0.4,
-            fill: true,
-        },
-        ],
-    };
-
     const chartDataRoles = {
-        labels: resumenOrganizacion?.total_roles.map(rol => {
-            return rol.rol
-        }),
+        labels: resumenOrganizacion?.total_roles.map(rol => rol.rol),
         datasets: [
             {
                 label: 'Roles Ocupados',
@@ -146,7 +138,6 @@ function Dashboard() {
                         </div>
                     );
                     })}
-                    {/* <a href="https://www.flaticon.es/iconos-gratis/perfil-del-usuario" title="perfil del usuario iconos">Perfil del usuario iconos creados por surang - Flaticon</a> */}
                 </div>
                 
             ) : (
@@ -163,8 +154,6 @@ function Dashboard() {
                 <div className="mt-2 py-6 max-w-5xl mx-auto">
                     <h2 className="text-2xl font-semibold text-gray-800 mb-6">Resumen General</h2>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-                        
-                        {/* Tarjeta: Total Usuarios + Gráfico Género */}
                         <div className="flex flex-col md:flex-row items-center bg-white rounded-2xl shadow-md p-6">
                             <div className="flex-1 text-center md:text-left">
                                 <p className="text-gray-500 text-sm uppercase tracking-wider">Total de Usuarios</p>
@@ -177,7 +166,6 @@ function Dashboard() {
                             </div>
                         </div>
 
-                        {/* Tarjeta: Total Personal + Gráfico Roles */}
                         <div className="flex flex-col md:flex-row items-center bg-white rounded-2xl shadow-md p-6">
                             <div className="flex-1 text-center md:text-left">
                                 <p className="text-gray-500 text-sm uppercase tracking-wider">Total de Personal</p>
@@ -189,26 +177,44 @@ function Dashboard() {
                                 <Pie data={chartDataRoles} />
                             </div>
                         </div>
-
-                        {/* Tarjeta: Usuarios 30 días + Gráfico
-                        <div className="flex flex-col md:flex-row items-center bg-white rounded-2xl shadow-md p-6">
-                            <div className="flex-1 text-center md:text-left">
-                                <p className="text-gray-500 text-sm uppercase tracking-wider">Usuarios añadidos en el último mes</p>
-                                <p className="text-4xl font-bold text-blue-600 mt-2">
-                                    {resumenOrganizacion.usuarios_30_dias}
-                                </p>
-                            </div>
-                            <div className="w-full md:w-1/2 max-w-xs mt-4 md:mt-0 md:ml-6">
-                                <Line data={chartDataLinear} />
-                            </div>
-                        </div> */}
                     </div>
                 </div>
                 )
             }
-            </div>
+
+            <div className="flex items-start justify-center pt-20 pb-10">
+                <div className="p-8 bg-white rounded-xl border-2 border-black w-full max-w-md">
+                    <h2 className="text-3xl font-bold mb-6 text-center">Iniciar Videollamada</h2>
+                    <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
+                        <div>
+                            <label
+                                htmlFor="channel"
+                                className="block text-gray-700 font-medium mb-2"
+                            >
+                                Nombre del canal
+                            </label>
+                            <input
+                                id="channel"
+                                name="channel"
+                                type="text"
+                                placeholder="Introduce el nombre del canal"
+                                required
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                            />
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="w-full px-5 py-3 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600"
+                        >
+                            Unirse a la llamada
+                        </button>
+                    </form>
+                </div>
+                </div>
+                </div>
         </DashboardLayout>
     )
 }
 
-export default withAuth(Dashboard,[])
+export default withAuth(Dashboard, [])

@@ -125,23 +125,23 @@ function sanitaryData () {
             <div className="py-4 px-4 overflow-y-scroll h-[calc(100vh-260px)]">
                 <div className="grid grid-cols-2 gap-4">
                     {
-                        (session?.user?.roles.split(',').includes('auxiliar') || session?.user?.roles.split(',').includes('superadmin') || session?.user?.roles.split(',').includes('administrador')) &&
+                        (session?.user?.roles.split(',').includes('familiar') || session?.user?.roles.split(',').includes('paciente') || session?.user?.roles.split(',').includes('auxiliar') || session?.user?.roles.split(',').includes('superadmin') || session?.user?.roles.split(',').includes('administrador') || session?.user?.roles.split(',').includes('medico/enfermero')) &&
                             <Card color={"linear-gradient(to left, #fff3a4 0%, #fee64f 100%)"} icon={'pharmacy'} title={'Farmacia'} link={'/usuarios/'+mostrarPaciente.id+'/sanitaryData/pharmacy'} />
                     }
                     {
-                        (session?.user?.roles.split(',').includes('medico/enfermero') || session?.user?.roles.split(',').includes('superadmin') || session?.user?.roles.split(',').includes('administrador')) &&
+                        (session?.user?.roles.split(',').includes('familiar') || session?.user?.roles.split(',').includes('paciente') || session?.user?.roles.split(',').includes('medico/enfermero') || session?.user?.roles.split(',').includes('superadmin') || session?.user?.roles.split(',').includes('administrador')) &&
                             <Card color={"linear-gradient(to right, #70dcff 0%, #a4e9ff 100%)"} icon={'nursig/medicine'} title={'Medicina/Enfermería'} link={'/usuarios/'+mostrarPaciente.id+'/sanitaryData/nursing-medicine'} />
                     }
                     {
-                        (session?.user?.roles.split(',').includes('educador social/terapeuta ocupacional') || session?.user?.roles.split(',').includes('superadmin') || session?.user?.roles.split(',').includes('administrador')) &&
+                        (session?.user?.roles.split(',').includes('familiar') || session?.user?.roles.split(',').includes('paciente') || session?.user?.roles.split(',').includes('educador social/terapeuta ocupacional') || session?.user?.roles.split(',').includes('superadmin') || session?.user?.roles.split(',').includes('administrador')) &&
                             <Card color={"linear-gradient(to left, #ffd495 0%, #ffbf62 100%)"} icon={'socialEducation/occupationalTherapy'} title={'Educacion social/Terapia ocupacional'} link={'/usuarios/'+mostrarPaciente.id+'/sanitaryData/socialEducation-OccupationalTherapy'} />
                     }
                     {
-                        (session?.user?.roles.split(',').includes('trabajador social') || session?.user?.roles.split(',').includes('superadmin') || session?.user?.roles.split(',').includes('administrador')) &&
+                        (session?.user?.roles.split(',').includes('familiar') || session?.user?.roles.split(',').includes('paciente') || session?.user?.roles.split(',').includes('trabajador social') || session?.user?.roles.split(',').includes('superadmin') || session?.user?.roles.split(',').includes('administrador')) &&
                             <Card color={"linear-gradient(to left, #c6ffb2 30%, #acff8f 80%)"} icon={'socialWork'} title={'Trabajo social'} link={'/usuarios/'+mostrarPaciente.id+'/sanitaryData/socialWork'} />
                     }
                     {
-                        (session?.user?.roles.split(',').includes('auxiliar') || session?.user?.roles.split(',').includes('superadmin') || session?.user?.roles.split(',').includes('administrador')) &&
+                        (session?.user?.roles.split(',').includes('familiar') || session?.user?.roles.split(',').includes('paciente') || session?.user?.roles.split(',').includes('auxiliar') || session?.user?.roles.split(',').includes('superadmin') || session?.user?.roles.split(',').includes('administrador')) &&
                             <Card color={"linear-gradient(to left, #e5c0fdaf 30%, #e5c0fd 80%)"} icon={'kitchen/Hygiene'} title={'Cocina/Higiene'} link={'/usuarios/'+mostrarPaciente.id+'/sanitaryData/kitchen-Hygiene'} />
                     }
                     <Card color={"linear-gradient(to right, #ff8a71 0%, #ffa390 100%)"} icon={'others'} title={'Otros'} link={'/usuarios/'+mostrarPaciente.id+'/sanitaryData/others'} />
@@ -179,6 +179,7 @@ function sanitaryData () {
                     </div>
                 </div>
             </div>
+            {!(session?.user?.roles.split(',').includes('familiar') || session?.user?.roles.split(',').includes('paciente')) && (
             <div className="border-t-1 border-gray-300">
                 <button className="cursor-pointer bg-zinc-100 border-1 border-zinc-200 hover:bg-zinc-300 me-1 rounded-lg text-sm px-3 py-2 text-center"
                     onClick={() => setModificar(!modificar)}
@@ -206,6 +207,7 @@ function sanitaryData () {
                     />
             }
             </div>
+            )}
             {
                 <PopUp
                     open={saveData}
@@ -220,4 +222,4 @@ function sanitaryData () {
     )
 }
 
-export default withAuth(sanitaryData, ['superadmin','administrador', 'medico/enfermero', 'educador social/terapeuta ocupacional', 'trabajador social', 'auxiliar'])
+export default withAuth(sanitaryData, ['superadmin','administrador', 'medico/enfermero', 'educador social/terapeuta ocupacional', 'trabajador social', 'auxiliar', 'familiar', 'paciente'])

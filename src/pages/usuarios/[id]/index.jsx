@@ -114,7 +114,7 @@ function PerfilPaciente () {
                         title={'Datos Personales'}
                         link={`/usuarios/${mostrarPaciente.id}/personalData`}
                     />
-                    {(session?.user?.roles.split(',').includes('administrador') || session?.user?.roles.split(',').includes('superadmin')) && (
+                    {(session?.user?.roles.split(',').includes('educador social/terapeuta ocupacional') || session?.user?.roles.split(',').includes('auxiliar') || session?.user?.roles.split(',').includes('administrador') || session?.user?.roles.split(',').includes('superadmin') || session?.user?.roles.split(',').includes('familiar') || session?.user?.roles.split(',').includes('paciente')) && (
                         <Card
                             color={"linear-gradient(to right, #70dcff 0%, #a4e9ff 100%)"}
                             icon={"personality"}
@@ -122,7 +122,7 @@ function PerfilPaciente () {
                             link={`/usuarios/${mostrarPaciente.id}/personality/`}
                         />
                     )}
-                    {(session?.user?.roles.split(',').includes('auxiliar') || session?.user?.roles.split(',').includes('superadmin') || session?.user?.roles.split(',').includes('administrador')) && (
+                    {(session?.user?.roles.split(',').includes('educador social/terapeuta ocupacional') || session?.user?.roles.split(',').includes('auxiliar') || session?.user?.roles.split(',').includes('superadmin') || session?.user?.roles.split(',').includes('administrador') || session?.user?.roles.split(',').includes('familiar') || session?.user?.roles.split(',').includes('paciente')) && (
                         <Card
                         color={"linear-gradient(to left, #ffd495 0%, #ffbf62 100%)"}
                         icon={"lifeStory"}
@@ -146,7 +146,7 @@ function PerfilPaciente () {
                 </div>
 
                 {/* Bloque: Historial Clínico */}
-                {(session?.user?.roles.split(',').includes('medico/enfermero') || session?.user?.roles.split(',').includes('superadmin') || session?.user?.roles.split(',').includes('administrador') || session?.user?.roles.split(',').includes('trabajador social') || session?.user?.roles.split(',').includes('educador social/terapeuta ocupacional')) && (
+                {(session?.user?.roles.split(',').includes('medico/enfermero') || session?.user?.roles.split(',').includes('superadmin') || session?.user?.roles.split(',').includes('administrador') || session?.user?.roles.split(',').includes('educador social/terapeuta ocupacional') || session?.user?.roles.split(',').includes('familiar') || session?.user?.roles.split(',').includes('paciente')) && (
                     <div>
                     <h2 className="text-xl font-semibold text-gray-800 mb-4">Historial Sanitario</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
