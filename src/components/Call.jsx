@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import AgoraRTC, {
   AgoraRTCProvider,
   LocalVideoTrack,
@@ -33,28 +34,33 @@ function Call(props) {
   );
 }
 
-function Videos(props) {
-  const { AppID, channelName } = props;
-  const { isLoading: isLoadingMic, localMicrophoneTrack } =
-    useLocalMicrophoneTrack();
+function Videos({ AppID, channelName }) {
+  const [token, setToken] = useState(null);
+  const { isLoading: isLoadingMic, localMicrophoneTrack } = useLocalMicrophoneTrack();
   const { isLoading: isLoadingCam, localCameraTrack } = useLocalCameraTrack();
-  const remoteUsers = useRemoteUsers();
+  const remoteUsers = useRemoteUsers() || []; // aseguramos que sea array
   const { audioTracks } = useRemoteAudioTracks(remoteUsers);
 
+  // Fetch token
+  useEffect(() => {
+    async function fetchToken() {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}tokenLlamadas?channel=${channelName}&uid=0`);
+      const data = await res.json();
+      setToken(data.token);
+    }
+    fetchToken();
+  }, [channelName]);
+
+  // useJoin seguro
+  useJoin(token ? { appid: AppID, channel: channelName, token } : null);
+
   usePublish([localMicrophoneTrack, localCameraTrack]);
-  useJoin({
-    appid: AppID,
-    channel: channelName,
-    token: null,
-  });
 
-  audioTracks.forEach((track) => track.play());
+  // Reproducir audio remoto de forma segura
+  audioTracks?.forEach(track => track.play());
 
-  const deviceLoading = isLoadingMic || isLoadingCam;
-  if (deviceLoading) {
-    return (
-      <div className="flex flex-col items-center pt-40">Loading devices...</div>
-    );
+  if (isLoadingMic || isLoadingCam || !token) {
+    return <div className="flex flex-col items-center pt-40">Loading devices...</div>;
   }
 
   const unit = "minmax(0, 1fr) ";
@@ -74,14 +80,8 @@ function Videos(props) {
               : unit,
         }}
       >
-        <LocalVideoTrack
-          track={localCameraTrack}
-          play={true}
-          className="w-full h-full"
-        />
-        {remoteUsers.map((user) => (
-          <RemoteUser key={user.uid} user={user} />
-        ))}
+        {localCameraTrack && <LocalVideoTrack track={localCameraTrack} play className="w-full h-full" />}
+        {remoteUsers.map(user => user && <RemoteUser key={user.uid} user={user} />)}
       </div>
     </div>
   );
