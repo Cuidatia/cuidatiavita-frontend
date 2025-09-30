@@ -257,6 +257,17 @@ function DatosPersonales () {
                         disabled={!modificar}
                     />
                 </div>
+                <div>
+                    <label htmlFor="dataTelegram" className="block mb-2 text-sm font-medium text-gray-900"><p>
+                                ¿Cuál es su id de Telegram? (Para obtenerlo debe iniciar una conversación con el CuidatiaVita Bot)
+                                <br />
+                                Utilice el siguiente enlace para obtener su Id de Telegram -{'>'} https://t.me/CuidatiaVitaBot
+                                </p></label>
+                    <input type="textarea" name="dataTelegram" id="dataTelegram" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                        value={mostrarPaciente?.dataTelegram} onChange={handleInpustChange}
+                        disabled={!modificar}
+                        />
+                </div>
             </div>
             {!(session?.user?.roles.split(',').includes('familiar') || session?.user?.roles.split(',').includes('paciente')) && (
             <div className="my-2 py-2 border-t-1 border-gray-300">

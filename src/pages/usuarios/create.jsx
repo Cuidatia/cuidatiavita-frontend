@@ -337,6 +337,16 @@ function CrearPaciente () {
                                 <p className="text-red-400 text-xs">{erroresFormulario?.faith[0]}</p>
                             }
                         </div>
+                        <div>
+                            <label htmlFor="dataTelegram" className="block mb-2 text-sm font-medium text-gray-900"><p>
+                                ¿Cuál es su id de Telegram? (Para obtenerlo debe iniciar una conversación con el CuidatiaVita Bot)
+                                <br />
+                                Utilice el siguiente enlace para obtener su Id de Telegram -{'>'} https://t.me/CuidatiaVitaBot
+                                </p></label>
+                            <input type="text" name="dataTelegram" id="dataTelegram" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                                onChange={handleInpustChange}
+                            />
+                        </div>
                         {/* <div>
                             <label htmlFor="imagenPerfil" className="block mb-2 text-sm font-medium text-gray-900">Seleccionar imagen</label>
                             <input type="file" name="imagenPerfil" id="imagenPerfil" className="block w-96 border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 file:hover:bg-blue-500  file:hover:text-white file:cursor-pointer disabled:opacity-50 disabled:pointer-events-none file:bg-gray-50 file:border-0 file:py-3 file:px-4"

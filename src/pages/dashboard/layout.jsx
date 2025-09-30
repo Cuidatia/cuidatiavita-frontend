@@ -2,10 +2,17 @@ import Header from "@/components/header/header";
 import Menu from "@/components/menu/menu";
 import Nav from "@/components/nav/nav";
 import Footer from "@/components/footer/footer";
+import Script from "next/script";
 
 export default function DashboardLayout({ children }) {
     return (
         <div className="flex flex-col min-h-screen bg-gray-50 text-gray-800">
+            {/* Script de Jitsi Meet */}
+            <Script
+                src="https://meet.jit.si/external_api.js"
+                strategy="beforeInteractive"
+            />
+
             {/* Header */}
             <Header />
 

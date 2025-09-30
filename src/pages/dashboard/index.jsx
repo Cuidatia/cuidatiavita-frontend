@@ -5,7 +5,8 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import withAuth from '@/components/withAuth';
 import CardPacientes from '@/components/cards/cardsPacientes';
-import { useRouter } from 'next/navigation'; // 🔹 cambiamos a next/navigation
+import Call from '@/components/Call';
+import { useRouter } from 'next/navigation';
 import { Pie, Doughnut } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
@@ -30,13 +31,16 @@ function Dashboard() {
 
     const router = useRouter()
 
+    const [roomName, setRoomName] = useState(null);
+
     const handleSubmit = (e) => {
-        e.preventDefault()
-        const channel = e.target.channel.value.trim()
+        e.preventDefault();
+        const channel = e.target.channel.value.trim();
         if (channel) {
-            router.push(`/channel/${channel}`)
+            console.log(channel)
+            setRoomName(channel);
         }
-    }
+    };
 
     const getPersonasReferencia = async () => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'getPacientesReferencia?user=' + session.user.id, {
@@ -182,37 +186,60 @@ function Dashboard() {
                 )
             }
 
-            <div className="flex items-start justify-center pt-20 pb-10">
-                <div className="p-8 bg-white rounded-xl border-2 border-black w-full max-w-md">
-                    <h2 className="text-3xl font-bold mb-6 text-center">Iniciar Videollamada</h2>
-                    <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
-                        <div>
-                            <label
-                                htmlFor="channel"
-                                className="block text-gray-700 font-medium mb-2"
-                            >
-                                Nombre del canal
-                            </label>
-                            <input
-                                id="channel"
-                                name="channel"
-                                type="text"
-                                placeholder="Introduce el nombre del canal"
-                                required
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                            />
-                        </div>
+            <div className="flex items-start justify-center gap-8 pt-10 pb-10">
+            {/* Crear Sala */}
+            <div className="p-8 bg-white rounded-xl border-2 border-black w-full max-w-md">
+                <h2 className="text-3xl font-bold mb-6 text-center">Crear Sala de Videollamada</h2>
+                <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
+                <div>
+                    <label
+                    htmlFor="channel"
+                    className="block text-gray-700 font-medium mb-2"
+                    >
+                    Nombre de la sala
+                    </label>
+                    <input
+                    id="channel"
+                    name="channel"
+                    type="text"
+                    placeholder="Introduce el nombre de la sala"
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                    />
+                </div>
 
-                        <button
-                            type="submit"
-                            className="w-full px-5 py-3 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600"
-                        >
-                            Unirse a la llamada
-                        </button>
-                    </form>
-                </div>
-                </div>
-                </div>
+                <button
+                    type="submit"
+                    className="w-full px-5 py-3 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600"
+                >
+                    Crear sala
+                </button>
+                </form>
+            </div>
+
+            {/* Unirse a sala personal */}
+            <div className="p-8 bg-white rounded-xl border-2 border-black w-full max-w-md">
+                <h2 className="text-3xl font-bold mb-6 text-center">Unirse a sala personal</h2>
+                <p className="text-gray-600 text-center mb-6">
+                Tu sala personal está vinculada a tu nombre de usuario.
+                </p>
+                <button
+                onClick={() => setRoomName(session?.user?.nombre.replace(/\s+/g, "_"))}
+                className="w-full px-5 py-3 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600"
+                >
+                Unirme a mi sala
+                </button>
+            </div>
+            </div>
+
+            {/* Renderizar llamada si hay roomName */}
+            {roomName && (
+            <div className="mt-8">
+                <Call roomName={roomName} />
+            </div>
+            )}
+
+            </div>
         </DashboardLayout>
     )
 }

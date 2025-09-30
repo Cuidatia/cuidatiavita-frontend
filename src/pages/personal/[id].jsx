@@ -32,6 +32,7 @@ function PerfilPaciente () {
 
         if (response.ok){
             const data = await response.json()
+            console.log(data.usuario)
             const selectedRoles = options?.filter(rol => data.usuario?.roles?.split(',').includes(rol.label)).map(rol => rol.value)
             setMostrarUsuario({...data.usuario, roles:selectedRoles})
             setRoles(options?.filter(rol => data.usuario?.roles?.split(',').includes(rol.label)))
@@ -147,6 +148,18 @@ function PerfilPaciente () {
                                 <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full block p-2.5"
                                     value={mostrarUsuario.email}
                                     onChange={(e) => setMostrarUsuario({ ...mostrarUsuario, email: e.target.value })}
+                                    disabled={!modificar}
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="idTelegram" className="block mb-2 text-sm font-medium text-gray-900"><p>
+                                ¿Cuál es su id de Telegram? (Para obtenerlo debe iniciar una conversación con el CuidatiaVita Bot)
+                                <br />
+                                Utilice el siguiente enlace para obtener su Id de Telegram -{'>'} https://t.me/CuidatiaVitaBot
+                                </p></label>
+                                <input type="text" name="idTelegram" id="idTelegram" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full block p-2.5"
+                                    value={mostrarUsuario.idTelegram || ''}
+                                    onChange={(e) => setMostrarUsuario({ ...mostrarUsuario, idTelegram: e.target.value })}
                                     disabled={!modificar}
                                 />
                             </div>
