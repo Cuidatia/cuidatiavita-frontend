@@ -207,12 +207,12 @@ const DateFilter = ({ startDate, endDate, onDateChange }) => {
                     >
                     Enviar Telegram
                     </button>
-                    <button
+                    {/*<button
                     onClick={handleSendEmail}
                     className="px-6 py-3 text-green-700 font-semibold rounded-lg border-1 border-green-700 bg-white hover:bg-green-700 hover:text-white transition"
                     >
                     Llamar
-                    </button>
+                    </button>*/}
                 </div>
             </div>
         </div>

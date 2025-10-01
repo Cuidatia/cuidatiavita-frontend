@@ -118,7 +118,7 @@ function Dashboard() {
             getResumenOrganizacion()
         }
 
-        if (session?.user?.roles.split(',').includes('familiar') || session?.user?.roles.split(',').includes('personal de referencia')) {
+        if (session?.user?.roles.split(',').includes('familiar') || session?.user?.roles.split(',').includes('personal de referencia') || session?.user?.roles.split(',').includes('paciente')) {
             getPersonasReferencia()
         }
     }, [session, status]);
@@ -189,7 +189,7 @@ function Dashboard() {
             <div className="flex items-start justify-center gap-8 pt-10 pb-10">
             {/* Crear Sala */}
             <div className="p-8 bg-white rounded-xl border-2 border-black w-full max-w-md">
-                <h2 className="text-3xl font-bold mb-6 text-center">Crear Sala de Videollamada</h2>
+                <h2 className="text-3xl font-bold mb-6 text-center">Unirse a Sala de Videollamada</h2>
                 <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
                 <div>
                     <label

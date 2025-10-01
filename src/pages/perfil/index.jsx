@@ -112,7 +112,7 @@ function Perfil() {
             mostrarUsuario &&
             <div className="p-6 bg-white h-full">
                 <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-2xl font-semibold text-gray-800">{mostrarUsuario.name}</h2>
+                    <h2 className="text-2xl font-semibold text-gray-800">{mostrarUsuario.nombre}</h2>
                 </div>
 
                 <div className="space-y-6 max-h-[calc(100vh-220px)] overflow-y-auto">
@@ -140,6 +140,18 @@ function Perfil() {
                         value={mostrarUsuario.email}
                         disabled={!modificarDatos}
                         onChange={(e) => setMostrarUsuario({ ...mostrarUsuario, email: e.target.value })}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="idTelegram" className="block mb-1 text-sm font-medium text-gray-700"><p>
+                        ¿Cuál es su id de Telegram? (Para obtenerlo debe iniciar una conversación con el CuidatiaVita Bot)
+                        <br />
+                        Utilice el siguiente enlace para obtener su Id de Telegram -{'>'} https://t.me/CuidatiaVitaBot
+                        </p></label>
+                        <input type="text" name="idTelegram" id="idTelegram" className="w-full p-2.5 border border-gray-300 rounded-md bg-gray-50 text-gray-900 focus:ring-2 focus:ring-blue-400 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-100"
+                            value={mostrarUsuario.idTelegram}
+                            disabled={!modificarDatos}
+                            onChange={(e) => setMostrarUsuario({ ...mostrarUsuario, idTelegram: e.target.value })}
                         />
                     </div>
                     <div className="flex space-x-3">

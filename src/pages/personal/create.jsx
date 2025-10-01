@@ -18,7 +18,8 @@ export default function CrearUsuario () {
         "nombre":"",
         "email": "",
         "organizacionId": 0,
-        "rol": ""
+        "rol": "",
+        "idTelegram" : ""
     })
 
     const router = useRouter()
@@ -30,6 +31,7 @@ export default function CrearUsuario () {
     const [nombre, setNombre] = useState()
     const [password, setPassword] = useState()
     const [organizacion, setOrganizacion] = useState()
+    const [idTelegram, setIdTelegram] = useState()
 
     const [message, setMessage] = useState()
     const [error, setError] = useState()
@@ -84,7 +86,7 @@ export default function CrearUsuario () {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({nombre,email,password,organizacion:organizacion.id,rol})
+            body: JSON.stringify({nombre,email,password,organizacion:organizacion.id,rol,idTelegram})
         })
 
         if(response.ok){
