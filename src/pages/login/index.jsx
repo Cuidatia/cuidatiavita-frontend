@@ -4,6 +4,7 @@ import {signIn} from 'next-auth/react'
 import { useRouter } from "next/router"
 import { useState, useEffect } from "react"
 import Alerts from "@/components/alerts/alerts";
+import Footer from "@/components/footer/footer";
 
 export default function Login(){
     const router = useRouter()
@@ -68,6 +69,9 @@ export default function Login(){
                     </div>
                     <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Iniciar sesión</button>
                 </form>
+                <footer className="bg-white border-t border-gray-200 text-center py-4 text-sm text-gray-500">
+                    <Footer />
+                </footer>
                 {
                     message &&
                     <Alerts alertContent={message} alertType={'success'} />
