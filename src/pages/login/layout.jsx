@@ -1,4 +1,5 @@
 import './styles.css';
+import Footer from "@/components/footer/footer";
 
 export default function LogInLayout({ children }) {
     return (
