@@ -3,6 +3,7 @@ import logoCuidatiaVita from '../../../public/static/logoCuidatiaVita.png'
 import { useRouter } from 'next/router';
 import Menu from "@/components/menu/menu";
 import { useState } from 'react';
+import Head from "next/head";
 
 export default function Header() {
     const router = useRouter();
@@ -10,6 +11,9 @@ export default function Header() {
     
     return(
         <>
+        <Head>
+            <title>Cuidatia Vita</title>
+        </Head>
         <header className="flex items-center justify-between h-16 px-6 shadow-sm bg-white border-b border-gray-200">
             <div onClick={() => router.push('/dashboard')} className="cursor-pointer flex items-center">
                 <img src={logoCuidatiaVita.src} alt="logo" className="h-10 w-auto" />
