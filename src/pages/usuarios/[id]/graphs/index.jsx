@@ -474,8 +474,12 @@ class HealthGraphs {
                 segment: {
                     borderDash: (ctx) => {
                         // Add dashed line to the segment leading to prediction
-                        const currentIndex = ctx.p0DataIndex;
-                        const nextIndex = ctx.p1DataIndex;
+                        const currentIndex = ctx?.p0DataIndex;
+                        const nextIndex = ctx?.p1DataIndex;
+
+                        if (typeof currentIndex !== 'number' || typeof nextIndex !== 'number') {
+                            return [];
+                        }
                         if (nextIndex === values.length - 1) {
                             return [5, 5]; // Dashed line to prediction
                         }
