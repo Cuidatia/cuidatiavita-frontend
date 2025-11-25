@@ -207,12 +207,12 @@ const DateFilter = ({ startDate, endDate, onDateChange }) => {
                     >
                     Enviar Telegram
                     </button>
-                    {/*<button
+                    <button
                     onClick={handleSendEmail}
                     className="px-6 py-3 text-green-700 font-semibold rounded-lg border-1 border-green-700 bg-white hover:bg-green-700 hover:text-white transition"
                     >
                     Llamar
-                    </button>*/}
+                    </button>
                 </div>
             </div>
         </div>
@@ -455,7 +455,7 @@ class HealthGraphs {
                 ),
                 borderWidth: 2,
                 fill: true,
-                tension: 0.4,
+                
                 pointBackgroundColor: values.map((_, index) =>
                     index === values.length - 1 
                         ? 'rgba(239, 68, 68, 0.8)'//'rgba(255, 149, 0, 1)' // Orange point for prediction
@@ -474,12 +474,8 @@ class HealthGraphs {
                 segment: {
                     borderDash: (ctx) => {
                         // Add dashed line to the segment leading to prediction
-                        const currentIndex = ctx?.p0DataIndex;
-                        const nextIndex = ctx?.p1DataIndex;
-
-                        if (typeof currentIndex !== 'number' || typeof nextIndex !== 'number') {
-                            return [];
-                        }
+                        const currentIndex = ctx.p0DataIndex;
+                        const nextIndex = ctx.p1DataIndex;
                         if (nextIndex === values.length - 1) {
                             return [5, 5]; // Dashed line to prediction
                         }
@@ -528,7 +524,7 @@ class HealthGraphs {
                 ),
                 borderWidth: 2,
                 fill: true,
-                tension: 0.4,
+                
                 pointBackgroundColor: values.map((_, index) =>
                     index === values.length - 1 
                         ? 'rgba(59, 130, 246, 1)'//'rgba(255, 149, 0, 1)' // Orange point for prediction
@@ -588,7 +584,7 @@ class HealthGraphs {
                 ),
                 borderWidth: 2,
                 fill: true,
-                tension: 0.4,
+                
                 pointBackgroundColor: values.map((_, index) =>
                     index === values.length - 1 
                         ? 'rgba(20, 184, 166, 1)'//'rgba(255, 149, 0, 1)' // Orange point for prediction
@@ -658,7 +654,7 @@ class HealthGraphs {
                 ),
                 borderWidth: 2,
                 fill: true,
-                tension: 0.4,
+                
                 pointBackgroundColor: values.map((_, index) =>
                     index === values.length - 1 
                         ? 'rgba(147, 51, 234, 1)'//'rgba(255, 149, 0, 1)' // Orange point for prediction
@@ -718,7 +714,7 @@ class HealthGraphs {
                 ),
                 borderWidth: 2,
                 fill: true,
-                tension: 0.4,
+                
                 pointBackgroundColor: values.map((_, index) =>
                     index === values.length - 1 
                         ? 'rgba(180, 83, 9, 1)'//'rgba(255, 149, 0, 1)' // Orange point for prediction
@@ -778,7 +774,7 @@ class HealthGraphs {
                 ),
                 borderWidth: 2,
                 fill: true,
-                tension: 0.4,
+                
                 pointBackgroundColor: values.map((_, index) =>
                     index === values.length - 1 
                         ? 'rgba(99, 102, 241, 1)'//'rgba(255, 149, 0, 1)' // Orange point for prediction
@@ -838,7 +834,7 @@ class HealthGraphs {
                 ),
                 borderWidth: 2,
                 fill: true,
-                tension: 0.4,
+                
                 pointBackgroundColor: values.map((_, index) =>
                     index === values.length - 1 
                         ? 'rgba(236, 72, 153, 1)' //'rgba(255, 149, 0, 1)' // Orange point for prediction
@@ -898,7 +894,7 @@ class HealthGraphs {
                 ),
                 borderWidth: 2,
                 fill: true,
-                tension: 0.4,
+                
                 pointBackgroundColor: values.map((_, index) =>
                     index === values.length - 1 
                         ? 'rgba(6, 182, 212, 1)'//'rgba(255, 149, 0, 1)' // Orange point for prediction
@@ -958,7 +954,7 @@ class HealthGraphs {
                 ),
                 borderWidth: 2,
                 fill: true,
-                tension: 0.4,
+                
                 pointBackgroundColor: values.map((_, index) =>
                     index === values.length - 1 
                         ? 'rgba(16, 185, 129, 1)'//'rgba(255, 149, 0, 1)' // Orange point for prediction
@@ -1018,7 +1014,7 @@ class HealthGraphs {
                 ),
                 borderWidth: 2,
                 fill: true,
-                tension: 0.4,
+                
                 pointBackgroundColor: values.map((_, index) =>
                     index === values.length - 1 
                         ? 'rgba(34, 197, 94, 0.8)'//'rgba(255, 149, 0, 1)' // Orange point for prediction
