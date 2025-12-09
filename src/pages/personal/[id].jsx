@@ -103,7 +103,7 @@ function PerfilPaciente () {
 
     const eliminarUsuario = async (usuarioId) => {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'eliminarUsuario', {
-            method: 'POST',
+            method: 'DELETE',
             headers: {
                 "Content-Type": "application/json",
                 'Authorization': `Bearer ${session.user.token}`

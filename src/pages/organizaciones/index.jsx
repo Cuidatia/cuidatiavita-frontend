@@ -68,7 +68,7 @@ function Organizaciones () {
 
   const eliminarOrganizacion = async (organizacionId) => {
     const response = await fetch(process.env.NEXT_PUBLIC_API_URL + 'eliminarOrganizacion', {
-        method: 'POST',
+        method: 'DELETE',
         headers: {
             "Content-Type": "application/json",
             'Authorization': `Bearer ${session.user.token}`
