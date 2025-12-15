@@ -28,6 +28,17 @@ export default function Footer() {
                 </div>
 
             </div>
+
+            {/* Banner institucional */}
+            <div className="mt-8 border-t border-gray-200 pt-6">
+                <div className="max-w-7xl mx-auto px-4">
+                    <img
+                        src="/static/BannerCuidatia.jpg"
+                        alt="Banner institucional - Financiado por la Unión Europea NextGenerationEU"
+                        className="w-full h-auto"
+                    />
+                </div>
+            </div>
         </footer>
     );
 }
